@@ -1,0 +1,84 @@
+===============================================================================
+
+  TA_BATTERY_STATISTICS (ID:2491) Version History
+
+===============================================================================
+
+V2.x.x or before:
+  Legacy version
+  They are incompatible to currenct version.
+
+V3.0.0:
+  First release of the new TA_BATTERY_STATISTICS
+
+V3.0.1:
+  Added debug_aging_mode (Address:0EFC)
+  This parameter is for debug mode that fixes aging level.
+  When setting D0~D3, this mode becomes active.
+
+V4.0.0:
+  Size is changed to 4608byte from 4096byte.
+
+  Added the following parameters:
+  - last_learning_boot_time (Address:0028~002F)
+  - sc4_first_start_time (Address:00D8~00DF)
+  - learning_try_cnt (Address:0E08~0E0B)
+  - soc0_shutdown_cnt (Address:0E10~0E13)
+  - safety_timer_cnt (Address:0E14~0E17)
+  - thermal_range_stay_time (Address:0E70~0E7F)
+  - over_08c_total_time (Address:0E80~0E83)
+  - over_08c_charge_count (Address:0E84~0E87)
+  - over_06c_total_time (Address:0E88~0E8B)
+  - over_06c_charge_count (Address:0E8C~0E8F)
+  - max_discharge_current (Address:0E90~0E93)
+  - online_time (Address:1000~1003)
+  - total_arrhenius (Address:1010~1013)
+  - arrhenius_per_10days (Address:1020~11CF)
+
+  Deleted the following parameters:
+  - jeita_batt_warm_time
+  - jeita_aux_warm_time
+  - jeita_wlc_warm_time
+
+V4.0.1:
+  Updated revision to exclude incorrect arrhenius time
+
+V5.0.0:
+  Size is changed to 4864byte from 4608byte.
+
+  Added the following parameters:
+  - max_discharge_current (Address:0E90~0E97)
+  - max_temp (Address:0E9C~0E9D)
+  - min_temp (Address:0E9E~0E9F)
+  - max_discharge_current_time (Address:0EA0~0EAF)
+  - min_temp_time (Address:0EB8~0EBB)
+  - max_temp_time (Address:0EBC~0EBF)
+  - total_discharge_time (Address:0EC0~0EDF)
+  - max_cell_voltage (Address:0EEA~0EEB)
+  - max_cell_voltage_time (Address:0EEC~0EEF)
+  - arrhenius_aging_level_record (Address:1200~126B)
+
+  Deleted the following parameters:
+  - sc3_first_start_time
+  - sc4_first_start_time
+  - heavy_damage_30days_120h_detected
+
+V5.0.1:
+  Fixed a bug that breaked online_time data.
+  Data stored in previous version is cleared.
+
+V5.1.0:
+  Added the following parameters:
+  - sc5_first_start_time (Address:00C8~00EF)
+
+V5.1.1:
+  Added the following parameters:
+  - last_shutdown_soc  (Address:008F)
+
+V5.2.0:
+  Size is changed to 5632byte from 4864byte.
+
+  Added the following parameers:
+    - full_stay_cap_degradation_per_10days(Address: 0x1320~0x14CF)
+    - full_stay_cap_degradation_aging_level_record(Address: 0x1500~0x156C)
+    - soh_record(Address: 0x1590~0x15FC)
