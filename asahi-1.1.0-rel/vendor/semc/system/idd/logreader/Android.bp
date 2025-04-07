@@ -1,0 +1,45 @@
+//
+// Copyright 2020 Sony Corporation
+//
+
+cc_binary {
+    name: "idd-logreader",
+
+    cflags: [
+        "-Wall",
+        "-O2",
+        "-pedantic",
+        "-std=gnu99",
+    ],
+    srcs: [
+        "logreader.c",
+        "idd_system_logging.pb-c.c",
+        "rules.c",
+        "tagmap.c",
+        "util.c",
+        "config.c",
+        "logreader_configuration.pb-c.c",
+        "iddd.pb-c.c",
+        "common/tokenize.c",
+        "logreader.pb-c.c",
+        "logreader_error_probe.c",
+    ],
+
+    shared_libs: [
+        "libidd",
+        "libprotobuf-c-idd",
+        "libutils",
+        "liblog",
+        "libcutils",
+    ],
+
+    include_dirs: [
+      "system/logging/liblog/include",
+    ],
+
+    header_libs: ["idd_config_header"],
+
+    owner: "somc",
+    vendor: true,
+
+}
