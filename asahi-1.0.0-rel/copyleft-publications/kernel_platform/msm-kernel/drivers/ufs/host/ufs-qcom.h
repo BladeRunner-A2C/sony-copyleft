@@ -1,9 +1,4 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
-/*
- * NOTE: This file has been modified by Sony Corporation.
- * Modifications are Copyright 2020 Sony Corporation,
- * and licensed under the license of the file.
- */
 /* Copyright (c) 2013-2021, The Linux Foundation. All rights reserved.
  * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
  */

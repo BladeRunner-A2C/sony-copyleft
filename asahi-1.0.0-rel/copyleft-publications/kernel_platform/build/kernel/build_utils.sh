@@ -776,7 +776,7 @@ function build_gki_boot_images() {
     "${MKBOOTIMG_PATH}" "${GKI_MKBOOTIMG_ARGS[@]}"
 
     if [[ -z "${BUILD_GKI_BOOT_SKIP_AVB}" ]]; then
-      local spl_month=$(date +'%m')
+      local spl_month=$(date +'%-m')
       if [ $((${spl_month} % 3)) -gt 0 ]; then
         # Round up to the closest quarterly month
         spl_month=$((${spl_month} + 3 - (${spl_month} % 3)))

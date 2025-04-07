@@ -12,11 +12,6 @@
  * GNU General Public License for more details.
  *
  */
-/*
- * NOTE: This file has been modified by Sony Corporation.
- * Modifications are Copyright 2019 Sony Corporation,
- * and licensed under the license of the file.
- */
 
 #include <linux/atomic.h>
 #include <linux/err.h>

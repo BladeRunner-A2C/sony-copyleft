@@ -1,0 +1,10 @@
+cc_defaults {
+    name: "idd_logreader_generate_defaults",
+    cppflags: ["-Wall"],
+}
+
+cc_binary {
+    name: "idd-logreader-generate",
+    defaults: ["idd_logreader_generate_defaults"],
+    srcs: ["generate_testdata.c"],
+}

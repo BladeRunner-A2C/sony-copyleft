@@ -27,7 +27,7 @@ unsigned int sysctl_sched_rt_period = 1000000;
 int sysctl_sched_rt_runtime = 950000;
 
 #ifdef CONFIG_SYSCTL
-static int sysctl_sched_rr_timeslice = (MSEC_PER_SEC / HZ) * RR_TIMESLICE;
+static int sysctl_sched_rr_timeslice = (MSEC_PER_SEC * RR_TIMESLICE) / HZ;
 static int sched_rt_handler(struct ctl_table *table, int write, void *buffer,
 		size_t *lenp, loff_t *ppos);
 static int sched_rr_handler(struct ctl_table *table, int write, void *buffer,
@@ -1636,7 +1636,7 @@ static int find_lowest_rq(struct task_struct *task);
  * task is likely to block preemptions soon because it is a
  * ksoftirq thread that is handling softirqs.
  */
-static bool cpu_busy_with_softirqs(int cpu)
+bool cpu_busy_with_softirqs(int cpu)
 {
 	u32 softirqs = per_cpu(active_softirqs, cpu) |
 		       __cpu_softirq_pending(cpu);
@@ -1644,11 +1644,12 @@ static bool cpu_busy_with_softirqs(int cpu)
 	return softirqs & LONG_SOFTIRQ_MASK;
 }
 #else
-static bool cpu_busy_with_softirqs(int cpu)
+bool cpu_busy_with_softirqs(int cpu)
 {
 	return false;
 }
 #endif /* CONFIG_RT_SOFTIRQ_AWARE_SCHED */
+EXPORT_SYMBOL_GPL(cpu_busy_with_softirqs);
 
 static bool rt_task_fits_cpu(struct task_struct *p, int cpu)
 {
@@ -2207,9 +2208,11 @@ retry:
 		 */
 		push_task = get_push_task(rq);
 		if (push_task) {
+			preempt_disable();
 			raw_spin_rq_unlock(rq);
 			stop_one_cpu_nowait(rq->cpu, push_cpu_stop,
 					    push_task, &rq->push_work);
+			preempt_enable();
 			raw_spin_rq_lock(rq);
 		}
 
@@ -2549,9 +2552,11 @@ skip:
 		double_unlock_balance(this_rq, src_rq);
 
 		if (push_task) {
+			preempt_disable();
 			raw_spin_rq_unlock(this_rq);
 			stop_one_cpu_nowait(src_rq->cpu, push_cpu_stop,
 					    push_task, &src_rq->push_work);
+			preempt_enable();
 			raw_spin_rq_lock(this_rq);
 		}
 	}

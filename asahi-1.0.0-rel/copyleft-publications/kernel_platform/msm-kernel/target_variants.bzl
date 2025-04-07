@@ -29,6 +29,9 @@ lxc_targets = [
 
 spo_variants = [
     # keep sorted
+    "asahi-cdb-ets",
+    "asahi-cdb-generic",
+    "pdx245-ets",
     "pdx245-generic",
 ]
 

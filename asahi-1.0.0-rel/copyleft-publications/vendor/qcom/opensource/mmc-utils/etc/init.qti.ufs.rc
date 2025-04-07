@@ -26,5 +26,5 @@
 # # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-on init
-    exec u:r:vendor-qti-testscripts:s0 -- /vendor/bin/sh /vendor/bin/init.qti.ufs.debug.sh
+#on init
+#    exec u:r:vendor-qti-testscripts:s0 -- /vendor/bin/sh /vendor/bin/init.qti.ufs.debug.sh

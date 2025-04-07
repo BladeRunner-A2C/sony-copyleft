@@ -304,6 +304,7 @@ def define_pineapple():
         for variant in la_variants:
             board_kernel_cmdline_extras = []
             board_bootconfig_extras = []
+
             if variant == "consolidate":
                 mod_list = _pineapple_consolidate_in_tree_modules
             else:

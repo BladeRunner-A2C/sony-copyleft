@@ -920,7 +920,6 @@ struct fastrpc_file {
 	/* Flag to indicate dynamic process creation status*/
 	enum fastrpc_process_create_state dsp_process_state;
 	bool is_unsigned_pd;
-
 	/* Completion objects and state for dspsignals */
 	struct fastrpc_dspsignal *signal_groups[DSPSIGNAL_NUM_SIGNALS / DSPSIGNAL_GROUP_SIZE];
 	spinlock_t dspsignals_lock;

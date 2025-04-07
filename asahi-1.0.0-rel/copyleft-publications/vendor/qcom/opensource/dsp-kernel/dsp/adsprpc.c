@@ -989,7 +989,7 @@ static void fastrpc_mmap_free(struct fastrpc_mmap *map, uint32_t flags)
 				map->flags == ADSP_MMAP_REMOTE_HEAP_ADDR) {
 		spin_lock_irqsave(&me->hlock, irq_flags);
 		if (map->refs)
-		map->refs--;
+			map->refs--;
 		if (!map->refs && !map->is_persistent)
 			hlist_del_init(&map->hn);
 		spin_unlock_irqrestore(&me->hlock, irq_flags);
@@ -1884,7 +1884,7 @@ static int context_alloc(struct fastrpc_file *fl, uint32_t kernel,
 	}
 
 	if (invokefd->fds) {
-		K_COPY_FROM_USER(err, kernel, ctx->fds, invokefd->fds,
+		K_COPY_FROM_USER(err, kernel_msg, ctx->fds, invokefd->fds,
 						bufs * sizeof(*ctx->fds));
 		if (err) {
 			ADSPRPC_ERR(
@@ -1897,7 +1897,7 @@ static int context_alloc(struct fastrpc_file *fl, uint32_t kernel,
 		ctx->fds = NULL;
 	}
 	if (invokefd->attrs) {
-		K_COPY_FROM_USER(err, kernel, ctx->attrs, invokefd->attrs,
+		K_COPY_FROM_USER(err, kernel_msg, ctx->attrs, invokefd->attrs,
 						bufs * sizeof(*ctx->attrs));
 		if (err) {
 			ADSPRPC_ERR(
@@ -1942,7 +1942,7 @@ static int context_alloc(struct fastrpc_file *fl, uint32_t kernel,
 		ctx->perf->tid = fl->tgid;
 	}
 	if (invokefd->job) {
-		K_COPY_FROM_USER(err, kernel, &ctx->asyncjob, invokefd->job,
+		K_COPY_FROM_USER(err, kernel_msg, &ctx->asyncjob, invokefd->job,
 						sizeof(ctx->asyncjob));
 		if (err)
 			goto bail;
@@ -1956,6 +1956,7 @@ static int context_alloc(struct fastrpc_file *fl, uint32_t kernel,
 
 	spin_lock_irqsave(&chan->ctxlock, irq_flags);
 	me->jobid[cid]++;
+
 	/*
 	 * To prevent user invocations from exhausting all entries in context
 	 * table, it is necessary to reserve a few context table entries for
@@ -2645,8 +2646,7 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 	mutex_lock(&ctx->fl->map_mutex);
 	for (i = bufs; i < bufs + handles; ++i) {
 		struct fastrpc_mmap *mmap = NULL;
-		
-				/* check if map  was created */
+		/* check if map  was created */
 		if (ctx->maps[i]) {
 			/* check if map still exist */
 			if (!fastrpc_mmap_find(ctx->fl, ctx->fds[i], NULL, 0, 0,
@@ -2656,7 +2656,7 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 					pages[i].size = mmap->size;
 				}
 
-		} else {
+			} else {
 				/* map already freed by some other call */
 				mutex_unlock(&ctx->fl->map_mutex);
 				ADSPRPC_ERR("could not find map associated with dma hadle fd %d \n",
@@ -3376,7 +3376,6 @@ int fastrpc_internal_invoke(struct fastrpc_file *fl, uint32_t mode,
 				cid, invoke->handle);
 			goto bail;
 		}
-	
 		VERIFY(err, 0 == (err = context_restore_interrupted(fl,
 		inv, &ctx)));
 		if (err)
@@ -3886,7 +3885,7 @@ int fastrpc_internal_invoke2(struct fastrpc_file *fl,
 			err = -EBADE;
 			goto bail;
 		}
-		K_COPY_FROM_USER(err, is_compat, &p.user_concurrency,
+		K_COPY_FROM_USER(err, 0, &p.user_concurrency,
 				(void *)inv2->invparam, size);
 		if (err)
 			goto bail;
@@ -6460,7 +6459,6 @@ static int fastrpc_device_open(struct inode *inode, struct file *filp)
 	fl->is_ramdump_pend = false;
 	fl->dsp_process_state = PROCESS_CREATE_DEFAULT;
 	fl->is_unsigned_pd = false;
-	
 	fl->exit_notif = false;
 	fl->exit_async = false;
 	fl->multi_session_support = false;
