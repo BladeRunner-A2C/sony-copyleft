@@ -1,0 +1,17 @@
+&soc {
+  disp_rdump_region@E3940000 {
+    compatible = "qcom,display";
+    reg   = <0xE3940000 0x02B00000>;
+    label = "disp_rdump_region";
+  };
+
+  text_mode_table{
+    table = <
+    80   25 
+    75   42
+    90   67
+    96   53  
+    96   67
+    96   71>;
+   };
+};

@@ -1,0 +1,34 @@
+#/** @file
+#
+#  Copyright (c) 2017-2021, Arm Limited. All rights reserved.<BR>
+#  Copyright (c) 2023, Qualcomm Technologies, Inc. All Rights Reserved.<BR>
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#  System Control and Management Interface V1.0
+#    http://infocenter.arm.com/help/topic/com.arm.doc.den0056a/
+#    DEN0056A_System_Control_and_Management_Interface.pdf
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010019
+  BASE_NAME                      = QcomScmiNullDxe
+  FILE_GUID                      = FE0F9A4F-C6BA-4587-B544-80E0BCA0E9C6
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = QcomScmiDxeEntryPoint
+
+[Sources.common]
+  QcomScmiNullDxe.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  ArmPkg/ArmPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  MdePkg/MdePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+
+[Depex]
+  TRUE

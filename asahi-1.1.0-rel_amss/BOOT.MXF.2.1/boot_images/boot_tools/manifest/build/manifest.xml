@@ -1,0 +1,10 @@
+<config>
+  <image_tree>
+    <name>BOOT.MXF.2.1</name>
+    <build_id>BOOT.MXF.2.1-01839-LANAI-2.65818.1</build_id>
+    <branch_point_revision>01839</branch_point_revision>
+    <revision>65818</revision>
+    <spin>1</spin>
+    <client>LANAI</client>
+  </image_tree>
+</config>

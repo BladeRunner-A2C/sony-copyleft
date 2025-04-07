@@ -1,0 +1,59 @@
+#/** @file ResetSystemLib.inf
+#  
+#  Reset system library for Msm8974.
+#  
+#  Copyright (c) 2011-2016, 2020, 2021 Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 03/02/23   cm      ResetSystemLib - compatibale with MdemodulePkg/ResetSystemRuntimeDxe
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QcomMdeResetSystemLib
+  FILE_GUID                      = 4919AB94-87F3-4FB2-B88E-F7EC39716A98
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ResetSystemLib
+
+[BuildOptions]
+  #GCC:*_*_*_CC_FLAGS = -O0 -fno-inline
+
+[Sources.common]
+  BaseResetSystemLib.c
+  ResetSystemPSCI.S
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  DxeServicesTableLib
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  UefiRuntimeLib
+  SerialPortLib
+  CookieLib
+  SDILib
+  
+[FixedPcd]
+
+
+[Protocols]
+
+[Guids]
+  gQcomTokenSpaceGuid
+  

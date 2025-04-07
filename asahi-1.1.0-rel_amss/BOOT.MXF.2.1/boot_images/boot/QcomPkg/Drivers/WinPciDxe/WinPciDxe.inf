@@ -1,0 +1,50 @@
+#/** @file
+#  
+#  Wireless Connectivity WLAN Power control Driver
+#  
+#  Copyright 2019-2023 by Qualcomm Technologies, Inc.  All Rights Reserved.
+#  
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who          what, where, why
+# --------   ---          ----------------------------------------------------------
+# 11/07/22   skanni    initial version
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = WinPciDxe
+  FILE_GUID                      = 54145508-b15f-4e52-8ebf-fed01680748a
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = WinPciEntryPoint
+
+[BuildOptions.AARCH64]
+  #GCC:*_*_*_CC_FLAGS 
+
+[Sources.common]
+  WinPciDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  WinPciLib
+
+[Protocols]
+
+[Guids]
+
+[Pcd]
+
+[Depex]
+   gEfiDalSysProtocolGuid

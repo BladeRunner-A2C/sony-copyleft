@@ -1,0 +1,45 @@
+#/** @file RmVmTest.inf
+#  
+#  Qualcomm Resource Manager Interface Test application
+#  
+#  Copyright (c) 2023  Qualcomm Technologies Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 02/17/23   kedara  Initial revision
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = RmVmTest
+  FILE_GUID                      = CD823BDC-9A41-4AEB-9ADD-D0A673197CDE
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+
+[Sources]
+  RmVmTest.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  PcdLib
+  TestInterfaceLib
+
+[Protocols]
+  gEfiRmVmProtocolGuid
+  

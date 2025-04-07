@@ -1,0 +1,36 @@
+#==============================================================================
+# @file WlanSupplicantLib.dec
+#
+# Copyright (c) 2020-2023 Qualcomm Technologies, Inc. All rights reserved.
+# All Rights Reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+#==============================================================================
+ 
+[Defines]
+  DEC_SPECIFICATION = 0X00010005
+  PACKGE_NAME       = WlanSupplicantLibPkg
+  PACKGE_GUID       = 0291830E-5980-4037-AEB9-877A5828EDBC
+  PACKGE_VERSION    = 1.0
+
+[Includes.common.private]
+  #
+  # wpa_supplicant dependencies (FOR WlanSupplicantDxe)
+  src
+[Includes.X64.private]
+  #
+  # OpenSSL dependencies (FOR WlanSupplicantDxe)
+  #
+  ../../CryptoPkg/Library/Include
+  ../../CryptoPkg/Library/OpensslLib/openssl/include
+[Includes.AArch64.private]
+  #
+  # OpenSSL dependencies (FOR WlanSupplicantDxe)
+  #
+  ../../../../edk2/CryptoPkg/Library/Include
+  ../../../../edk2/CryptoPkg/Library/OpensslLib/openssl/include	
+
+[LibraryClasses]
+
+[Protocols]
+
+[Guids]

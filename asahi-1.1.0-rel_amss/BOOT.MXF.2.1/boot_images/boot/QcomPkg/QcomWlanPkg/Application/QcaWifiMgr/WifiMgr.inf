@@ -1,0 +1,92 @@
+#/**
+#  Copyright (c) 2020-2023 Qualcomm Technologies, Inc.
+#  All Rights Reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+# **/
+
+#  Copyright (c) 2006 - 2010, Intel Corporation. All rights reserved.<BR>
+#
+#  This program and the accompanying materials
+#  are licensed and made available under the terms and conditions of the BSD License
+#  which accompanies this distribution. The full text of the license may be found at
+#  http://opensource.org/licenses/bsd-license.php
+#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN ""AS IS"" BASIS,
+#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+
+#/*=============================================================================
+#                              EDIT HISTORY
+#
+# 
+#
+# when       who     what, where, why
+# --------   ---     -----------------------------------------------------------
+# 11/8/21   zxue     add support to read file from specific path
+# 23/7/21   zxue     add missing copyright
+# 14/7/21   zxue     branch for core boot
+#
+#=============================================================================*/
+
+ [Defines]
+  INF_VERSION               = 0x00010005
+  BASE_NAME                 = QcaWifiMgr
+  FILE_GUID                 = 4dc731bc-6e2f-4a30-a72d-0378500c8010
+  MODULE_TYPE               = UEFI_APPLICATION
+  VERSION_STRING            = 1.0
+  ENTRY_POINT               = QcaWifiMgrEntryPoint
+
+[Packages.common]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  ShellPkg/ShellPkg.dec
+[Packages.X64]
+  QcomWlanPkg/QcomWlanPkg.dec
+[Packages.AArch64]
+  QcomPkg/QcomWlanPkg/QcomWlanPkg.dec
+
+[Sources]
+  WifiMgr.h
+  WifiMgr.c
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  BaseLib
+  UefiLib
+  DevicePathLib
+  DebugLib
+  WlanLib
+
+[Protocols]
+  gEfiSupplicantProtocolGuid
+  gEfiWiFi2ProtocolGuid
+  gEfiShellParametersProtocolGuid
+  #gEfiIntelWlanDrvDbgProtocolGuid
+  gEfiEapConfigurationProtocolGuid
+  gEfiLoadedImageProtocolGuid
+  gEfiShellProtocolGuid
+
+[Guids]
+  gEfiFileInfoGuid
+  gEfiQcWlanTestProtocolGuid
+
+[Depex]
+  gEfiBdsArchProtocolGuid               AND
+  gEfiCpuArchProtocolGuid               AND
+  gEfiMetronomeArchProtocolGuid         AND
+  gEfiMonotonicCounterArchProtocolGuid  AND
+  gEfiRealTimeClockArchProtocolGuid     AND
+  gEfiResetArchProtocolGuid             AND
+  gEfiRuntimeArchProtocolGuid           AND
+  gEfiSecurityArchProtocolGuid          AND
+  gEfiTimerArchProtocolGuid             AND
+  gEfiVariableWriteArchProtocolGuid     AND
+  gEfiVariableArchProtocolGuid          AND
+  gEfiWatchdogTimerArchProtocolGuid      
+
+[BuildOptions]
+  MSFT:*_*_*_CC_FLAGS = /wd4201 /wd4204 /wd4221 /wd4125
+
+  GCC:*_*_*_CC_FLAGS = -D SUPPORT_LOAD_BY_EVT=1 -D SUPPORT_GET_DEVICE_TYPE_BY_WLANLIB=1

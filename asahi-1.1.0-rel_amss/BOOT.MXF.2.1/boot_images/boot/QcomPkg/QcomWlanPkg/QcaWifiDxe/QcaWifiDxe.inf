@@ -1,0 +1,265 @@
+#/**
+#  Copyright (c) 2020-2023 Qualcomm Technologies, Inc.
+#  All Rights Reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+# **/
+
+#/*=============================================================================
+#                              EDIT HISTORY
+#
+# 
+#
+# when       who     what, where, why
+# --------   ---     -----------------------------------------------------------
+# 19/10/21  zxue     refine code
+# 26/8/21   zxue     support logfs
+# 16/8/21   zxue     create a new event and enable wifi at the event callback
+# 30/7/21   zxue     support fw boot recovery
+# 14/7/21   zxue     branch for core boot
+#
+#=============================================================================*/
+
+ 
+ [Defines]
+  INF_VERSION               = 0x00010005
+  BASE_NAME                 = QcaWifiDxe
+  FILE_GUID                 = c876a34f-8376-4271-8c65-c8599c8f78ae
+  MODULE_TYPE               = UEFI_DRIVER
+  VERSION_STRING            = 1.3
+  ENTRY_POINT               = WlanDriverEntryPoint
+  UNLOAD_IMAGE              = WlanDriverUnload
+  
+[Packages.common]
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  NetworkPkg/NetworkPkg.dec
+[Packages.X64]
+  QcomWlanPkg/QcomWlanPkg.dec
+[Packages.AArch64]
+  QcomPkg/QcomWlanPkg/QcomWlanPkg.dec
+
+[Sources]
+  Dev.h
+  Driver.c
+  ComponentName.c
+  DriverBinding.c
+  Debug.c
+  Debug.h
+  Aip.h
+  Aip.c
+  Diagnostics.h
+  Diagnostics.c
+  Snp.h
+  Snp.c
+  QcaWlan.h
+  QcaWlan.c
+  Utils.h
+  Utils.c
+  PciDev.c
+  QcaScan.c
+  QcaScan.h
+  QcaTxRx.c
+  QcaTxRx.h
+  
+  ath12k/mhi.c
+  ath12k/qmi.h
+  ath12k/qmi.c
+  ath12k/htc.h
+  ath12k/htc.c
+  ath12k/wmi.h
+  ath12k/wmi.c
+  ath12k/hal.h
+  ath12k/hal.c
+  ath12k/dp.h
+  ath12k/dp.c
+  ath12k/dp_rx.h
+  ath12k/dp_rx.c
+  ath12k/dp_tx.h
+  ath12k/dp_tx.c
+  ath12k/ce.h
+  ath12k/ce.c
+  ath12k/mac.h
+  ath12k/mac.c
+  ath12k/hw.h
+  ath12k/hw.c
+  ath12k/hal_rx.h
+  ath12k/hal_rx.c
+  ath12k/hal_tx.h
+  ath12k/hal_tx.c
+  ath12k/hal_desc.h
+  ath12k/rx_desc.h
+  ath12k/reg.h
+  ath12k/pci.h
+  ath12k/pci.c
+  ath12k/hif.h
+  ath12k/debug.h
+  ath12k/core.h
+  ath12k/core.c
+  ath12k/coredump.h
+  ath12k/coredump.c
+  ath12k/peer.h
+  ath12k/peer.c
+  ath12k/testmode.h
+  ath12k/reg.c
+  ath12k/dbring.h
+  ath12k/dbring.c
+
+  ath11k/mhi.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/qmi.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/qmi.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/htc.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/htc.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/wmi.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/wmi.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hal.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hal.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/dp.h          |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/dp.c          |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/dp_rx.h       |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/dp_rx.c       |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/dp_tx.h       |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/dp_tx.c       |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/ce.h          |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/ce.c          |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/mac.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/mac.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hw.h          |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hw.c          |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hal_rx.h      |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hal_rx.c      |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hal_tx.h      |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hal_tx.c      |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hal_desc.h    |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/rx_desc.h     |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/reg.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/pci.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/pci.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/hif.h         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/debug.h       |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/core.h        |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/core.c        |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/coredump.h    |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/coredump.c    |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/peer.h        |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/peer.c        |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/testmode.h    |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  ath11k/reg.c         |*|*|*|gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled
+  
+  xz/xz_crc32.c
+  xz/xz_dec_lzma2.c
+  xz/xz_dec_stream.c
+  qdf/alloc.c
+  qdf/atomic.c
+  qdf/bitops.c
+  qdf/sk_buff.c
+  qdf/sock.c
+  qdf/wait.c
+  qdf/radix_list.c
+  qdf/worker.c
+  qdf/event.c
+  qdf/stdio.c
+  qdf/interrupt.c
+  qdf/pci.c
+  qdf/file.c
+  qdf/firmware.c
+  qdf/cfg.c
+  qdf/smbios.h
+  qdf/smbios.c
+  qdf/base_type.c
+  crypto/sha256-internal.c
+  qdf/dpp.c
+  mhi/mhi.h
+  mhi/mhi_init.c
+  mhi/mhi_main.c
+  mhi/pm.c
+  mhi/boot.c
+  ipcr/mhi.c
+  diag/trace.c
+  qmi/qmi.h
+  qmi/qmi_encdec.c
+  qmi/qmi_interface.c
+  net/netdevice.c
+  net/net80211/reg.c
+  net/net80211/main.c
+  net/net80211/core.c
+  net/net80211/drvops.c
+  net/net80211/vif.c
+  net/net80211/sta.c
+  net/net80211/chan.c
+  net/net80211/scan.c
+  net/net80211/utils.c
+  net/net80211/mlme.c
+  net/net80211/agg.c
+  net/net80211/sme.c
+  net/net80211/xht.c
+  net/net80211/xvht.c
+  net/net80211/xhe.c
+  net/net80211/rx.c
+  net/net80211/tx.c
+  net/net80211/key.c
+  
+[LibraryClasses.common]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  DxeServicesLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  BaseLib
+  UefiLib
+  DevicePathLib
+  DebugLib
+  PrintLib
+  NetLib
+  EfiFileLib
+
+[LibraryClasses.AArch64]
+  QcomLib
+  FwProvisionLib
+  #MountFvLib
+  #BootRecoverySmem
+  #SmemLib
+
+[Protocols]
+  gEfiSupplicantServiceBindingProtocolGuid
+  gEfiSupplicantProtocolGuid
+  gEfiDriverBindingProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEfiDriverSupportedEfiVersionProtocolGuid
+  gEfiComponentName2ProtocolGuid
+  gEfiComponentNameProtocolGuid
+  gEfiWiFi2ProtocolGuid
+  gEfiSimpleNetworkProtocolGuid
+  gEfiDevicePathProtocolGuid
+  gEfiLoadedImageProtocolGuid
+  gEfiSmbiosProtocolGuid
+  gEfiResetNotificationProtocolGuid
+  
+[Guids]
+  gEfiFileInfoGuid
+  gEfiAdapterInfoMediaStateGuid
+  gEfiAdapterInfoUndiIpv6SupportGuid
+  gEfiQcWlanXzfw1Guid
+  gEfiQcWlanTestProtocolGuid
+  gEfiQcWlanXzfwPartitionGuid
+  gEfiQcWlanXzfwPartitionBakGuid
+  gEfiEventWifiReadyToEnableGuid
+
+[FixedPcd]
+  gEfiQcomWlanPkgTokenSpaceGuid.PcdAth11kEnabled     ## CONSUMES
+
+[Depex]
+  TRUE
+
+[BuildOptions]  
+  DEFINE COMMON_RELEASE_CC_FLAGS = -D SUPPORT_DEBUG_PRINT=0
+
+  MSFT:DEBUG_*_*_CC_FLAGS    == /nologo /c /WX /GS- /W4 /Gs32768 /D UNICODE /O1b2s /FIAutoGen.h /EHs-c- /GR- /GF /Gy /Zi /X
+  MSFT:RELEASE_*_*_CC_FLAGS  == /nologo /c /WX /GS- /W4 /Gs32768 /D UNICODE /O1b2s /FIAutoGen.h /EHs-c- /GR- /GF /Gy /X
+  
+  MSFT:RELEASE_*_*_CC_FLAGS = $(COMMON_RELEASE_CC_FLAGS)
+  MSFT:*_*_*_CC_FLAGS = -D SUPPORT_SMBIOS_CFG=1
+
+  GCC:RELEASE_*_*_CC_FLAGS = $(COMMON_RELEASE_CC_FLAGS)
+  GCC:*_*_*_CC_FLAGS = -D SUPPORT_QCOM_BASE_LIB=1 -D SUPPORT_QCOM_DPP=1 -D SUPPORT_QCOM_PARTITION=1 -D SUPPORT_SECURITY_BOOT=1 -D SUPPORT_LOAD_BY_EVT=1 -D SUPPORT_RESET_NOTIFICATION=1 -D SUPPORT_SERIAL_PORT_DEBUG=1 -D SUPPORT_RECOVERY_FROM_PARTITION=0

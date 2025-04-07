@@ -1,0 +1,49 @@
+#/** @file TsensCoreEnhancedLib.inf
+#
+#  Component description file for TSENS module.
+#
+#  Copyright (c)  2023  Qualcomm Technologies, Inc. All rights reserved.
+#
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 15/03/23   pd     FR81674:Initial revision
+#
+#==============================================================================
+
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TsensCoreEnhancedLib
+  FILE_GUID                      = 31AE64BA-4721-D57E-8384-7F91167A0818
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = TsensCoreEnhancedLib
+
+#
+#  VALID_ARCHITECTURES           = ARM
+#
+
+[Sources.common]
+  TsensCoreEnhanced.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  QcomPkg/Library/TsensLib/TsensLibPkg.dec
+  Settings/DeviceTreeSettings.dec
+
+[LibraryClasses]
+  TsensTargetLib
+  DALModEnvLib
+  DTBExtnLib
+

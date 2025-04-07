@@ -1,0 +1,50 @@
+#/** @file UfsEyemonApp.inf
+#  
+#  UFS Eye Monitor App INF file
+#  
+#  Copyright (c) 2022-2023  Qualcomm Technologies Inc. All rights reserved. 
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when         who     what, where, why
+# ----------   ---     ----------------------------------------------------------
+# 2023-07-12   jt      Remove QuantumDataVisualLib
+# 2022-04-05   jt      Initial version
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = UfsEyemonApp
+  FILE_GUID                      = 706D469B-8224-48B6-BA40-4630D83FAE64  
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UfsEyemonMain
+
+[Sources]
+  UfsEyemonApp.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+#  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  BaseLib
+
+[Guids]
+  gEfiUfsLU0Guid
+  gEfiUfsDeviceWlunGuid
+
+[Protocols]
+  gEfiBlockIoProtocolGuid
+  gEfiQcomEnvProtocolGuid
+  gEfiStorageDevMgmtProtocolGuid
+  gEfiStorageEyemonProtocolGuid

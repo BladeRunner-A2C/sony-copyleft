@@ -1,0 +1,75 @@
+;****************************************************************************
+;** save_coredumps.cmm
+;**
+;** This script performs saving of the core dumps on target.
+;**
+;** Copyright 2022 by Qualcomm Technologies, Incorporated.  All Rights Reserved.
+;**
+;****************************************************************************
+;**
+;**                        EDIT HISTORY FOR MODULE
+;**
+;**
+;** when       who     what, where, why
+;** --------   ---     ------------------------------------------------------
+;** 09/02/22   rama    Initial revision
+
+;****************************************************************************
+
+entry &storage
+
+
+local &crash_dump_data_ptr
+local &cookie
+local &crash_dump_cookie
+
+&crash_dump_cookie=0x45525220
+
+;Assumed memory map
+local &boot_imem_base_address
+local &boot_imem_size
+
+&boot_imem_base_address=0x14800000
+&boot_imem_size=0x131FFF
+
+cd &storage
+
+data.find &boot_imem_base_address++&boot_imem_size %long &crash_dump_cookie
+
+if FOUND()
+(
+&crash_dump_data_ptr = TRACK.ADDRESS()
+print "coredump cookie &crash_dump_cookie found at &crash_dump_data_ptr"
+&cookie=data.long(&crash_dump_data_ptr)
+
+print "Saving General purpouse registers DUMP contents to register.cmm ..."	
+store reg.cmm hex register
+wait 2.s
+	
+ON ERROR Cont
+
+data.save.binary COREDUMP_STRUCT.BIN &crash_dump_data_ptr++0x200
+
+
+&ddr_region=data.quad(&crash_dump_data_ptr+0x1A8)
+&ddr_size=data.quad(&crash_dump_data_ptr+0x1B0)
+&boot_imem=data.quad(&crash_dump_data_ptr+0x1C0)
+&boot_imem_size=data.quad(&crash_dump_data_ptr+0x1C8)
+&shared_imem=data.quad(&crash_dump_data_ptr+0x1D8)
+&shared_imem_size=data.quad(&crash_dump_data_ptr+0x1E0)
+
+print "Saving boot imem region to BOOT_IMEM.BIN"
+data.save.binary BOOT_IMEM.BIN &boot_imem++(&boot_imem_size-1)
+
+print "Saving shared imem region to SHARED_IMEM.BIN"
+data.save.binary SHARED_IMEM.BIN &shared_imem++(&shared_imem_size-1)
+
+print "Saving boot DDR region to XBL_DDR.BIN"
+data.save.binary XBL_DDR.BIN &ddr_region++(&ddr_size-1)
+
+ 
+)
+else
+(
+  print "coredump collection failed"
+)

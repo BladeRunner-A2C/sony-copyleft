@@ -1,0 +1,40 @@
+#/** @file TsensLoaderLibNull.inf
+#
+#  Null TsensLoader lib if TsensLoader is not available
+#
+#  Copyright 2019-2023 by Qualcomm Technologies, Inc.  All Rights Reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who       what, where, why
+# --------   ---       ----------------------------------------------------------
+# 25/01/23   avishalk   Removed unnecessary Relative paths  
+# 03/08/22   rama       Change the Base name to actual lib name
+# 02/27/18   vk         Initial revision.
+#
+#==============================================================================
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = TsensLoaderLib
+  FILE_GUID                      = D0B2136C-6F70-49B0-8A29-37BC400DA653
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = TsensLoaderLib
+
+[Sources]
+  
+  TsensLoaderLibNull.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  QcomPkg/XBLLoaderApi.dec  
+
+[LibraryClasses]
+  DebugLib

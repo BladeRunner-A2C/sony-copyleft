@@ -1,0 +1,51 @@
+{
+  "Components" :[           
+                 {   # reference sample, propagate to other components
+                   "Name" : "ThirdParty" ,
+                   "Process" : [
+                                 {
+                                   "ToolChain" : "CLANG160" ,
+                                   "AArch" : "AARCH64" ,
+                                   "Params" : ["$EDK2ROOT/BaseTools/Source/Python/build/build.py","-p", "QcomPkg/ThirdPartyPkg/ThirdPartyPkg.dsc", "-j", "QcomPkg/ThirdPartyPkg/ThirdPartyPkg.log","-w","-a", "AARCH64","-b","$REL"]
+                                 }
+                               ]
+                 }
+                ],
+  "CreateImages" : [
+                    {
+                      "Name" : "ThirdParty" ,   # Just cosmetic, readable field for reference, ignored by tool/script
+                      "Process" : [
+                                    {
+                                      "ToolChain" : "Copy" ,
+                                      "Components" : ["ThirdParty"],
+                                      "Createfolders" : ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/unsigned","$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/sign"],
+                                      "Params" : ["$BUILDROOT/Build/ThirdParty/$REL_$COMPILER/FV/TP_COMPACT.Fv", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/unsigned/tpfv.fv"]
+                                    },
+                                    {
+                                      "ToolChain" : "Copy" ,
+                                      "Createfolders" : ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL"],
+                                      "Params" : ["$BUILDROOT/Build/ThirdParty/$REL_$COMPILER/FV/TP_COMPACT.Fv", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/tpfv.fv"]
+                                    },
+                                    {
+                                      "ToolChain": "Pack",
+                                      "Params": ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/tpfv.fv", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/imagefv.elf", "0x0", "elf", "32","nohash"]
+                                    },
+                                    {
+                                      "ToolChain": "Network_Sign_v2",
+                                      "Params": [
+                                          "secure-image", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/imagefv.elf",
+                                          "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/sign/tpfv.elf",
+                                          "--image-id", "UEFIFV",
+                                          "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/hamoa/hamoa_tz_security_profile.xml",
+                                          "--sign",
+                                          "--signing-mode", "TEST"]
+                                    },
+				    {
+                                      "ToolChain": "Copy",
+                                      "Params": ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/sign/tpfv.elf", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL"]
+
+                                    }
+                                  ]
+                    }
+                  ]
+}

@@ -1,0 +1,166 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,ssr.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Technologies Core SSR DeviceTree Schema
+
+maintainers:
+  - Quantum team <uefi-ext.sw.dev@qualcomm.com>
+
+description: |
+  Driver to reset subsystems
+
+# A dictionary of DT properties for this binding schema
+properties:
+  compatible:
+    const: qcom,ssr
+
+  max_subsys_configured:
+    description: Maximum no. of subsystems to be configured
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  smp2p_err_fatal:
+    description: SMP2P error fatal handle event
+    type: object
+
+    properties:
+      entry_name:
+        $ref: /schemas/types.yaml#/definitions/string
+
+      bit:
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+    required:
+      - entry_name
+      - bit
+
+  smp2p_proxy_unvote:
+    description: Subsystem proxy unvote handle event
+    type: object
+
+    properties:
+      entry_name:
+        $ref: /schemas/types.yaml#/definitions/string
+
+      bit:
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+    required:
+      - entry_name
+      - bit
+
+  smp2p_err_ready:
+    description: SMP2P error ready handle event
+    type: object
+
+    properties:
+      entry_name:
+        $ref: /schemas/types.yaml#/definitions/string
+
+      bit:
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+    required:
+      - entry_name
+      - bit
+
+  smp2p_stop_ack:
+    description: SSR stop ack from subsystem handle event
+    type: object
+
+    properties:
+      entry_name:
+        $ref: /schemas/types.yaml#/definitions/string
+
+      bit:
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+    required:
+      - entry_name
+      - bit
+
+patternProperties:
+  "^ssr_subsys_config_[0-9]+$":
+    type: object
+        
+    properties:
+      subsys_name:
+        description: Name of the subsystem
+        $ref: /schemas/types.yaml#/definitions/string
+    
+      subsys_id:
+        description: Tz PIL proc ID
+        $ref: /schemas/types.yaml#/definitions/uint32-array
+
+      host:
+        description: Host ID supported in SMem
+
+      sfr_type:
+        description: Subsystem failure reason type list
+
+      wdog_intr:
+        description: WDog crash interrupt list
+        $ref: /schemas/types.yaml#/definitions/uint32-array
+
+      qmi_svc_ins:
+        description: QMI service instance
+        $ref: /schemas/types.yaml#/definitions/int32
+
+    required:
+      - subsys_name
+      - subsys_id
+      - host
+      - sfr_type
+      - wdog_intr
+      - qmi_svc_ins
+
+required:
+  - compatible
+  - max_subsys_configured
+
+additionalProperties: false
+
+examples:
+- |
+    ssr {
+      compatible = "qcom,ssr";
+
+      max_subsys_configured = <1>;
+
+      smp2p_err_fatal_handle: smp2p_err_fatal {
+        entry_name = "slave-kernel";
+        bit        = <0>;
+      };
+
+      smp2p_err_ready_handle: smp2p_err_ready {
+        entry_name = "slave-kernel";
+        bit        = <1>;
+      };
+
+      smp2p_proxy_unvote_handle: smp2p_proxy_unvote {
+        entry_name = "slave-kernel";
+        bit        = <2>;
+      };
+
+      smp2p_stop_ack_handle: smp2p_stop_ack {
+        entry_name = "slave-kernel";
+        bit        = <3>;
+      };
+
+      ssr_subsys_config_1 {
+        subsys_name          = "modem";
+        subsys_id            = <4>;
+        host                 = <1>;
+        sfr_type             = <421>;
+        wdog_intr            = <282 1>;
+        err_fatal            = <&smp2p_err_fatal_handle>;
+        proxy_unvote         = <&smp2p_proxy_unvote_handle>;
+        err_ready            = <&smp2p_err_ready_handle>;
+        stop_ack_bit         = <&smp2p_stop_ack_handle>;
+        qmi_svc_ins          = <18>;
+      };
+    };

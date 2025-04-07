@@ -1,0 +1,82 @@
+#/** @file DevPrgLib.inf
+#
+#  DevPrg common logic.
+#
+#  Copyright (c) 2020-2023 Qualcomm Technologies, Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when        who  what, where, why
+# ----------  ---  ----------------------------------------------------------
+# 2023-01-09  gml  Added Pinnacles DevPrg PCIe support
+# 2022-11-29  gk   Added Compilation for ARM..
+# 2022-11-23  ak   Enabled DevPrg for NVMe.
+# 2022-09-29  ak   Enabled DevPrg for SPINOR.
+# 2022-09-27  gk   Enanled DevPrg for NAND.
+# 2022-04-27  wek  Update DevPrg Buffers Lib name.
+# 2021-06-08  wek  Update image ID for VIP due to TME.
+# 2020-11-30  wek  Initial revision.
+#
+#==============================================================================
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = DevPrgLib
+  FILE_GUID                      = FA94AC49-A22A-445D-AF46-A7703B99C7D0
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = DevPrgDLib
+
+[Sources]
+  devprg_firehose.c
+  devprg_gpt.c
+  devprg_log.c
+  devprg_security.c
+  devprg_sha.c
+  devprg_utils.c
+  devprg_storage.c
+  devprg_storage_nand.c
+  devprg_storage_null.c
+  devprg_storage_nvme.c
+  devprg_storage_sdcc.c
+  devprg_storage_spinor.c
+  devprg_storage_ufs.c
+  devprg_target.c
+  devprg_transfer.c
+  devprg_transport.c
+  devprg_transport_pcie.c
+  devprg_usb.c
+  devprg_xml.c
+  ../DevPrgSomcLib/FirehoseVersion.h
+
+[BuildOptions.AARCH64]
+  GCC:*_*_*_CC_FLAGS = -Werror -DUSE_LOADER_UTILS -DFEATURE_DEVPRG_UFS -DFEATURE_DEVPRG_SPINOR -DFEATURE_DEVPRG_NVME -DFEATURE_DEVPRG_SDCC -DFEATURE_DEVPRG_NAND -DFLASH_ENABLE_NAND -DVIP_SW_ID=26 -DFLASH_TOOLS_HEAP_SIZE=20000
+
+[BuildOptions.ARM]
+  GCC:*_*_*_CC_FLAGS = -Werror -DUSE_LOADER_UTILS -DFEATURE_DEVPRG_UFS -DFEATURE_DEVPRG_SPINOR -DFEATURE_DEVPRG_SDCC -DFEATURE_DEVPRG_NAND -DFLASH_ENABLE_NAND -DVIP_SW_ID=26 -DFLASH_TOOLS_HEAP_SIZE=20000
+  
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/Library/MuslLib/MuslLib.dec
+  QcomPkg/QcomPkg.dec
+  QcomPkg/XBLLoaderApi.dec
+  QcomPkg/XBLLoader/SmcLib/SmcLib.dec
+  SecPkg/SecLib.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  DevPrgBuffersLib
+  UfsLoaderLib
+  SdccCommonLib
+  SpiNorCommonLib
+  QusbLib
+  CryptoLib
+  NandCommonLib
+  NandHalLib
+  QpicLib
+  BamLoaderLib
+  NvmeLoaderLib
+  MhiDevProgDeviceLib

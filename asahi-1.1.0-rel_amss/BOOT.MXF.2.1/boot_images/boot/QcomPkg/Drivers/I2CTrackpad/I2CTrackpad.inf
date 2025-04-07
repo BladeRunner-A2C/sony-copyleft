@@ -1,0 +1,61 @@
+#/** @file I2CTrackPad.inf
+#  
+#  I2C Trackpad UEFI Driver INF file
+#  This driver just initializes Trackpad resources and doesn't support UEFI trackpad functionality 
+#  
+#  Copyright (c) 2017-2021 Qualcomm Technologies Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 10/15/22  rgotur   Adding Device tree support 
+# 10/10/22   rgotur  Initial revision for UEFI I2C Trackpad Driver
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = I2CTrackpad
+  FILE_GUID                      = A74398EC-38DB-411D-95DB-D5315D51B0D6
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = I2CTrackpadEntryPoint
+
+[Sources]
+  Trackpad.c
+  Trackpad.h
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  MemoryAllocationLib
+  UefiLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  BaseMemoryLib
+  DevicePathLib
+  I2CApiLib
+  QcomLib
+  NpaApiLib
+  I2CClientLib
+
+[Protocols]
+ gEfiSimpleTextInProtocolGuid
+ gEfiSimpleTextInputExProtocolGuid
+ gEfiTLMMProtocolGuid
+ gQcomPmicGpioProtocolGuid
+ gChargerExProtocolGuid
+ gEfiDtbExtnProtocolGuid
+ gQcomPmicVregProtocolGuid
+ 
+[Depex]  
+ gEfiSimpleTextInProtocolGuid

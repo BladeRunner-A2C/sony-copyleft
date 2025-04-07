@@ -1,0 +1,83 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,pil-proxy-vote.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Technologies PIL Proxy Vote DeviceTree Schema
+
+maintainers:
+  - Quantum team <uefi-ext.sw.dev@qualcomm.com>
+
+description: |
+  Driver to perform PIL proxy vote
+
+# A dictionary of DT properties for this binding schema
+properties:
+  compatible:
+    const: qcom,pil-proxy-vote
+
+patternProperties:
+  "^pil_proxy_vote_[0-9]+$":
+    type: object
+        
+    properties:
+      subsys_id:
+        description: Tz PIL auth ID
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+      client_name:
+        description: PIL sub-system client name
+        $ref: /schemas/types.yaml#/definitions/string
+
+      rail_names:
+        description: RPM rail name required for sub-system
+        $ref: /schemas/types.yaml#/definitions/string-array
+
+      rail_voltage_levels:
+        description: Respective volatge Level defination for RPM rails defined in rail_names
+        $ref: /schemas/types.yaml#/definitions/uint32-array
+
+      icb_name:
+        description: ICB name for sub-system
+        $ref: /schemas/types.yaml#/definitions/string
+
+      icb_arb_master_slave:
+        description: ICB arbiter master slave pairs. In the pair, first one is master and second one is slave. 
+                     For multiple master slave pairs, keep on adding master slave pairs one after another.
+        $ref: /schemas/types.yaml#/definitions/uint32-array
+
+      icb_arb_request_type:
+        description: ICB arbiter request type. For multiple ICB arbiter request type, add entries one after another.
+        $ref: /schemas/types.yaml#/definitions/uint32-array
+
+      icb_arb_request_data:
+        description: ICB arbiter data. First one is instantaneous bandwidth in Bytes/second. Second on is arbitrated 
+                     bandwidth in Bytes/second. For multiple ICB arbiter data, keep on adding instantaneous bandwidth 
+                     and arbitrated bandwidth pairs one after another.
+        $ref: /schemas/types.yaml#/definitions/uint64-array
+
+    required:
+      - subsys_id
+      - client_name
+
+required:
+  - compatible
+
+additionalProperties: false
+
+examples:
+- |
+    pil_proxy_vote {
+      compatible = "qcom,pil-proxy-vote";
+
+      pil_proxy_vote_31 {
+        subsys_id                = <4>;
+        client_name              = "PIL_MODEM";
+        rail_names               = "/vcs/vdd_mx", "/vcs/vdd_cx";
+        rail_voltage_levels      = <0x100 0x100>;
+        flag                     = <0x03 0x03>;
+      };
+    };

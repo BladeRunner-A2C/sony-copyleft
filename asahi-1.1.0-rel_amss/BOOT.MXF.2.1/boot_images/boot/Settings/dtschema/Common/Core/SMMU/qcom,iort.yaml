@@ -1,0 +1,304 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,iort.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: SMMU input-output remapping table
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible io remapping table...
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,iort
+ 
+  Signature:
+    description: Signature of IO remapping table
+
+  Revision:
+    description: Revision of the IO remapping table
+    
+  Checksum:
+    description: Checksum value
+    
+  OEMID:
+    description: Advanced configuration & power interface OEM Id
+    
+  OEMTableID:
+    description: Advanced configuration & power interface OEM Table ID
+    
+  OEMRevision:
+    description: Advanced configuration & power interface OEM Revision
+    
+  CreatorID:
+    description: Advanced configuration & power interface Creator ID
+    
+  CreatorRevision:
+    description: Advanced configuration & power interface Creator Revision
+    
+  NumberofIORTNodes:
+    description: Total nodes present in this IO remapping table
+    
+  Reserved:
+    description: Reserved space for future use
+    
+  instance_handles:
+    description: SMMU Node instances
+    
+patternProperties:
+  ".*MMU500_SMMU":
+    type: object
+    description: SMMUs
+    
+    properties:
+      Type:
+        description: Type of SMMU instance
+      
+      Revision:
+        description: Revision of SMMU used in the table
+        
+      Reserved:
+        description: Reserved space for future use
+      
+      NumberofMappings:
+        description: Total SID mappings in the IORT table
+        
+      BaseAddress:
+        description: Base Address of the SID
+        
+      Span:
+        description: Memory usage Range of table
+        
+      Flags:
+        description: SMMU status Flags
+        
+      Model:
+        description: SMMU V2/V3 
+        
+      NumContextInterrupts:
+        description: Total context interrupts 
+        
+      NumPMUInterrupts:
+        description: Total PMU interrupts
+        
+      NSGIRPT_GSIV:
+        description: Non secure interrupt vector
+        
+      NSGIRPT_FLAGS:
+        description: Non secure interrupt flags
+        
+      NSGCFGIRPT_GSIV:
+        description: Non secure config interrupt vector
+        
+      NSGCFGIRPT_FLAGS:
+        description: Non secure config interrupt flags
+        
+      ContextInterrupts:
+        description: Context Interrupt vectors
+        
+      ContextInterruptFlags:
+        description: Context Interrupt Flags
+        
+      PMUInterrupts:
+        description: PMU Interrupt vectors
+        
+      PMUInterruptFlags:
+        description: PMU InterruptFlags
+        
+      SIDMAPPING:
+        description: SID mappings
+        
+    required:
+      - Type
+      - Revision
+      - Reserved
+      - NumberofMappings
+      - BaseAddress
+      - Span
+      - Flags
+      - Model
+      - NumContextInterrupts
+      - NumPMUInterrupts
+      - NSGIRPT_GSIV
+      - NSGIRPT_FLAGS
+      - NSGCFGIRPT_GSIV
+      - NSGCFGIRPT_FLAGS
+      - ContextInterrupts
+      - ContextInterruptFlags
+      - PMUInterrupts
+      - PMUInterruptFlags
+      - SIDMAPPING
+      
+  "^NAMEDNODE_[A-Z]*":
+    type: object
+    description: Node instances
+    
+    properties:
+      Type:
+        description: Type of instance
+        
+      Revision:
+        description: Revision of SMMU node
+        
+      Reserved:
+        description: Reserved space for future use
+        
+      NumberofMappings:
+        description: Total SID mappings
+        
+      NodeFlags:
+        description: SMMU Node status Flags
+        
+      CacheCoherency:
+        description: Cache Coherency attribute
+        
+      AllocationHints:
+        description: Allocation Hints
+        
+      Reserved1:
+        description: Reserved space for future use
+        
+      MemAccessFlags:
+        description: Memory access flags
+        
+      DeviceMemAddressSize:
+        description: Memory address size
+        
+      DevObjectName:
+        description: Name of the client node
+        
+      SIDMappings:
+        type: object
+        
+        patternProperties:
+          "^SIDMappings_[0-9]*":
+            type: object
+           
+            properties:
+              InputBase:
+                description: Input base address of SID
+                
+              NumIDs:
+                description: NumIDs
+                
+              OutputBase:
+                description: Output base address of SID
+                
+              Flags:
+                description: SMMU status Flags
+                
+              OutputReference:
+                description: SMMU instance for which the SID relates to
+               
+            required:
+              - InputBase
+              - NumIDs
+              - OutputBase
+              - Flags
+              - OutputReference
+          
+      
+        
+    required:
+      - Type
+      - Revision
+      - Reserved
+      - NumberofMappings
+      - NodeFlags
+      - CacheCoherency
+      - AllocationHints
+      - Reserved1
+      - MemAccessFlags
+      - DeviceMemAddressSize
+      - DevObjectName
+      - SIDMappings
+      
+    
+    
+    
+required:
+  - compatible
+  - Signature
+  - Revision
+  - Checksum
+  - OEMID
+  - OEMTableID
+  - OEMRevision
+  - CreatorID
+  - CreatorRevision
+  - NumberofIORTNodes
+  - Reserved
+  - instance_handles
+  
+  
+additionalProperties: false
+
+examples:
+  - |
+    iort {
+        compatible = "qcom,iort";
+        Signature = <0x5452>;
+        Revision = <0x0>;  
+        Checksum = <1>;
+        OEMID = <0>;
+        OEMTableID = <0>;
+        OEMRevision = <1>;
+        CreatorID = <0x0>;
+        CreatorRevision = <6>;
+        NumberofIORTNodes = <7>;
+        Reserved = <8>;
+        instance_handles = <5>;
+        
+        APPS_MMU500_SMMU_APP_handle:APPS_MMU500_SMMU_APP {
+          Type = <2>;
+          Revision = <3>;
+          Reserved = <0>;
+          NumberofMappings = <7>;
+          BaseAddress = <0x15000000>;
+          Span = <0x00080000>;
+          Flags = <3>;
+          Model = <3>;
+          NumContextInterrupts = <96>;
+          NumPMUInterrupts = <0>;
+          NSGIRPT_GSIV = <97>;
+          NSGIRPT_FLAGS = <0>;
+          NSGCFGIRPT_GSIV = <0>;
+          NSGCFGIRPT_FLAGS = <0>;
+          ContextInterrupts = <129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 213 214 215 216 217 218 219 220 221 222 223 224 347 348 349 350 351 352 353 354 355 356 357 358 359 360 361 362 363 364 365 366 367 368 369 370 371 372 373 374 375 376 377 427 428 429 430 431 432 433 434 435 436 437 438 439 440 441 450 451 444 453 738 455 456 457 721 722 723 724 725 726 727 728 >;
+          ContextInterruptFlags = <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 >;
+          PMUInterrupts = <0>;
+          PMUInterruptFlags = <0>;
+          SIDMAPPING =<0>;
+        };
+        
+        NAMEDNODE_CRYPTO {
+          Type = <8>;
+          Revision = <7>;
+          Reserved = <0>;
+          NumberofMappings = <3>;
+          NodeFlags = <0>;
+          CacheCoherency = <0>;
+          AllocationHints = <0>;
+          Reserved1 = <0>;
+          MemAccessFlags = <0>;
+          DeviceMemAddressSize = <36>;
+          DevObjectName = "CRYPTO";
+          SIDMappings {
+            SIDMappings_1 {
+              InputBase = <56>;
+              NumIDs = <1>;
+              OutputBase = <0x00000481>;
+              Flags = <0>;
+              OutputReference = <&APPS_MMU500_SMMU_APP_handle>;
+            };
+          };
+        };
+    };

@@ -1,0 +1,35 @@
+#/** @file DTBExtnLib.dec
+# DTBExtnLib package.
+#
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.  All Rights Reserved. 
+#  Confidential and Proprietary - Qualcomm Technologies, Inc
+#
+#**/
+#
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 08/21/23   tmt     Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = DTBExtnLibPkg
+  PACKAGE_GUID                   = fbb663c8-0236-473f-8008-33bca56c2cba
+  PACKAGE_VERSION                = 1.0
+
+################################################################################
+#
+# Include Section - list of Include Paths that are provided by this package.
+#                   Comments are used for Keywords and Module Types.
+#
+# Supported Module Types:
+#  BASE SEC PEI_CORE PEIM DXE_CORE DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SMM_DRIVER DXE_SAL_DRIVER UEFI_DRIVER UEFI_APPLICATION
+#
+################################################################################
+[Includes.common]
+    Include/XBLLoader

@@ -1,0 +1,153 @@
+#==============================================================================
+# @file WlanSupplicantDxe.inf
+#
+# Copyright (c) 2020-2023 Qualcomm Technologies, Inc. All rights reserved.
+# All Rights Reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = WlanSupplicantDxe
+  FILE_GUID                      = ef7d8541-06bd-4d88-8c83-b199f248e5a3
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = SupplicantDriverEntryPoint
+  UNLOAD_IMAGE                   = SupplicantDriverUnload
+
+[Sources]
+  uefi/WlanSupplicantDriver.c
+  uefi/WlanSupplicant.h
+  uefi/WlanSupplicant.c
+  uefi/ComponentName.c
+  uefi/wpas_glue.c
+  uefi/wpas_glue.h
+  uefi/Debug.h
+  uefi/Debug.c
+  uefi/Utils.h
+  uefi/Utils.c
+  qdf/stdlib.c
+  qdf/os_efi.c
+  qdf/file.c
+  qdf/cfg.c
+  src/utils/common.c
+  src/utils/os_internal.c
+  src/utils/base64.c
+  src/utils/wpabuf.c
+  src/crypto/md5.c
+  src/crypto/md5-internal.c
+  src/crypto/sha1.c
+  src/crypto/sha1-prf.c
+  src/crypto/sha1-pbkdf2.c
+  src/crypto/sha1-internal.c
+  src/crypto/rc4.c
+  src/crypto/aes-unwrap.c
+  src/crypto/aes-internal-dec.c
+  src/crypto/aes-internal.c
+  #CMAC if no OpenSSL
+  #src/crypto/aes-omac1.c        
+  src/crypto/random.c
+  src/crypto/ms_funcs.c
+  src/crypto/md4-internal.c
+  src/crypto/aes-internal-enc.c
+  src/crypto/des-internal.c
+  src/crypto/sha256-internal.c
+  src/crypto/sha384-internal.c
+  src/crypto/sha512-internal.c
+  src/crypto/sha1-tlsprf.c
+  src/crypto/sha256-kdf.c
+  src/crypto/sha256-tlsprf.c
+  src/crypto/sha384-kdf.c
+  src/crypto/dh_groups.c
+  src/crypto/sha256.c
+  src/crypto/sha384.c
+  src/crypto/sha256-prf.c
+  src/crypto/sha384-prf.c
+  src/crypto/tls_internal.c
+  src/crypto/tls_openssl.c
+  src/crypto/crypto_internal.c
+  src/crypto/crypto_internal-rsa.c
+  src/crypto/crypto_internal-cipher.c
+  src/crypto/crypto_internal-modexp.c
+  src/crypto/crypto_openssl.c
+  src/rsn_supp/pmksa_cache.c
+  src/rsn_supp/wpa.c
+  src/rsn_supp/wpa_ie.c
+  src/rsn_supp/preauth.c
+  src/l2_packet/l2_packet_none.c
+  src/eap_peer/eap.c
+  src/eap_peer/eap_methods.c
+  src/eapol_supp/eapol_supp_sm.c
+  src/eap_common/eap_common.c
+  src/eap_common/chap.c
+  src/eap_common/eap_peap_common.c
+  src/eap_peer/eap_peap.c
+  src/eap_peer/eap_tls.c
+  src/eap_peer/eap_mschapv2.c
+  src/eap_peer/eap_ttls.c
+  src/eap_peer/eap_tls_common.c
+  src/eap_peer/mschapv2.c
+  src/tls/bignum.c
+  src/tls/asn1.c
+  src/tls/pkcs5.c
+  src/tls/pkcs8.c
+  src/tls/x509v3.c
+  src/tls/rsa.c
+  src/tls/pkcs1.c
+  src/tls/tlsv1_client.c
+  src/tls/tlsv1_client_ocsp.c
+  src/tls/tlsv1_client_read.c
+  src/tls/tlsv1_client_write.c
+  src/tls/tlsv1_cred.c
+  src/tls/tlsv1_common.c
+  src/tls/tlsv1_record.c
+  src/common/wpa_common.c
+  # SAE
+  src/common/sae.c
+  src/common/dragonfly.c
+
+[Packages.common]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  CryptoPkg/CryptoPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+[Packages.X64]
+  QcomWlanPkg/WlanSupplicantDxe/WlanSupplicantLib.dec
+[Packages.AArch64]
+  QcomPkg/QcomWlanPkg/WlanSupplicantDxe/WlanSupplicantLib.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  PrintLib
+  DebugLib
+  UefiLib
+  BaseMemoryLib
+  OpensslLib
+  BaseCryptLib
+  RngLib
+  EfiFileLib
+
+[Protocols]
+  gEfiSupplicantServiceBindingProtocolGuid
+  gEfiSupplicantProtocolGuid
+  gEfiEapConfigurationProtocolGuid
+  gEfiRngProtocolGuid
+
+[Guids]
+  gEfiFileInfoGuid
+
+[BuildOptions]
+  DEFINE COMMON_RELEASE_CC_FLAGS = -D CONFIG_NO_STDOUT_DEBUG -D SUPPORT_DEBUG_PRINT=0
+  DEFINE COMMON_BUILD_CC_FLAGS = -D OS_NO_C_LIB_DEFINES -D CONFIG_UEFI -D CONFIG_ECC -D CONFIG_SHA256 -D CONFIG_SHA384 -D CONFIG_CRYPTO_INTERNAL -D CONFIG_TLS_INTERNAL_CLIENT -D CONFIG_INTERNAL_LIBTOMMATH -D CONFIG_TLSV12 -D EAP_MSCHAPv2 -D EAP_TLS -D CONFIG_EAP_MD5 -D CONFIG_EAP_PEAP -D CONFIG_EAP_PEAP -D CONFIG_EAP_TTLS -D CONFIG_EAP_FAST -D IEEE8021X_EAPOL -D CONFIG_IEEE80211W -D CONFIG_OPENSSL_CMAC -D CONFIG_SAE -D CONFIG_SUITEB -D CONFIG_SUITEB192 
+
+  MSFT:DEBUG_*_*_CC_FLAGS    == /nologo /c /WX /GS- /W4 /Gs32768 /D UNICODE /O1b2s /FIAutoGen.h /EHs-c- /GR- /GF /Gy /Zi /X
+  MSFT:RELEASE_*_*_CC_FLAGS  == /nologo /c /WX /GS- /W4 /Gs32768 /D UNICODE /O1b2s /FIAutoGen.h /EHs-c- /GR- /GF /Gy /X
+  MSFT:*_*_*_CC_FLAGS = /wd4090 /wd4164 /wd4189 /wd4200 /wd4204 /wd4244 /wd4267 /wd4334 /wd4389 /wd4702 /wd4706 /wd4996
+
+  MSFT:RELEASE_*_*_CC_FLAGS = $(COMMON_RELEASE_CC_FLAGS)
+  MSFT:*_*_*_CC_FLAGS = $(COMMON_BUILD_CC_FLAGS)
+
+  GCC:RELEASE_*_*_CC_FLAGS = $(COMMON_RELEASE_CC_FLAGS)
+  GCC:*_*_*_CC_FLAGS = $(COMMON_BUILD_CC_FLAGS) -D SUPPORT_SERIAL_PORT_DEBUG=1
+

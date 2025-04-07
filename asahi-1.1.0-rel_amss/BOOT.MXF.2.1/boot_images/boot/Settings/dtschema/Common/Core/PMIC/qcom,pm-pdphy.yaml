@@ -1,0 +1,96 @@
+# Copyright (c) 2022-2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,pm-pdphy.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm PM PDPHY
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   Qualcomm PMIC PDPHY configurations for mini usb-pd boot without battery.
+   Includes values for how long the driver will wait for the first message, and max driver run time, etc...
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,pm-pdphy
+
+  battery-low-threshold-mv:
+    description:  threshold  that determines if battery state is dead/non-existent or low
+      value is in millivolts and this value is per cell. for 3S the threshold will be this value x 3
+    minimum: 0
+    maximum: 3500
+    default: 3400
+
+  battery-high-threshold-mv:
+    description:  threshold that determines if battery state is low or good
+      value is in millivolts and this value is per cell. for 3S the threshold will be this value x 3
+    minimum: 3400
+    default: 3500
+
+  no-battery-charger-threshold-mw:
+    description: input charger power threshold to boot to UEFI for the case of no battery
+      Value in milliwatts. If lower than this value, device will shutdown
+    minimum: 5000
+    maximum: 15000
+    default: 7500
+    
+  low-battery-charger-threshold-mw:
+    description: input charger power threshold to boot to UEFI for the case of low battery
+      Value in milliwatts. If lower than this value, device will shutdown
+    default: 15000
+
+  first-msg-wait-time-us:
+    description: If device is connected to a dock, the dock will send messages even after the power contract.
+      If a wall charger is connected, it won't send a message after power contract
+      This timeout will determine how long driver would wait for the first message right after power contract negotiation
+      Value in microseconds
+    minimum: 300000
+    maximum: 2000000
+    default: 500000
+
+  done-timeout-us:
+    description: This is the hard timer for the driver since there might be a case where the connected dock won't stop talking. 
+      This value is the the absolute maximum amount of time this driver will run in SBL
+    minimum: 1000000
+    maximum: 4000000
+    default: 2000000
+
+  usbpd-enable:
+    description: to enable or disable mini-usbpd driver in sbl that can boot without battery
+      by doing pd negotiations
+    $ref: /schemas/types.yaml#/definitions/uint8
+    enum:
+      - 0
+      - 1
+      
+required:
+  - compatible
+  - battery-low-threshold-mv
+  - battery-high-threshold-mv
+  - no-battery-charger-threshold-mw
+  - low-battery-charger-threshold-mw
+  - first-msg-wait-time-us
+  - done-timeout-us
+  - usbpd-enable
+
+additionalProperties: false
+
+examples:
+  - |
+    pdphy {
+      compatible = "qcom,pm-pdphy";
+      usbpd-enable = /bits/ 8 <(1)>;
+      battery-low-threshold-mv = <3400>; /* in milliVolts. 3.4V. If under 3.4V per cell, considered no battery */
+      battery-high-threshold-mv = <3500>; /* in milliVolts. 3.5V. if battery voltage greater than 3.5V per cell, good to boot */
+      no-battery-charger-threshold-mw = <15000>; /* in milliWatts. 15000mW will be 15W */
+      low-battery-charger-threshold-mw = <7500>; /* in milliWatts. 7500mW will be 7.5W */
+      first-msg-wait-time-us = <500000>; /* in microseconds. 500000us will be 500ms*/
+      done-timeout-us = <2000000>; /* in microseconds. 2000000us will be 2s*/
+    };

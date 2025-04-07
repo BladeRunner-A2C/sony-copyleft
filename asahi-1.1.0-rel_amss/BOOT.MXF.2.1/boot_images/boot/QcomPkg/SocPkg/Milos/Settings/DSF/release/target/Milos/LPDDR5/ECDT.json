@@ -1,0 +1,6593 @@
+{
+
+    "name": "ECDT.json",
+
+    "description": "eCDT entry file",
+
+    "platform": "SM8650 (Milos) v1",
+
+    "platformCode": "1",
+
+    "version": "2.2",
+
+    "ConfigName": ".ecdt_config_SM8650_LP5.json",
+
+    "data": [
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": []
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40901
+
+                            ],
+
+                            "index": 1
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40902
+
+                            ],
+
+                            "index": 2
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40903
+
+                            ],
+
+                            "index": 3
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40904
+
+                            ],
+
+                            "index": 4
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40923
+
+                            ],
+
+                            "index": 5
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40943
+
+                            ],
+
+                            "index": 6
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40944
+
+                            ],
+
+                            "index": 7
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40945
+
+                            ],
+
+                            "index": 8
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40946
+
+                            ],
+
+                            "index": 9
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40947
+
+                            ],
+
+                            "index": 10
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40948
+
+                            ],
+
+                            "index": 11
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40949
+
+                            ],
+
+                            "index": 12
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40950
+
+                            ],
+
+                            "index": 13
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40953
+
+                            ],
+
+                            "index": 14
+
+                        }
+
+                    ],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "1",
+
+                "name": "Samsung"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": "20",
+
+                "name": "12Gb"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "9",
+
+                "name": "9"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": "17",
+
+                "name": "11"
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [
+
+                    {
+
+                        "color": null,
+
+                        "hexcode": 2,
+
+                        "hf": [
+
+                            0,
+
+                            0,
+
+                            0,
+
+                            0,
+
+                            1,
+
+                            1,
+
+                            1
+
+                        ],
+
+                        "lf": [
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            0
+
+                        ],
+
+                        "param": "VDD2L",
+
+                        "value": "940"
+
+                    }
+
+                ],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "0"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 1
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 2
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 3
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51711
+
+                            ],
+
+                            "index": 4
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 5
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 6
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 7
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 8
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 9
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 10
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 11
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 12
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 13
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 14
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 15
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 16
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 17
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 18
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 19
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63488
+
+                            ],
+
+                            "index": 20
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51520
+
+                            ],
+
+                            "index": 21
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 22
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 23
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 24
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 25
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 26
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 27
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 28
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 29
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 30
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 31
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 32
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 33
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 34
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 35
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 36
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 37
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 38
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 39
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 40
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 41
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 42
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 43
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 44
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 45
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 46
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                63744
+
+                            ],
+
+                            "index": 47
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51456
+
+                            ],
+
+                            "index": 48
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 49
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 50
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 51
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 52
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 53
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 54
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 55
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 56
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 57
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 58
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 59
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 60
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 61
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 62
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 63
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 64
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 65
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51520
+
+                            ],
+
+                            "index": 66
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 67
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 68
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 69
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 70
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 71
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 72
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 73
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 74
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 75
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51584
+
+                            ],
+
+                            "index": 76
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 77
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 78
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 79
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 80
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51584
+
+                            ],
+
+                            "index": 81
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 82
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 83
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 84
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 85
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 86
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 87
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 88
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 89
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 90
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 91
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 92
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 93
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 94
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 95
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 96
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 97
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51456
+
+                            ],
+
+                            "index": 98
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 99
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 100
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 101
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 102
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 103
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 104
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 105
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 106
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 107
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 108
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 109
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 110
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 111
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 112
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 113
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 114
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 115
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 116
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 117
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51456
+
+                            ],
+
+                            "index": 118
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 119
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 120
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 121
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 122
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 123
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 124
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 125
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 126
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 127
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 128
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 129
+
+                        }
+
+                    ],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "1",
+
+                "name": "Samsung"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": "24",
+
+                "name": "16Gb"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "9",
+
+                "name": "9"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": "17",
+
+                "name": "11"
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [
+
+                    {
+
+                        "color": null,
+
+                        "hexcode": 2,
+
+                        "hf": [
+
+                            0,
+
+                            0,
+
+                            0,
+
+                            0,
+
+                            1,
+
+                            1,
+
+                            1
+
+                        ],
+
+                        "lf": [
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            1,
+
+                            0
+
+                        ],
+
+                        "param": "VDD2L",
+
+                        "value": "940"
+
+                    }
+
+                ],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "0"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 1
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 2
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 3
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51711
+
+                            ],
+
+                            "index": 4
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 5
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 6
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 7
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 8
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 9
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 10
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 11
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 12
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 13
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 14
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 15
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 16
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 17
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 18
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 19
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63488
+
+                            ],
+
+                            "index": 20
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51520
+
+                            ],
+
+                            "index": 21
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 22
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 23
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 24
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 25
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 26
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 27
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 28
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 29
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 30
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 31
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 32
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 33
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 34
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 35
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 36
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 37
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 38
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 39
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 40
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 41
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 42
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 43
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 44
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 45
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 46
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                63744
+
+                            ],
+
+                            "index": 47
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51456
+
+                            ],
+
+                            "index": 48
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 49
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 50
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 51
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 52
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 53
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 54
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 55
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 56
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 57
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 58
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 59
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 60
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 61
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 62
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 63
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 64
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 65
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51520
+
+                            ],
+
+                            "index": 66
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 67
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 68
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 69
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 70
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 71
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 72
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 73
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 74
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 75
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51584
+
+                            ],
+
+                            "index": 76
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 77
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 78
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 79
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 80
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51584
+
+                            ],
+
+                            "index": 81
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 82
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 83
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 84
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 85
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 86
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 87
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 88
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 89
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 90
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 91
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51472
+
+                            ],
+
+                            "index": 92
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 93
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 94
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 95
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 96
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 97
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 98
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 99
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51584
+
+                            ],
+
+                            "index": 100
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51584
+
+                            ],
+
+                            "index": 101
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 102
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51456
+
+                            ],
+
+                            "index": 103
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 104
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 105
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 106
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 107
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 108
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 109
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 110
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 111
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 112
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 113
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 114
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 115
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51472
+
+                            ],
+
+                            "index": 116
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51584
+
+                            ],
+
+                            "index": 117
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 118
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 119
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 120
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51584
+
+                            ],
+
+                            "index": 121
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 122
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51456
+
+                            ],
+
+                            "index": 123
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 124
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 125
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 126
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 127
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 128
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 129
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 130
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 131
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 132
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 133
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 134
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 135
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 136
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 137
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 138
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 139
+
+                        }
+
+                    ],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "1",
+
+                "name": "Samsung"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "9",
+
+                "name": "9"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": "0",
+
+                "name": "0"
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "1",
+
+                "name": "Samsung"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "9",
+
+                "name": "9"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": "8",
+
+                "name": "8"
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "1",
+
+                "name": "Samsung"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "9",
+
+                "name": "9"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": "9",
+
+                "name": "9"
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [
+
+                {
+
+                    "comments": null,
+
+                    "entry": [
+
+                        39687,
+
+                        62983
+
+                    ],
+
+                    "index": 0
+
+                }
+
+            ],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "1",
+
+                        "enableName": "Enable",
+
+                        "sf_default": "0"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 1
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 2
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51488
+
+                            ],
+
+                            "index": 3
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51711
+
+                            ],
+
+                            "index": 4
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 5
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 6
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 7
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 8
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 9
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 10
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 11
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 12
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 13
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 14
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 15
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 16
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 17
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 18
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 19
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51464
+
+                            ],
+
+                            "index": 20
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 21
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51457
+
+                            ],
+
+                            "index": 22
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 23
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 24
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 25
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 26
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 27
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 28
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 29
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51584
+
+                            ],
+
+                            "index": 30
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 31
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51458
+
+                            ],
+
+                            "index": 32
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 33
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 34
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 35
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 36
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 37
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 38
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 39
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63488
+
+                            ],
+
+                            "index": 40
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                64256
+
+                            ],
+
+                            "index": 41
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51460
+
+                            ],
+
+                            "index": 42
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 43
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 44
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 45
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51460
+
+                            ],
+
+                            "index": 46
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 47
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 48
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 49
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                63744
+
+                            ],
+
+                            "index": 50
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51464
+
+                            ],
+
+                            "index": 51
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 52
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 53
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 54
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 55
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51458
+
+                            ],
+
+                            "index": 56
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 57
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 58
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 59
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51520
+
+                            ],
+
+                            "index": 60
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51457
+
+                            ],
+
+                            "index": 61
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40833,
+
+                                64256
+
+                            ],
+
+                            "index": 62
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                40832,
+
+                                51456
+
+                            ],
+
+                            "index": 63
+
+                        },
+
+                        {
+
+                            "comments": null,
+
+                            "entry": [
+
+                                51456
+
+                            ],
+
+                            "index": 64
+
+                        }
+
+                    ],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "6",
+
+                "name": "SK Hynix"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "8",
+
+                "name": "8"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "255",
+
+                "name": "Micron"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": "1",
+
+                "name": "Single-Rank"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "8",
+
+                "name": "8"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "1",
+
+                        "enableName": "Enable",
+
+                        "sf_default": "1"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "type": {
+
+                "hexcode": "0",
+
+                "name": "Qualcomm"
+
+            },
+
+            "manufacturing_id": {
+
+                "hexcode": "255",
+
+                "name": "Micron"
+
+            },
+
+            "rank_select": {
+
+                "hexcode": "3",
+
+                "name": "Dual-Rank"
+
+            },
+
+            "package_type": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "density": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1": {
+
+                "hexcode": "8",
+
+                "name": "8"
+
+            },
+
+            "revision_id_2": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "density_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "revision_id_1_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "revision_id_2_rank_1": {
+
+                "hexcode": null,
+
+                "name": null
+
+            },
+
+            "io_width_rank_1": {
+
+                "hexcode": null,
+
+                "name": "No restrictions"
+
+            },
+
+            "MRMatchs": [],
+
+            "packet_list": [],
+
+            "overEntrie": {
+
+                "DisableFreq": [],
+
+                "VoltageLevel": [],
+
+                "jedcAcTimings": [],
+
+                "platform_id": [],
+
+                "safeModes": [
+
+                    {
+
+                        "hexcode": "16",
+
+                        "name": "Enable DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "1"
+
+                    },
+
+                    {
+
+                        "hexcode": "28",
+
+                        "name": "Enable Enhanced DVFSC Mode",
+
+                        "description": null,
+
+                        "enableID": "0",
+
+                        "enableName": "Disable",
+
+                        "sf_default": "0"
+
+                    }
+
+                ]
+
+            },
+
+            "tmrs_entries": null,
+
+            "MRSequences": null,
+
+            "MRSequenceGroups": [
+
+                {
+
+                    "MRSequences": [],
+
+                    "enable": true,
+
+                    "name": "New"
+
+                }
+
+            ]
+
+        }
+
+    ]
+
+}

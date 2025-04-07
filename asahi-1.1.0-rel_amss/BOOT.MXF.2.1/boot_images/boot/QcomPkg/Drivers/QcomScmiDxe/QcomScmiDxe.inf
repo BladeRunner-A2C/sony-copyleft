@@ -1,0 +1,52 @@
+#/** @file
+#
+#  Copyright (c) 2017-2021, Arm Limited. All rights reserved.<BR>
+#  Copyright (c) 2023, Qualcomm Technologies, Inc. All Rights Reserved.<BR>
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#  System Control and Management Interface V1.0
+#    http://infocenter.arm.com/help/topic/com.arm.doc.den0056a/
+#    DEN0056A_System_Control_and_Management_Interface.pdf
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010019
+  BASE_NAME                      = QcomScmiDxe
+  FILE_GUID                      = 9585984C-F027-45E9-AFDF-ADAA6DFAAAC7
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = QcomScmiDxeEntryPoint
+
+[Sources.common]
+  QcomScmiBaseProtocol.c
+  QcomScmi.c
+  QcomScmiDxe.c
+  QcomScmiVendorProtocol.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  ArmPkg/ArmPkg.dec
+  ArmPlatformPkg/ArmPlatformPkg.dec
+  MdePkg/MdePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  ArmLib
+  QcomArmMtlLib
+  DebugLib
+  IoLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  ScmiPlatformLib
+
+[Protocols]
+  gArmScmiBaseProtocolGuid
+  gArmScmiQcomVendorProtocolGuid
+  gEfiChipInfoProtocolGuid
+  
+[FixedPcd]
+  gQcomTokenSpaceGuid.PcdCorePerCluster
+  
+[Depex]
+  gEfiMBoxIPCProtocolGuid
+

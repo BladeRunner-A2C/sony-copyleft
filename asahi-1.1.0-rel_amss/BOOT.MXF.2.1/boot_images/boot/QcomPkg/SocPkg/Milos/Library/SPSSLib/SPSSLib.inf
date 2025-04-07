@@ -1,0 +1,77 @@
+#/** @file SPSSDxe.inf
+#
+#  Qualcomm SPSS driver INF file
+#
+#  Copyright (c) 2019, 2023, Qualcomm Technologies Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when         who     what, where, why
+# ----------   ---     ----------------------------------------------------------
+# 02/16/23     eb      Add Support for sharing Keymint info with SPU
+# 01/03/23     vp      Comment out BuildOptions.AARCH64 field
+# 06/21/19     as      Add IAR support
+# 06/05/19     av      Initial version - introduce driver that loads SPSS
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = SPSSLib
+  FILE_GUID                      = 5D787B6C-6254-43F5-A7A8-CB25329Cf97E
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = SPSSLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = ARM, AARCH64
+#
+
+[Sources]
+  SPSSLib.c
+  spss_iar.c
+  keymint_info.c
+
+#[BuildOptions.AARCH64]
+  #GCC:*_*_*_CC_FLAGS = -Wno-unused-but-set-variable
+
+#[BuildOptions.AARCH64]
+  #GCC:*_*_*_CC_FLAGS = -O0
+
+[Packages]
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  NpaApiLib
+  UefiLib
+  QcomLib
+  ULogApiLib
+  ReportStatusCodeLib
+  UncachedMemoryAllocationLib
+  
+[Guids]
+  gEfiHashAlgorithmSha256Guid
+
+[Protocols]
+  gEfiLoadedImageProtocolGuid
+  gEfiPilProtocolGuid
+  gEfiChipInfoProtocolGuid
+  gEfiHwioProtocolGuid
+  gQcomScmProtocolGuid
+  gPILProxySPSSGuid
+  gEfiQcomSPSSProtocolGuid
+
+[Depex]
+  gEfiDalSysProtocolGuid
+

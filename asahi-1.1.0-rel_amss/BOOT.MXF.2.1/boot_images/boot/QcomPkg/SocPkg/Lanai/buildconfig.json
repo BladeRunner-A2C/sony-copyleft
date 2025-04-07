@@ -1,0 +1,393 @@
+{
+    "Components": [{
+            "Name": "XBL_SC",
+            "Binary": "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/xbl_sc.elf"
+        },
+        {
+            "Name": "TME_FW",
+            "Binary": "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/signed_firmware_soc_view.elf"
+        },
+        {
+            "Name": "TME_SEQ_RAM",
+            "Binary": "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/sequencer_ram.elf"
+        },
+        {
+            "Name": "XBL_Ramdump",
+            "Process": [{
+                    "ToolChain": "CLANG160",
+					"Createfolders": ["$LOGDIR"],
+                    "AArch": "AARCH64",
+                    "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/Common/Ramdump.dsc", "--verbose", "-j", "$LOGDIR/Lanai_$VAR_build_Ramdump_$REL.log", "-w", "-a", "AARCH64", "-b", "$REL"]
+                }
+            ]
+        },
+        {
+            "Name": "DevPrg_ddr",
+            "Process": [{
+                    "ToolChain": "CLANG160",
+					"Createfolders": ["$LOGDIR"],
+                    "AArch": "AARCH64",
+                    "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/Common/DevprogD.dsc", "--verbose", "-j", "$LOGDIR/Lanai_$VAR__DevprogD_$REL.log", "-w", "-a", "AARCH64", "-b", "$REL"]
+                }
+            ]
+        },
+        {
+            "Name": "DevPrg_lite",
+            "Process": [{
+                "ToolChain": "CLANG160",
+				"Createfolders": ["$LOGDIR"],
+                "AArch": "AARCH64",
+                "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/Common/DevprogL.dsc", "--verbose", "-j", "$LOGDIR/Lanai_$VAR_build_DevprogL$REL.log", "-w", "-a", "AARCH64", "-b", "$REL"]
+            }]
+        },
+        {
+            "Name": "XBL_Core",
+            "Process": [{
+                    "ToolChain": "CLANG160",
+					"Createfolders": ["$LOGDIR"],
+                    "AArch": "AARCH64",
+                    "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/$VAR/Core.dsc", "-j", "$LOGDIR/Lanai_$VAR_build_Core_$REL.log", "-w", "-a", "AARCH64", "-b", "$REL", "-y", "XBLCore_build_report.txt"]
+                }, {
+                    "ToolChain": "Pack",
+                    "Params": ["$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/FVMAIN_COMPACT.Fv", "$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/uefi.elf", "0xA7000000", "elf", "64","nohash"]
+                }
+            ]
+        },
+        {
+            "Name": "DDI",
+            "Process": [{
+                    "ToolChain": "CLANG160",
+					"Createfolders": ["$LOGDIR"],
+                    "AArch": "AARCH64",
+                    "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/Common/DDI.dsc", "--verbose", "-j", "$LOGDIR/Lanai_$VAR_build_DDI_$REL.log", "-w", "-a", "AARCH64", "-b", "$REL"]
+                }
+            ]
+        }, {
+            "Name": "Pmic",
+            "Process": [{
+                    "ToolChain": "CLANG160",
+					"Createfolders": ["$LOGDIR"],
+                    "AArch": "AARCH64",
+                    "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/Common/Pmic.dsc", "--verbose", "-j", "$LOGDIR/Lanai_$VAR_build_Pmic_$REL.log", "-w", "-a", "AARCH64", "-b", "$REL"]
+                }
+            ]
+        }, {
+            "Name": "JtagProgrammer",
+            "Process": [{
+                    "ToolChain": "CLANG160",
+					"Createfolders": ["$LOGDIR"],
+                    "AArch": "AARCH64",
+                    "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/Common/JtagProgrammer.dsc", "--verbose", "-j", "$LOGDIR/Lanai_$VAR_build_JtagProgrammer_$REL.log", "-w", "-a", "AARCH64", "-b", "$REL"]
+                }
+            ]
+        }, {
+            "Name": "LoaderTest",
+            "Process": [{
+                    "ToolChain": "CLANG160",
+					"Createfolders": ["$LOGDIR"],
+                    "AArch": "AARCH64",
+                    "Params": ["$EDK2ROOT/BaseTools/Source/Python/build/build.py", "-p", "QcomPkg/SocPkg/Lanai/Common/LoaderTest.dsc", "-j", "$LOGDIR/Lanai_$VAR_build_LoaderTest.log", "-w", "-a", "AARCH64", "-b", "$REL"]
+                }
+            ]
+        }, {
+            "Name": "DTS",
+            "Process": [{
+                    "ToolChain": "Gendtb",
+                    "Createfolders": ["$BUILDROOT/Build/Lanai$VAR/DTC"],
+                    "Params": ["-f", "$BOOTROOT/Settings/Soc/Lanai/post-ddr-lanai-1.0.dts", "-o", "$BUILDROOT/Build/Lanai$VAR/DTC/", "-c", "$BUILDROOT/../../tools/llvm/release/arm/16.0.2/bin", "-d", "$BUILDROOT/../../tools/dtc/1.7.0", "-i", "Settings/Soc/Lanai/Include Settings/Platform/Lanai_Default/Include Settings/Include"]
+                },
+                {
+                    "ToolChain": "Gendtb",
+                    "Createfolders": ["$BUILDROOT/Build/Lanai$VAR/DTC"],
+                    "Params": ["-f", "$BOOTROOT/Settings/Soc/Lanai/pre-ddr-lanai-1.0.dts", "-o", "$BUILDROOT/Build/Lanai$VAR/DTC/", "-c", "$BUILDROOT/../../tools/llvm/release/arm/16.0.2/bin", "-d", "$BUILDROOT/../../tools/dtc/1.7.0", "-i", "Settings/Soc/Lanai/Include Settings/Include"]
+                },
+                {
+                    "ToolChain": "qc_dt_schema_check",
+					"Createfolders": ["$BUILDROOT/Build/Lanai$VAR/DTSCHEMA/QC_DT_SCHEMA_CHECK"],
+                    "Params": [
+                               "-d", "$BUILDROOT/../../tools/dtc/1.7.0",
+                               "-p", "$BUILDROOT/../../tools/llvm/release/arm/16.0.2/bin",
+                               "-y", "$BOOTROOT/Settings/dtschema/Common",
+                               "-t", "$BOOTTOOLS/dtschema_tools/oss",
+							   "-o", "$BUILDROOT/Build/Lanai$VAR/DTSCHEMA/QC_DT_SCHEMA_CHECK",
+							   "-r", "project_schema.yaml",
+                               "-v",
+                               "-n", "$BUILDROOT/../../tools/python/3.8.2/bin",
+                               "-c"
+                              ]
+                },
+                {
+                    "ToolChain": "qc_dt_check",
+					"Createfolders": ["$BUILDROOT/Build/Lanai$VAR/DTSCHEMA/QC_DT_CHECK"],
+                    "Params": [
+                               "-d", "$BUILDROOT/../../tools/dtc/1.7.0",
+                               "-p", "$BUILDROOT/../../tools/llvm/release/arm/16.0.2/bin",
+                               "-u", "$BUILDROOT/Build/Lanai$VAR/DTC/", 
+                               "-r", "$BUILDROOT/Build/Lanai$VAR/DTSCHEMA/QC_DT_SCHEMA_CHECK/project_schema.yaml",
+                               "-t", "$BOOTTOOLS/dtschema_tools/oss",
+                               "-i", "$BOOTROOT/Settings/Soc/Lanai/Include", "$BOOTROOT/Settings/Include", "$BOOTROOT/Settings/Platform/Lanai_Default/Include",
+							   "-o", "$BUILDROOT/Build/Lanai$VAR/DTSCHEMA/QC_DT_CHECK",
+                               "-v"
+                              ]
+                }
+            ]
+        },
+        #TODO remove once deviceprogrammer is uinified
+        {
+            "Name": "DTS_DEVPRGL",
+            "Process": [{
+                    "ToolChain": "Gendtb",
+                    "Createfolders": ["$BUILDROOT/Build/Lanai$VAR/DTC"],
+                    "Params": ["-f", "$BOOTROOT/Settings/Soc/Lanai/pre-ddr-lanai-1.0.dts", "-o", "$BUILDROOT/Build/Lanai$VAR/DTC/", "-c", "$CLANG160", "-d", "$DTC", "-i", "Settings/Soc/Lanai/Include Settings/Include", "-m", "DEVICE_PROGRAMMER_LITE"]
+                }
+            ]
+        }
+    ],
+    "CreateImages": [
+        {
+            "Name": "XBL_S",
+            "Process": [{
+                    "ToolChain": "Network_Sign_v2",
+                    "Components": ["XBL_SC", "TME_FW", "TME_SEQ_RAM"],
+                    "CreateFolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign"],
+                    "Params": [
+                        "secure-image", "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/xbl_sc.elf",
+                        "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/xbl_sc.elf",
+                        "--image-id", "XBL-SC",
+                        "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign",
+                        "--signing-mode", "TEST"]
+                }, {
+                    "ToolChain": "Copy",
+                    "Params": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/xbl_sc.elf", "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/xbl_sc.elf"]
+                }, 
+				{
+                    "ToolChain": "Network_Sign_v2",
+                    "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign"],
+                    "Params": [
+                        "secure-image","$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/signed_firmware_soc_view.elf",
+                        "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/signed_firmware_soc_view.elf",
+                        "--image-id", "TME-FW",
+                        "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign",
+                        "--signing-mode", "TEST"]
+                },  {
+                    "ToolChain": "Copy",
+                    "Params": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/signed_firmware_soc_view.elf", "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/signed_firmware_soc_view.elf"]
+                },
+				{
+                    "ToolChain":"Create_Melf",
+                    "Params": ["-o",
+                        "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_s.melf",
+                        "-f",
+                        "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/sequencer_ram.elf,$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/signed_firmware_soc_view.elf,$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/xbl_sc.elf"]
+                }
+            ]
+        }, {
+            "Name": "XBL_RAMDUMP",
+            "Process": [{
+                    "ToolChain": "Copy",
+                    "Components": ["XBL_Ramdump"],
+                    "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"],
+                    "Params": ["$BUILDROOT/Build/Lanai$VAR/RamDump/$REL_$COMPILER/$AARCH/XBLRamDump.elf", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned/XblRamdump.elf"]
+                }, {
+                    "ToolChain": "Network_Sign_v2",
+                    "Components": ["XBL_Ramdump"],
+                    "CreateFolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign"],
+                    "Params": [
+                        "secure-image", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned/XblRamdump.elf",
+                        "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/xblramdump/XblRamdump.elf",
+                        "--image-id", "XBL-RAM-DUMP",
+                        "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign",
+                        "--signing-mode", "TEST"]
+                }, {
+                    "ToolChain": "Copy",
+                    "Params": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/xblramdump/XblRamdump.elf", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL"]
+                }
+            ]
+        }, {
+            "Name": "UEFI",
+            "Process": [{
+                    "ToolChain": "Copy",
+                    "Components": ["XBL_Core"],
+                    "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"],
+                    "Params": ["$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/uefi.elf", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"]
+
+                }, {
+                    "ToolChain": "Network_Sign_v2",
+                    "Params": [
+                        "secure-image", "$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/uefi.elf",
+                        "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/uefi/uefi.elf",
+                        "--image-id", "UEFI",
+                        "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign",
+                        "--signing-mode", "TEST"]
+                }, {
+                    "ToolChain": "Copy",
+                    "Params": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/uefi/uefi.elf","$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/uefi.elf"]
+                }
+            ]
+        },
+        {
+            "Name": "XBL_S_DEVPRG_NS",
+            "Process": [{
+                    "ToolChain": "GenXBLConfig",
+                    "Components": ["DTS"],
+                    "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL", "$BUILDROOT/Build/Lanai$VAR/xblconfigdevprg"],
+                    "Params": ["-i", "$BOOTROOT/$TARGETROOT/$VAR/create_xbl_config_dev_prg.json",
+                        "-b", "$BUILDROOT",
+                        "--sectools_directory", "$SECTOOLSROOT",
+                        "--tools_path", "$BOOTTOOLS/XBLConfig",
+                        "-f", "ELF",
+                        "--output-file", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_config_devprg",
+                        "--autogen_directory", "$BUILDROOT/Build/Lanai$VAR/xblconfigdevprg",
+                        "--elf-address", "0x1494E000",
+                        "--security_profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign_id", "XBL-CONFIG",
+                        "--sectools_version", "v2",
+                        "--signing_mode","TEST"]
+                }, {
+                    "ToolChain": "Copy",
+                    "Components": ["DevPrg_ddr"],
+                    "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"],
+                    "Params": ["$BUILDROOT/Build/Lanai$VAR/DevprogD/$REL_$COMPILER/$AARCH/DevPrgD.elf", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned/prog_firehose_ddr.elf"]
+                }, {
+                    "ToolChain": "Network_Sign_v2",
+                    "Params": [
+                        "secure-image", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned/prog_firehose_ddr.elf",
+                        "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/devprgd/prog_firehose_ddr.elf",
+                        "--image-id", "DEVICE-PROGRAMMER",
+                        "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign",
+                        "--signing-mode", "TEST"]
+                }, {
+                    "ToolChain": "Create_Melf",
+                    "Components": ["XBL_SC", "TME_FW", "TME_SEQ_RAM", "DevPrg_ddr"],
+                    "Params": ["-o",
+                        "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_s_devprg_ns.melf",
+                        "-f",
+                        "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/sequencer_ram.elf,$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/signed_firmware_soc_view.elf,$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/xbl_sc.elf,$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/devprgd/prog_firehose_ddr.elf,$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_config_devprg.elf"
+                        ]
+                    }
+                ]
+        },
+        {
+            "Name": "XBL_S_DEVPRGL_NS",
+            "Process": [{
+                    "ToolChain": "GenXBLConfig",
+                    "Components": ["DTS", "DTS_DEVPRGL"],
+                    "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL", "$BUILDROOT/Build/Lanai$VAR/xblconfigdevprgl"],
+                    "Params": ["-i", "$BOOTROOT/$TARGETROOT/$VAR/create_xbl_config_dev_prg.json",
+                        "-b", "$BUILDROOT",
+                        "--sectools_directory", "$SECTOOLSROOT",
+                        "--tools_path", "$BOOTTOOLS/XBLConfig",
+                        "-f", "ELF",
+                        "--output-file", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_config_devprgl",
+                        "--autogen_directory", "$BUILDROOT/Build/Lanai$VAR/xblconfigdevprgl",
+                        "--elf-address", "0x1494E000",
+                        "--security_profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign_id", "XBL-CONFIG",
+                        "--sectools_version", "v2",
+                        "--signing_mode","TEST"]
+                }, {
+                    "ToolChain": "Copy",
+                    "Components": ["DevPrg_lite"],
+                    "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"],
+                    "Params": ["$BUILDROOT/Build/Lanai$VAR/DevprogL/$REL_$COMPILER/$AARCH/DevPrgL.elf", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned/prog_firehose_lite.elf"]
+                }, {
+                    "ToolChain": "Network_Sign_v2",
+                    "Params": [
+                        "secure-image", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned/prog_firehose_lite.elf",
+                        "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/devprgl/prog_firehose_lite.elf",
+                        "--image-id", "DEVICE-PROGRAMMER",
+                        "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                        "--sign",
+                        "--signing-mode", "TEST"]
+                }, {
+                    "ToolChain": "Create_Melf",
+                    "Components": ["XBL_SC", "TME_FW", "TME_SEQ_RAM", "DevPrg_lite"],
+                    "Params": ["-o",
+                        "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_s_devprgl_ns.melf",
+                        "-f",
+                        "$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/sequencer_ram.elf,$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/signed_firmware_soc_view.elf,$BOOTROOT/$TARGETROOT/Bin_ext/$VAR/QC_sign/xbl_sc.elf,$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/devprgl/prog_firehose_lite.elf,$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_config_devprgl.elf"
+                        ]
+                    }
+                ]
+        },
+            {
+                "Name": "JtagProgrammer",
+                "Process": [{
+                        "ToolChain": "Copy",
+                        "Components": ["JtagProgrammer"],
+                        "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"],
+                        "Params": ["$BUILDROOT/Build/Lanai$VAR/JtagProgrammer/$REL_$COMPILER/$AARCH/QcomPkg/Library/JtagProgrammerLib/JtagProgrammer/DEBUG/JtagProgrammer.dll", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned/JtagProgrammer.elf"]
+                    }, {
+                        "ToolChain": "Copy",
+                        "Params": ["$BUILDROOT/Build/Lanai$VAR/JtagProgrammer/$REL_$COMPILER/$AARCH/QcomPkg/Library/JtagProgrammerLib/JtagProgrammer/DEBUG/JtagProgrammer.dll", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/JtagProgrammer.elf"]
+                    }
+                ]
+            }, {
+                "Name": "xbl_config",
+                "Process": [{
+                            "ToolChain": "GenXBLConfig",
+                            "Components": ["DTS"],
+                            "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL", "$BUILDROOT/Build/Lanai$VAR/xblconfig"],
+                            "Params": ["-i", "$BOOTROOT/$TARGETROOT/$VAR/create_xbl_config.json",
+                                "-b", "$BUILDROOT",
+                                "--sectools_directory", "$SECTOOLSROOT",
+                                "--tools_path", "$BOOTTOOLS/XBLConfig",
+                                "-f", "ELF",
+                                "--output-file", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/xbl_config",
+                                "--autogen_directory", "$BUILDROOT/Build/Lanai$VAR/xblconfig",
+                                "--elf-address", "0x1494E000",
+                                "--security_profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                                "--sign_id", "XBL-CONFIG",
+                                "--sectools_version", "v2",
+                                "--signing_mode","TEST"]
+                        }
+                        ]
+                    }, {
+                "Name": "SHRM",
+                "Process": [{
+                        "ToolChain": "Network_Sign_v2",
+                        "Params": [
+                            "secure-image", "$BOOTROOT/QcomPkg/SocPkg/Lanai/Library/DSFTargetLib/release/target/Lanai/shrm.elf",
+                            "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/shrm.elf",
+                            "--image-id", "SHRM",
+                            "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tme_security_profile.xml",
+                            "--sign",
+                            "--signing-mode", "TEST"]
+                        }
+                        ]
+                    }
+                    , {
+                        "Name": "ImageFv",
+                        "Process": [{
+                                "ToolChain": "Pack",
+                                "Params": ["$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/IMAGEFV_COMPACT.Fv", "$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/imagefv.elf", "0x0", "elf", "32","nohash"]
+                            }, {
+                                "ToolChain": "Copy",
+                                "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"],
+                                "Params": ["$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/imagefv.elf", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/unsigned"]
+
+                            }, {
+                                "ToolChain": "Network_Sign_v2",
+                                "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign"],
+                                "Params": [
+                                    "secure-image", "$BUILDROOT/Build/Lanai$VAR/Core/$REL_$COMPILER/FV/imagefv.elf",
+                                    "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/imagefv.elf",
+                                    "--image-id", "UEFIFV",
+                                    "--security-profile", "$BUILDROOT/ssg_tmefwrel/profiles/lanai/lanai_tz_security_profile.xml",
+                                    "--sign",
+                                    "--signing-mode", "TEST"]
+                            }, {
+                                "ToolChain": "Copy",
+                                "Createfolders": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/uefifv"],
+                                "Params": ["$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/imagefv.elf", "$BOOTROOT/$TARGETROOT/Bin/$VAR/$REL/sign/default/uefifv/"]
+                            }
+                        ]
+                    }
+                ]
+
+            }

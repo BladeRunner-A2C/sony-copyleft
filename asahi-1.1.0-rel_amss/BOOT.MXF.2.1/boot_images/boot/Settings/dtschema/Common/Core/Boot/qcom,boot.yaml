@@ -1,0 +1,140 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,boot.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Boot DT
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible node...
+   Links Boot's specific details or configuration
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,boot
+ 
+  config:
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    description: client trace  verbose.
+
+  test_mode:
+    enum: [0x0, 0x1, 0x2]
+    description: 0x0 = DISABLE (default), 0x1 = ENABLE default test_mode behavior, 0x2 = ENABLE one time test.
+    
+  force_dump_to_usb:
+    enum: [0x0, 0x1]
+    description: 0x0 = 0x0 = PCIe_Flashless (default), 0x1 = USB_Flashless.
+    
+  xbl_sc_wdog:
+    enum: [0x0, 0x1]
+    description: DISABLE = 0x0, ENABLE = 0x1(default)
+
+  xbl_ramdump_wdog:
+    enum: [0x0, 0x1]
+    description: DISABLE = 0x0, ENABLE = 0x1(default)
+
+  skip_ddr_init_in_EDL:
+    enum: [0x0, 0x1]
+    description: Do not skip DDR init = 0x0(default), skip DDR init = 0x1 
+
+  vibration:
+    enum: [0x0, 0x1]
+    description: default action of vibration is enabled at start of XBL and disabled before exit 
+                 DISABLE = 0X0 - turn off vibration, ENABLE = 0x1 - turn on vibration
+
+  save_logs_to_media:
+    enum: [0x0, 0x1, 0x02]
+    description: save boot logs to storage for each boot in the boot log partition 
+                 0x0 = DISABLE (default), 0x1 = ENABLE Log buffer flush, 0x2 = ENABLE streaming logs
+
+  forced_download:
+    type: object
+    properties:
+      feature:
+        enum: [0x0, 0x1]
+        description: Enable(default)/Disable User initiated EDL in XBL
+
+      check_usb_option:
+        minItems: 1
+        maxItems: 1
+        description: default set to checking dp low initially and then high withing configured timeout
+
+      check_dp_timeout:
+        minItems: 1
+        maxItems: 1
+        description: Timeout in ms (maximum value is 10000 (10 seconds))
+                     Effective only if checks_dp_high is enabled
+
+      ignore_pwr_key:
+        enum: [0x0, 0x1]
+        description: Option to ignore power key pressed with VOL+ and VOL-
+                     ENABLE PWR key press will be ignored to enter EDL, DISABLE(default) PWR key press + VOL+/VOL- will not enter EDL
+    required:
+      - feature
+      - check_usb_option
+      - check_dp_timeout
+      - ignore_pwr_key
+
+  fedl_timeout:
+    type: object
+    properties:
+      ver:
+        minItems: 1
+        maxItems: 1
+        description: Property version
+
+      action:
+        minItems: 1
+        maxItems: 1
+        description: default action is hard reset
+
+    required:
+      - ver
+      - action
+        
+   
+    
+required:
+  - compatible
+  - config
+  - test_mode
+  - xbl_sc_wdog
+  - xbl_ramdump_wdog
+  - skip_ddr_init_in_EDL
+  - vibration
+  - save_logs_to_media
+  - forced_download
+  - fedl_timeout
+
+additionalProperties: false
+
+examples:
+  - |
+    boot {
+        compatible = "qcom,boot";
+        config = <0x0000 0x0000 0x0000>;
+        test_mode = <0x0>;  
+        xbl_sc_wdog = <1>;
+        xbl_ramdump_wdog = <0>;
+        skip_ddr_init_in_EDL = <0>;
+        vibration = <1>;
+        save_logs_to_media = <0x0>;
+        forced_download {
+                       feature = <1>;
+                       check_usb_option = <800>;
+                       check_dp_timeout = <10000>;
+                       ignore_pwr_key = <0>;
+        };
+        fedl_timeout {
+                    ver = <567>;
+                    action = <67>;
+        };
+    };

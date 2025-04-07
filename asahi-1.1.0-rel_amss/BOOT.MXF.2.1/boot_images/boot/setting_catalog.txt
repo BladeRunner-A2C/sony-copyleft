@@ -1,0 +1,156 @@
+-Get Strated-
+    --Env setup--
+        ...
+    --Qgroup--
+        ...
+    --Sync code--
+        ...
+    --Build--
+        ...
+    --Download--
+        ...
+    --Promote code--
+        ...
+
+-Boot infra-
+    --Layout--
+        ...
+    --Boot up--
+        ...
+    --Ram dump--
+        ...
+    --Dev prg--
+        ...
+    --Debug--
+        ---Build infrastructure---
+           HowToBuildReadme.rst
+
+        ---Display---
+           CallgraphReadme.rst
+           CustomSplashLogo.rst
+           DisplayConfiguration.rst
+           DisplayFastbootCmds.rst
+           DispRegCompare.rst
+           mmu.rst
+
+        ---DTB---
+           DTBExtnLib.rst
+
+        ---UEFI---
+           DebuggingAppPkg.rst
+           DebuggingUEFI.rst
+           DebuggingStackTrace.rst
+           HowToAddPanel.rst
+           ImageFv.rst
+           MultiThreading.rst
+           TestingUEFI.rst
+           UEFICrashdumps.rst
+           UefiLogBufferSizeConfigReadme.rst
+           UEFISchedulerUnsafeStackSupport.rst
+
+        ---SBL---
+           SBLCrashdumps.rst
+
+-Build infra-
+    --Boot build infra--
+        ...
+    --Sdk build infra--
+        ...
+    --Doc build infra--
+        ...
+
+-Driver Model-
+    --ADC--
+        ...
+
+    --PMIC--
+        ...
+
+    --TLMM--
+        ...
+
+-Opensource-
+    --edk2--
+        ...
+
+    --CoreBoot--
+        ...
+
+
+
+-SDK-
+    ==API Stats==
+        API_Stats.rst
+        
+    ==Platform Overview==
+        Platform_Overview.rst
+    
+    --Version & Description--
+    Initial Version 1.0
+        ---Version 1.0---
+        The first version of Qualcomm Native UEFI Platform SDK with initial set of protocol APIs.
+    
+    --Protocols--
+        ---SECURITY---
+
+        ---PMIC---
+
+        ---POWER---
+
+        ---SOCINFRA---
+
+        ---INTERFACES---
+
+        ---PERIPHERALS---
+
+        ---MEMORY---
+        
+        ---MULTIMEDIA---
+        
+        ---CORE SERVICES & SMMU---label:tech_core
+
+        ---UEFI_CORE---
+
+
+    --Sample Applications--
+        gpio_app.rst
+        hsuart_app.rst
+        i2c_app.rst
+        pmicgpio_app.rst
+        spi_app.rst
+        usbhostporttest_app.rst
+        usbserialtest_app.rst
+        adctest_app.rst  
+        basicuefi_app.rst  
+        ddrfreqtest_app.rst  
+        ecatstest_app.rst    
+        hyptest_app.rst  
+        kerneltest_app.rst  
+        led_app.rst             
+        systemcache_app.rst  
+        ufs_app.rst       
+        boottest_app.rst   
+        ddrinfotest_app.rst  
+        eeprom_app.rst         
+        keypad_app.rst      
+        quantum_rtdvtest_app.rst  
+        thermal_app.rst      
+        usbfnloopback_app.rst  
+        usbmsdtest_app.rst
+
+-Setting config-
+    --Device tree--
+        ...
+
+    --Config lib--
+        ...
+
+    --Ftd lib--
+        ...
+
+
+-features
+    ...
+
+=Writing Documentation=
+        BootLoaderDocumentGenerationSystemUserManual.rst

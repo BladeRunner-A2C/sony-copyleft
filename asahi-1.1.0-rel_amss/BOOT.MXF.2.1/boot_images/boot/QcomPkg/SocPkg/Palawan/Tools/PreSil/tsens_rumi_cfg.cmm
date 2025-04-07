@@ -1,0 +1,95 @@
+;============================================================================
+;  Name:
+;    tsens_rumi_cfg.cmm
+;
+;  Description:
+;    Script to initialize TSENS temperatures for .
+;
+;  Usage:
+;    tsens_rumi_cfg.cmm <degC> [fbc|sa|legacy]
+;
+;  Copyright (c) 2023 Qualcomm Technologies, Inc.
+;  All Rights Reserved.
+;  Confidential and Proprietary - Qualcomm Technologies, Inc.
+;============================================================================
+
+ENTRY &degC &cfg
+
+; Constants
+&degC1=30.
+&degC2=120.
+&code1=480.
+&code2=714.
+&num_sensors=16.
+&num_controllers=3.
+Var.NEWGLOBAL int[&num_controllers] \ts_control_addrs
+Var.NEWGLOBAL int[&num_controllers] \ts_config_addrs
+Var.Assign \ts_control_addrs[0..&num_controllers-1]=(0xc2220e0,0xc2230e0,0xc2240e0)
+Var.Assign \ts_config_addrs[0..&num_controllers-1]=(0xc2220e4,0xc2230e4,0xc2240e4)
+
+&legacy=0
+
+if ("&degC"=="")
+(
+   print %ERROR "Specify the desired temperature"
+   ENDDO "Specify the desired temperature"
+)
+
+; if ("&cfg"=="fbc")
+; (
+;    ; nothing to do here for now
+; )
+
+; if ("&cfg"=="sa")
+; (
+;    ; in the future, do the steps needed to configure TSENS for standalone images
+; )
+
+if ("&cfg"=="legacy")
+(
+   &legacy=1
+)
+
+; Interpolate to get the ADC code for the desired temperature
+&code=&code1+((&degC-&degC1)*(&code2-&code1))/(&degC2-&degC1)
+
+&ctrl=0
+while (&ctrl<&num_controllers)
+(
+   &ts_control_addr=VAR.VALUE(\ts_control_addrs[&ctrl])
+   &ts_config_addr=VAR.VALUE(\ts_config_addrs[&ctrl])
+
+   if (&legacy==1)
+   (
+      ; Make sure to change TsensBsp.c to set TS_CONTROL == 0x0 and TS_CONFIG == 0xc8
+      D.S ezaxi:&ts_control_addr %LE %LONG 0x0
+      D.S ezaxi:&ts_config_addr %LE %LONG 0xc9
+      D.S ezaxi:&ts_config_addr %LE %LONG 0xc8
+   )
+
+   &sensor=0
+   while (&sensor<&num_sensors)
+   (
+      if (&legacy==0)
+      (
+         &ts_control=(&code<<6.)|(&sensor<<2.)|0x2
+         D.S ezaxi:&ts_control_addr %LE %LONG &ts_control
+         D.S ezaxi:&ts_config_addr %LE %LONG 0x1
+         D.S ezaxi:&ts_config_addr %LE %LONG 0x0
+         D.S ezaxi:&ts_control_addr %LE %LONG 0x0
+      )
+      else
+      (
+         &ts_control=(&code<<5.)|(&sensor<<1.)|0x1
+         D.S ezaxi:&ts_control_addr %LE %LONG &ts_control
+         D.S ezaxi:&ts_control_addr %LE %LONG 0x0
+      )
+
+      &sensor=&sensor+1
+   )
+
+   &ctrl=&ctrl+1
+)
+
+ENDDO
+

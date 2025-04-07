@@ -1,0 +1,12 @@
+{
+    "PW": {
+        "root_folder": "boot_images",
+        "dts_path": "boot/Settings",
+        "oss_tools_path": "boot_tools/dtschema_tools/oss",
+        "yaml_path": "dtschema/Common",
+        "tool_chain_config": "boot/toolchainconfig.json",
+        "clang": "CLANG160",
+        "arch": "arm"
+    }        
+}
+

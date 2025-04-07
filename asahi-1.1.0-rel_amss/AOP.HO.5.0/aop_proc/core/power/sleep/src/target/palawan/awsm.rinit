@@ -1,0 +1,7 @@
+module: { name = AWSM, group = AWSM_EN }
+regs:
+  SLP_TIMER_BACKOFF = 0x2D12   #600us of BACKOFF
+  SLP_TIMER_THRESHOLD = 0x70AF #1.5ms of sleep threshold
+  AOP_TIMER_MASK = 0x2         #Mask QTimer F1
+  PDC_TIMER_MASK = 0x2         #Discard SP DRV. As it is reserved in Palawan
+  FEAT_EN = 0x3

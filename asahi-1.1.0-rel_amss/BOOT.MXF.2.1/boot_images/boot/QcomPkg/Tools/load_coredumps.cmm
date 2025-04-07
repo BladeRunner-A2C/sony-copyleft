@@ -1,0 +1,52 @@
+;****************************************************************************
+;** load_coredumps.cmm
+;**
+;** This script performs loading of the core dumps on simulator.
+;**
+;** Copyright 2022 by Qualcomm Technologies, Incorporated.  All Rights Reserved.
+;**
+;****************************************************************************
+;**
+;**                        EDIT HISTORY FOR MODULE
+;**
+;**
+;** when       who     what, where, why
+;** --------   ---     ------------------------------------------------------
+;** 09/02/22   rama    Initial revision
+
+;****************************************************************************
+
+entry &storage
+
+local &crash_dump_data_ptr
+local &cookie
+local &crash_dump_cookie
+
+&crash_dump_cookie=0x45525220
+
+;Assumed memory map
+local &boot_imem_base_address
+local &boot_imem_size
+
+&boot_imem_base_address=0x14800000
+&boot_imem_size=0x131FFF
+
+cd &storage
+
+data.load.binary COREDUMP_STRUCT.BIN &boot_imem_base_address
+
+&ddr_region=data.quad(MD:&boot_imem_base_address+0x1A8)
+&ddr_size=data.quad(MD:&boot_imem_base_address+0x1B0)
+&boot_imem=data.quad(MD:&boot_imem_base_address+0x1C0)
+&boot_imem_size=data.quad(MD:&boot_imem_base_address+0x1C8)
+&shared_imem=data.quad(MD:&boot_imem_base_address+0x1D8)
+&shared_imem_size=data.quad(MD:&boot_imem_base_address+0x1E0)
+
+data.load.binary XBL_DDR.BIN &ddr_region
+data.load.binary BOOT_IMEM.BIN &boot_imem
+data.load.binary SHARED_IMEM.BIN &shared_imem
+
+;Load the register Dump
+print "Loading Register Dump"
+CD &Storage
+do reg.cmm

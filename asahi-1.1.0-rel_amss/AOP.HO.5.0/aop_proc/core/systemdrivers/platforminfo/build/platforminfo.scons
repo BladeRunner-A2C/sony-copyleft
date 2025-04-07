@@ -1,0 +1,54 @@
+#===========================================================================
+# PlatformInfo build script
+#
+# Copyright (c) 2018 by Qualcomm Technologies, Incorporated
+# All Rights Reserved
+# Qualcomm Proprietary/GTDR
+#===========================================================================
+
+Import('env')
+
+env = env.Clone()
+SRCPATH = '..'
+env.VariantDir('${BUILDPATH}', SRCPATH, duplicate=0)
+
+if env['MSM_ID'] == 'lanai':
+   env.Append(CPPDEFINES = 'LANAI_TARGET_CONFIG')
+elif env['MSM_ID'] == 'milos':
+   env.Append(CPPDEFINES = 'MILOS_TARGET_CONFIG')
+elif env['MSM_ID'] == 'matrix':
+   env.Append(CPPDEFINES = 'MATRIX_TARGET_CONFIG')
+if env['MSM_ID'] == 'palawan':
+   env.Append(CPPDEFINES = 'PALAWAN_TARGET_CONFIG')
+if env['MSM_ID'] == 'pakala':
+   env.Append(CPPDEFINES = 'PAKALA_TARGET_CONFIG')
+if env['MSM_ID'] == 'kaanapali':
+   env.Append(CPPDEFINES = 'KAANAPALI_TARGET_CONFIG')
+
+
+#------------------------------------------------------------------------------
+# Add API folders
+#------------------------------------------------------------------------------
+
+CBSP_API = [
+  'DEBUGTRACE',
+  'MPROC',
+  'POWER',
+  'POWER_UTILS',
+  'SYSTEMDRIVERS',
+
+  # Keep it last as contains incorrect version of comdef.h
+  'KERNEL'
+]
+
+env.RequirePublicApi(CBSP_API)
+env.RequireRestrictedApi(CBSP_API)
+env.RequireProtectedApi(CBSP_API)
+
+PLATFORMINFO_SOURCES = [
+   '${BUILDPATH}/src/PlatformInfo.c',
+]
+
+# Add sources to compile
+env.AddBinaryLibrary(['CORE_AOP'], '${BUILDPATH}/PlatformInfo', PLATFORMINFO_SOURCES)
+

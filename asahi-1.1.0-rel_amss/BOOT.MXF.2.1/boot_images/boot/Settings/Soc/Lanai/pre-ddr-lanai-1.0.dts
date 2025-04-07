@@ -1,0 +1,8 @@
+/dts-v1/;
+
+/ {
+	compatible = "qcom,lanai-pre-ddr";
+	model = "qcom,lanai";
+};
+
+#include "soc_pre-ddr.dtsi"                     /* Common SoC Node Definitions */

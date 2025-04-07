@@ -1,0 +1,10 @@
+<edk2_version_info.txt>
+This file gives the information about version of the package present in this edk2 branch
+ 
+present version is : edk2_stable_202202
+ 
+Exceptions:
+<Packages which are having older version>
+Package Name         Version info
+------------------------------------------
+OptionRomPkg         edk2-stable201808

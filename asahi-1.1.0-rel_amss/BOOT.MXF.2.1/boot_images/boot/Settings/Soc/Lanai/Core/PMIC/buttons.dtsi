@@ -1,0 +1,46 @@
+/**
+This is the configuration file for Button Configurations;
+Gpio configurations
+Platform Keymaps
+
+Copyright (c) 2022 Qualcomm Technologies, Inc. All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+Update values of gpio configs, platform keymaps when new configs are added
+**/
+
+#include "pm_defines.h"
+#include "button_defines.h"
+
+
+&soc {
+  buttons: buttons { };
+};
+
+&buttons {
+
+  buttons-config {
+    compatible = "qcom,pm-button";
+
+    gpio-configs = <
+    /* BTNType     GpioType   PmicIndex GPioNumber IsSourcePulls             VoltageSource*/
+    /* Not use VolUp Setting.(this block is orignal code) Start */
+    /*VOL_UP_BTN   PMIC_GPIO   PMIC_B   PM_GPIO_6  BUTTON_GPIO_PULL_UP_30uA  BUTTON_GPIO_VIN1*/
+    /* Not use VolUp Setting.(this block is orignal code) End */
+    /* Add VolDown Setting Start */
+      VOL_DOWN_BTN PMIC_GPIO   PMIC_B   PM_GPIO_6  BUTTON_GPIO_PULL_UP_30uA  BUTTON_GPIO_VIN1
+    /* Add VolDown Setting End */
+    /*HOME_BTN     TLMM_GPIO   PMIC_B   PM_GPIO_1  BUTTON_GPIO_PULL_UP_30uA  BUTTON_GPIO_VIN1
+      CAMERA_BTN   TLMM_GPIO   PMIC_B   PM_GPIO_1  BUTTON_GPIO_PULL_UP_30uA  BUTTON_GPIO_VIN1*/
+    >;
+  };
+
+  platform-key-maps {
+    compatible = "qcom,pm-keymap";
+
+    key-maps = <
+     /* power  vol_up      vol_down     reserved1     reserved2 */
+        PWR    VOL_UP      VOL_DOWN     RESERVED      RESERVED
+    >;
+  };
+};

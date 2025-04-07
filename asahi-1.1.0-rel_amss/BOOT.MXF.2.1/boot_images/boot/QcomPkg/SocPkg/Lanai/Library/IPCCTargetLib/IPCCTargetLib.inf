@@ -1,0 +1,44 @@
+#/** @file IPCCTargetLib.inf
+#
+#  Qualcomm IPCC Library
+#
+#  Copyright (c) 2022 Qualcomm Technologies, Inc.
+#  All rights reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 06/10/22   shm     Updated for IPCCv2Lib (with HW memory optimization)
+# 02/01/22   shm     Initial version for Lanai
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = IPCCTargetLib
+  FILE_GUID                      = A840FAA0-66CF-4641-A773-7743B39D8E75
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = IPCCTargetLib
+
+[BuildOptions.AARCH64]
+  GCC:*_*_*_CC_FLAGS = -I$(WORKSPACE)/QcomPkg/Library/IPCCv2Lib/inc -DIPCC_HWMEMOPT
+
+[Sources.common]
+  IPCCBSP.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+
+[LibraryClasses]
+  IPCCLib

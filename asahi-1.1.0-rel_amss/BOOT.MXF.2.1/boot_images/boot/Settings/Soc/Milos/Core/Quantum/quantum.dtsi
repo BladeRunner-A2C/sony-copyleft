@@ -1,0 +1,9 @@
+#include "qntm_def.dtsi"
+#include "qntm_tz_memmap.dtsi"
+
+&sw {
+	quantum {
+		compatible = "qcom,quantum";
+		enter_quantum = <0>;
+	};
+};

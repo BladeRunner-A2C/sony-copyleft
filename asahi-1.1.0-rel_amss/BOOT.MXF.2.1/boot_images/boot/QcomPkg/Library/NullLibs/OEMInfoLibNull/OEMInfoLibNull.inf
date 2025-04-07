@@ -1,0 +1,40 @@
+#/** @file OEMInfoNullDxe.inf
+#
+#  Component description file for OEMInfoNull DXE driver module
+#
+#  Copyright (c) 2011,2014-2015, 2020-2022  Qualcomm Technologies Inc. All rights reserved.
+#
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 08/17/22   ajg     Began development of OEMInfoNullLib 
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = OEMInfoLib
+  FILE_GUID                      = bd1c295b-5624-48ac-b675-a7460cedb373 
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = OEMInfoLib
+
+[BuildOptions.AARCH64]
+  GCC:*_*_*_CC_FLAGS = -Werror 
+
+[Sources.common]
+  OEMInfoNull.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  QcomPkg/XBLLoaderApi.dec

@@ -1,0 +1,67 @@
+#/** @file RecoveryDxe.inf
+#
+#  Support for EFI_RECOVERY protocol
+#
+#  Copyright (c) 2021, 2023 Qualcomm Technologies, Inc.
+#  All rights reserved.
+#  Qualcomm Technologies, Confidential and Proprietary.
+#
+#**/
+#
+#/*=============================================================================
+#                              EDIT HISTORY
+#
+#
+# when           who         what, where, why
+# --------       ---         -----------------------------------------------------------
+# 2023/03/15     gpavithr    Add support for FwUpdateInfoLib
+# 2023/03/14     dnkg        Adding TargetResetLib
+# 2021/02/13     dmohan      Initial revision
+#=============================================================================*/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = RecoveryDxe
+  FILE_GUID                      = 0C935E22-01B0-43A4-B12B-73A75B53C4DF
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = RecoveryDxeEntryPoint
+
+[Sources]
+  RecoveryDxe.c
+  RecoveryDxe.h
+  RecoveryDxeUtil.c
+  RecoveryDxeUtil.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  QcomLib
+  FwCommonLib
+  SmemLib
+  DisplayUpdateProgressLib
+  GenericBdsLib
+  TargetResetLib
+  FwUpdateInfoLib
+
+[Protocols]
+  gEfiRecoveryProtocolGuid                      ## PRODUCES
+  gEdkiiFirmwareManagementProgressProtocolGuid  ## PRODUCES
+  gEfiGraphicsOutputProtocolGuid                ## CONSUMES
+
+[Guids]
+  gEfiRecoveryEventGuid                         ## CONSUMES
+
+[Pcd]
+  gQcomTokenSpaceGuid.PcdRecoveryDxeWatchdogTimeInSeconds
+  gQcomTokenSpaceGuid.PcdRecoveryDxeProgressColor
+  gQcomTokenSpaceGuid.PcdRecoveryDxeForeGroundTextColor
+  gQcomTokenSpaceGuid.PcdRecoveryDxeProgressString
+
+[Depex]
+  TRUE

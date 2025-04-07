@@ -1,0 +1,104 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,uefimem.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm UEFI DT
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible node...
+   Links UEFI specific details or configuration
+
+properties:
+# A dictionary of DT properties for this binding schema
+  compatible:
+    const: qcom,uefimem
+
+  "#address-cells":
+      const: 2
+
+  "#size-cells":
+      const: 2
+
+patternProperties:
+  "^.+@[0-9A-Fa-f]+$":
+    type: object
+    description: memory and register regions that will be mapped by UEFI Fw in its Page Tables
+    
+    properties:
+      reg:
+        maxItems: 1
+      
+      MemLabel:
+        description: Defines the name for the Memory Region (example:UEFI_FD,XBL_DT etc/-)
+        $ref: /schemas/types.yaml#/definitions/string
+
+      ResourceAttribute:
+        description: This property defines resources attribute for the region (example:writeprotected,initialised etc-)
+        $ref: /schemas/types.yaml#/definitions/uint32
+          
+      BuildHob:
+        description: This property defines the kind of HOB that needs to be built for the memory/register region.
+        $ref: /schemas/types.yaml#/definitions/uint8
+        
+      ResourceType: 
+        description: This property defines the type of resource the regions is. (example:SystemMemory,IOMemory etc/-)
+        $ref: /schemas/types.yaml#/definitions/uint8
+                
+      MemoryType: 
+        description: This property defines Memory Type of the region as per edk2 UEFI(example:RTCode/Data,LoaderCode etc/-)  
+        $ref: /schemas/types.yaml#/definitions/uint8
+        
+      CacheAttributes:
+        description: This property defines Cache Attributes for the region (example:WB,WTA etc/-)
+        $ref: /schemas/types.yaml#/definitions/uint8
+
+        
+    required:
+      - reg
+      - MemLabel
+      - ResourceAttribute
+      - BuildHob
+      - ResourceType
+      - MemoryType
+      - CacheAttributes
+      
+required:
+  - compatible
+
+additionalProperties: false
+
+examples:
+  - |
+        memorymap {
+            compatible = "qcom,uefimem";
+            #address-cells = <2>;
+            #size-cells = <2>;
+            NOMAP@80000000 {
+                device_type = "memory";    
+                reg = <0x0 0x80000000 0x0 0x01200000>;
+                MemLabel = "NOMAP";
+                ResourceAttribute = <0x00000010>;
+                BuildHob = /bits/ 8 <0x0>;
+                ResourceType = /bits/ 8 <0x0>;
+                MemoryType = /bits/ 8 <0>;
+                CacheAttributes = /bits/ 8 <0>;
+            };
+            USB@0A600000 {
+                device_type = "memory";    
+                reg = <0x0 0x0A600000 0x0 0x00200000>;
+                MemLabel = "USB";
+                ResourceAttribute = <0x20000000>;
+                BuildHob = /bits/ 8 <3>;
+                ResourceType = /bits/ 8 <2>;
+                MemoryType = /bits/ 8 <2>;
+                CacheAttributes = /bits/ 8 <1>;
+            };
+        };
+ 

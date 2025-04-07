@@ -1,0 +1,65 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,clock.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Boot DT
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible node...
+   Links clock specific details or configuration
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,clock
+ 
+  cx_corner:
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    minItems: 2
+    maxItems: 2
+    description: cx_corner holds rail corner data to which all DFS clocks are scaled to
+                 Currently, MIN_SVS is not supported
+
+  ddr_min_max_freq:
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    minItems: 2
+    maxItems: 2
+    description: limiting ddr-freq between <nMin, nMax>
+
+  shub_min_max_freq:
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+    minItems: 2
+    maxItems: 2
+    description: limiting shub-freq between <nMin, nMax>
+
+  test_mode:
+    enum: [0x0, 0x1]
+    description: DISABLE = 0x0, ENABLE = 0x1(default)
+    
+required:
+  - compatible
+  - cx_corner
+  - ddr_min_max_freq
+  - shub_min_max_freq
+  - test_mode
+
+
+additionalProperties: false
+
+examples:
+  - |
+    clk_pegging_node {
+        compatible = "qcom,clock";
+        cx_corner = <0x100 0x5>;
+        ddr_min_max_freq = <0xFF 0xFF>;  
+        shub_min_max_freq =  <0xFF 0xFF>;
+        test_mode = <1>;
+    };

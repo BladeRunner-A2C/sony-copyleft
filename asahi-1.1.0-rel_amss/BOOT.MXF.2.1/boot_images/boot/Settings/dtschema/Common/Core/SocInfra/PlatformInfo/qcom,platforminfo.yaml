@@ -1,0 +1,44 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,platforminfo.yaml#
+$schema: http://devicetree.org/meta-schemas/gpios.yaml#
+
+title: Qualcomm platforminfo
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible node...
+   Links to any data on platforminfo
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: "qcom,platforminfo"
+ 
+  PlatformInfo:
+    $ref: /schemas/types.yaml#/definitions/uint8-array
+    minItems: 6
+    maxItems: 9 
+    items:
+      minimum: 0
+      maximum: 0xff
+    description: 
+
+required:
+  - compatible
+  - PlatformInfo
+
+additionalProperties: false
+
+examples:
+  - |
+    PlatformInfo {
+          compatible = "qcom,platforminfo";
+          PlatformInfo = [05 08 01 00 00 00 00];
+    };

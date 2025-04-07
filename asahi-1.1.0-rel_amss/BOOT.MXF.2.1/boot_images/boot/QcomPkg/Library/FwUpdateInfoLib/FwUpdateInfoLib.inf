@@ -1,0 +1,38 @@
+#/** @file FwUpdateInfoLib.inf
+#  
+#  Firmware Update Info functions
+#  
+#  Copyright (c) 2023  Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when          who             what, where, why
+# --------      --------        -----------------------------------------------
+# 2023/03/10    gpavithr        Initial revison
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = FwUpdateInfoLib
+  FILE_GUID                      = AE46D10E-1A18-4265-A9CE-B56ABA124121
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = FwProvisionLib
+
+[Sources]
+  FwUpdateInfoLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  GenericBdsLib

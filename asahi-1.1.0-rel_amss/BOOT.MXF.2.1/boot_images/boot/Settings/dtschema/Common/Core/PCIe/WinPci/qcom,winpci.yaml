@@ -1,0 +1,198 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,winpci.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Windows PCI Clients DT settings
+
+maintainers:
+  - PoC <skanni@qti.qualcomm.com>
+
+description: |
+  The Qualcomm compatible node...
+  Links to any data sheet or HW specific details
+
+# A dictionary of DT properties for this binding schema
+properties:
+  compatible:
+    const: qcom,winpci
+
+  dgpu:
+    type: object
+    description: DGPU settings and power config
+      
+    properties:
+      sku:
+       description: sku values
+
+      platform-type:
+        description: platform type
+
+      device-port-num:
+        maxItems: 1
+        description: PCI root port num
+
+      resource-name:
+        description: pmic resource name
+
+      client-name:
+        description: pmic client name
+
+    patternProperties:
+      "^config-power-o[f-n]+$":
+        type: object
+        description: Power on settings
+
+        patternProperties:
+          "^pmic-gpio-config[0-9]+$":
+            type: object
+            description: pmic gpio settings
+
+            properties:
+              gpio-config-type:
+                description: pmic gpio config type
+
+              index:
+                description: pmic index
+
+              gpio-num:
+                description: gpio 
+
+              out-buf-cfg-type:
+                description: out buffer config type
+
+              voltage-src-type:
+                description: voltage source type
+
+              src-config-type:
+                description: Source config type
+
+              out-drive-strength:
+                description: Out drive strength
+
+              pull-type:
+                description: Pull type
+
+              enable:
+                description: enable
+
+              set-output-level:
+                description: sets output level
+
+            required:
+              - gpio-config-type
+              - index
+              - gpio-num
+              - out-buf-cfg-type
+              - voltage-src-type
+              - src-config-type
+              - out-drive-strength
+              - pull-type
+              - enable
+              - set-output-level
+
+    required:
+      - sku
+      - platform-type
+      - device-port-num
+      - resource-name
+      - client-name
+
+required:
+  - compatible
+  - dgpu
+
+additionalProperties: false
+
+examples:
+- |
+   winpci {
+    compatible = "qcom,winpci";
+    dgpu {
+      sku = <0xFF 0x5>;  //0xFF to ignore SKU check
+      platform-type = <0xFF 0x1D>; //0xFF to ignore Platform check
+      device-port-num = <3>;
+      resource-name = "NA";
+      client-name = "NA";
+      config-power-on {
+        pmic-gpio-config0 {
+          gpio-config-type = <1>;
+          index = <3>;
+          gpio-num = <5>;
+          out-buf-cfg-type = <0>;
+          voltage-src-type = <0>;
+          src-config-type = <0>;
+          out-drive-strength = <2>;
+          pull-type = <5>;
+          enable = <1>;
+          set-output-level = <1>;
+        };
+        pmic-gpio-config1 {
+          gpio-config-type = <1>;
+          index = <3>;
+          gpio-num = <7>;
+          out-buf-cfg-type = <0>;
+          voltage-src-type = <0>;
+          src-config-type = <0>;
+          out-drive-strength = <2>;
+          pull-type = <5>;
+          enable = <1>;
+          set-output-level = <1>;
+        };
+        pmic-gpio-config2 {
+          gpio-config-type = <1>;
+          index = <8>;
+          gpio-num = <7>;
+          out-buf-cfg-type = <0>;
+          voltage-src-type = <0>;
+          src-config-type = <0>;
+          out-drive-strength = <2>;
+          pull-type = <5>;
+          enable = <1>;
+          set-output-level = <1>;
+        };
+      };
+      config-power-off {
+        pmic-gpio-config0 {
+          gpio-config-type = <1>;
+          index = <3>;
+          gpio-num = <5>;
+          out-buf-cfg-type = <0>;
+          voltage-src-type = <0>;
+          src-config-type = <0>;
+          out-drive-strength = <2>;
+          pull-type = <5>;
+          enable = <0>;
+          set-output-level = <0>;
+        };
+        pmic-gpio-config1 {
+          gpio-config-type = <1>;
+          index = <3>;
+          gpio-num = <7>;
+          out-buf-cfg-type = <0>;
+          voltage-src-type = <0>;
+          src-config-type = <0>;
+          out-drive-strength = <2>;
+          pull-type = <5>;
+          enable = <0>;
+          set-output-level = <0>;
+        };
+        pmic-gpio-config2 {
+          gpio-config-type = <1>;
+          index = <8>;
+          gpio-num = <7>;
+          out-buf-cfg-type = <0>;
+          voltage-src-type = <0>;
+          src-config-type = <0>;
+          out-drive-strength = <2>;
+          pull-type = <5>;
+          enable = <0>;
+          set-output-level = <0>;
+        };
+      };
+    };
+   };
+

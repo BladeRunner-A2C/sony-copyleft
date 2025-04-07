@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,pm-button.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm PM Button
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   Qualcomm Button GPIO Configs
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,pm-button
+  
+  gpio-configs:
+    description: gpio-configs
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+      
+required:
+  - compatible
+  - gpio-configs
+
+
+additionalProperties: false
+
+examples:
+  - |
+    buttons-config {
+      compatible = "qcom,pm-button";  
+      
+      gpio-configs = <1 1 1 6 0 0 0 0>;  /* BTNType GpioType PmicIndex GPioNumber IsSourcePulls VoltageSource OutBufStrength Source*/ 
+    };

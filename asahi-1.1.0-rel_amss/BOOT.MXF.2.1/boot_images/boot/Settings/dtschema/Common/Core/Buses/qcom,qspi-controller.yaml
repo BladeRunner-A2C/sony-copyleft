@@ -1,0 +1,40 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,qspi-controller.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: file for qspi device config
+
+maintainers:
+  - PoC <mputcha@qti.qualcomm.com>
+
+description: |
+  The Qualcomm compatible node...
+  Links to any data sheet or HW specific details
+
+# A dictionary of DT properties for this binding schema
+   
+properties:
+  compatible:
+    const: qcom,qspi-controller
+    
+  reg:
+    maxItems: 1
+    
+required:
+  - compatible
+  - reg
+
+  
+additionalProperties: true
+
+examples:
+  - |  
+    qspi@88DC000{
+        compatible = "qcom,qspi-controller";
+        reg = <0x088DC000 0x1000>;
+
+        };

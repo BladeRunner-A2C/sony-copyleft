@@ -1,0 +1,26 @@
+#/** @file
+#  Copyright (c) 2023, Qualcomm Technologies, Inc. All Rights Reserved.
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010019
+  BASE_NAME                      = ScmiPlatformLib
+  FILE_GUID                      = 126FB9B9-CB67-42CC-8868-C1FF9AFED233
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ScmiPlatformLib
+
+[Sources.common] 
+  platform/src/common/scmi_process_packet.c
+  platform/src/scmi_base_protocol/scmi_base_protocol.c
+  platform/src/scmi_vendor_protocol/scmi_vendor_protocol.c
+  platform/src/scmi_unknown_protocol/scmi_unknown_protocol.c
+  cfg/platform/src/scmi_base_protocol/plat_scmi_base_protocol.c
+  cfg/platform/src/common/platform_hal.c
+  cfg/platform/src/common/platform_hal.c
+  cfg/platform/src/scmi_vendor_protocol/plat_scmi_vendor_protocol.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec

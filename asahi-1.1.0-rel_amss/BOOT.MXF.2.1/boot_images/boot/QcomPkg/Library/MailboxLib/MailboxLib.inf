@@ -1,0 +1,65 @@
+#/** @file MailboxLib.inf
+#  
+#  Mailbox library for UEFI
+#  
+#  Copyright (c) 2022-2023 Qualcomm Technologies, Inc.  
+#  All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 06/29/22   mad      Created Mailbox library for UEFI
+#
+#==============================================================================
+# Used this URL to understand some of the values needed:
+#https://edk2-docs.gitbook.io/edk-ii-inf-specification/3_edk_ii_inf_file_format/34_-defines-_section
+# Generated a new GUID using an online GUID generator tool
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MailboxLib
+  FILE_GUID                      = 09a349d7-e25c-4b06-8e43-cfe3cb85f3f6
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = MailboxLib
+
+
+
+[Sources.common]
+  src/mbox_ipc.c
+  src/mbox_drv.c
+  src/mbox_cfg.c
+  inc/mbox_cfg.h
+  inc/mbox_internal.h
+  os/src/mbox_os_utils_uefi.c
+  os/inc/mbox_os_utils.h
+  cfg/hamoa/mbox_cfg_hamoa.c
+  test/mbox_test.c
+  
+[LibraryClasses]
+  BaseLib
+  ArmLib
+  UefiBootServicesTableLib
+  UefiLib
+  DebugLib
+  MemoryAllocationLib
+  DALModEnvLib
+  KernelLib
+  QcomLib
+  
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+# This is required otherwise we get linker errors
+[Protocols]
+  gQcomScmProtocolGuid
+

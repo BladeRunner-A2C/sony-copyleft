@@ -1,0 +1,431 @@
+/**
+
+This is the settings file for Memory/Register regions
+that will be mapped by UEFI Fw
+
+Copyright (c) Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+*/
+#include <uefi_defines.h>
+
+&soc{
+        memorymap {
+            compatible = "qcom,uefimem";
+            #address-cells = <2>;
+            #size-cells = <2>;
+            memory@80000000 {
+                device_type = "memory";    
+                reg = <0x0 0x80000000 0x0 0x016E0000>;
+                MemLabel = "NOMAP";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <NoMap>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@816E0000 {
+                device_type = "memory";    
+                reg = <0x0 0x816E0000 0x0 0x00320000>;
+                MemLabel = "RSRV0";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@81A00000 {
+                device_type = "memory";    
+                reg = <0x0 0x81A00000 0x0 0x00040000>;
+                MemLabel = "XBL_DT";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@81A40000 {
+                device_type = "memory";    
+                reg = <0x0 0x81A40000 0x0 0x001C0000>;
+                MemLabel = "XBL_Ramdump";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@81C00000 {
+                device_type = "memory";    
+                reg = <0x0 0x81C00000 0x0 0x000A0000>;
+                MemLabel = "AOP";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@81CE4000 {
+                device_type = "memory";    
+                reg = <0x0 0x81CE4000 0x0 0x00010000>;
+                MemLabel = "UEFI_Log";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@81D00000 {
+                device_type = "memory";    
+                reg = <0x0 0x81D00000 0x0 0x00200000>;
+                MemLabel = "SMEM";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@824A0000 {
+                device_type = "memory";    
+                reg = <0x0 0x824A0000 0x0 0x00100000>;
+                MemLabel = "PvmFw";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@8AC00000 {
+                device_type = "memory";    
+                reg = <0x0 0x8AC00000 0x0 0x16700000>;
+                MemLabel = "PIL_Reserved";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@A1300000 {
+                device_type = "memory";    
+                reg = <0x0 0xA1300000 0x0 0x02B00000>;
+                MemLabel = "Display_Demura";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_THROUGH_XN>;
+            };
+            memory@A3E00000 {
+                device_type = "memory";    
+                reg = <0x0 0xA3E00000 0x0 0x00F00000>;
+                MemLabel = "DBI_Dump";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_INITIALIZED>;
+                BuildHob = /bits/ 8 <NoBuildHob>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiConventionalMemory>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@A7000000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7000000 0x0 0x00400000>;
+                MemLabel = "UEFI_FD";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK>;
+            };
+            memory@A7400000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7400000 0x0 0x00200000>;
+                MemLabel = "UEFI_FD_Reserved";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK>;
+            };
+            memory@A7600000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7600000 0x0 0x00001000>;
+                MemLabel = "CPU_Vectors";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK>;
+            };
+            memory@A7601000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7601000 0x0 0x00001000>;
+                MemLabel = "Info_Blk";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiRuntimeServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A7602000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7602000 0x0 0x00003000>;
+                MemLabel = "MMU_PageTables";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A7605000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7605000 0x0 0x00008000>;
+                MemLabel = "Log_Buffer";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiRuntimeServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A760D000 {
+                device_type = "memory";    
+                reg = <0x0 0xA760D000 0x0 0x00040000>;
+                MemLabel = "UEFI_Stack";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A764D000 {
+                device_type = "memory";    
+                reg = <0x0 0xA764D000 0x0 0x0008C000>;
+                MemLabel = "SEC_Heap";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A76D9000 {
+                device_type = "memory";    
+                reg = <0x0 0xA76D9000 0x0 0x00400000>;
+                MemLabel = "Sched_Heap";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A7AD9000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7AD9000 0x0 0x00400000>;
+                MemLabel = "FV_Region";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A7ED9000 {
+                device_type = "memory";    
+                reg = <0x0 0xA7ED9000 0x0 0x00127000>;
+                MemLabel = "UEFI_RESV";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiBootServicesData>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@A8000000 {
+                device_type = "memory";    
+                reg = <0x0 0xA8000000 0x0 0x10000000>;
+                MemLabel = "Kernel";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@B8000000 {
+                device_type = "memory";    
+                reg = <0x0 0xB8000000 0x0 0x1BA00000>;
+                MemLabel = "DXE_Heap";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiConventionalMemory>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            memory@E9480000 {
+                device_type = "memory";    
+                reg = <0x0 0xE9480000 0x0 0x01200000>;
+                MemLabel = "TZApps_Reserved";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddDynamicMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED_XN>;
+            };
+            memory@E3940000 {
+                device_type = "memory";    
+                reg = <0x0 0xE3940000 0x0 0x02B00000>;
+                MemLabel = "Display_Reserved";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_RESERVED>;
+                MemoryType = /bits/ 8 <EfiReservedMemoryType>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_THROUGH_XN>;
+            };
+            memory@E6440000 {
+                device_type = "memory";    
+                reg = <0x0 0xE6440000 0x0 0x024C0000>;
+                MemLabel = "DXE_Heap1";
+                ResourceAttribute = <SYSTEM_MEMORY_RESOURCE_ATTR_SETTINGS_CAPABILITIES>;
+                BuildHob = /bits/ 8 <AddMem>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_SYSTEM_MEMORY>;
+                MemoryType = /bits/ 8 <EfiConventionalMemory>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_WRITE_BACK_XN>;
+            };
+            
+        };
+
+        /* Holding on to keeping the register entries and memory entries seperate,
+           becasue even if we are to map it all in one go in MMU, we need to explicitly
+           do certain checks as to weather memory regions are in ram partition table boundry etc*/
+        registermap {
+            compatible = "qcom,uefimem";
+            #address-cells = <2>;
+            #size-cells = <2>;
+            memory@14680000 {
+                device_type = "memory";    
+                reg = <0x0 0x14680000 0x0 0x0002C000>;
+                MemLabel = "IMEM_Base";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_INITIALIZED>;
+                BuildHob = /bits/ 8 <NoBuildHob>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiConventionalMemory>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@400000 {
+                device_type = "memory";    
+                reg = <0x0 0x00400000 0x0 0x00100000>;
+                MemLabel = "IPC_ROUTER_TOP";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@780000 {
+                device_type = "memory";    
+                reg = <0x0 0x00780000 0x0 0x00007000>;
+                MemLabel = "SECURITY_CONTROL";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@800000 {
+                device_type = "memory";    
+                reg = <0x0 0x00800000 0x0 0x00300000>;
+                MemLabel = "QUP";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@10C0000 {
+                device_type = "memory";    
+                reg = <0x0 0x010C0000 0x0 0x0000C000>;
+                MemLabel = "PRNG_CFG_PRNG";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@1DC0000 {
+                device_type = "memory";    
+                reg = <0x0 0x01DC0000 0x0 0x00040000>;
+                MemLabel = "CRYPTO0_CRYPTO";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@1F00000 {
+                device_type = "memory";    
+                reg = <0x0 0x01F00000 0x0 0x00100000>;
+                MemLabel = "CLK_TCSR_TCSR_REGS";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@8800000 {
+                device_type = "memory";    
+                reg = <0x0 0x08800000 0x0 0x00100000>;
+                MemLabel = "PERIPH_SS";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@A600000 {
+                device_type = "memory";    
+                reg = <0x0 0x0A600000 0x0 0x00200000>;
+                MemLabel = "USB";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@B000000 {
+                device_type = "memory";    
+                reg = <0x0 0x0B000000 0x0 0x04000000>;
+                MemLabel = "AOSS";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@F000000 {
+                device_type = "memory";    
+                reg = <0x0 0x0F000000 0x0 0x01000000>;
+                MemLabel = "TLMM";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@15000000 {
+                device_type = "memory";    
+                reg = <0x0 0x15000000 0x0 0x00200000>;
+                MemLabel = "SMMU";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+            memory@17000000 {
+                device_type = "memory";    
+                reg = <0x0 0x17000000 0x0 0x02000000>;
+                MemLabel = "APSS_HM";
+                ResourceAttribute = <EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE>;
+                BuildHob = /bits/ 8 <AddPeripheral>;
+                ResourceType = /bits/ 8 <EFI_RESOURCE_MEMORY_MAPPED_IO>;
+                MemoryType = /bits/ 8 <EfiMemoryMappedIO>;
+                CacheAttributes = /bits/ 8 <ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_DEVICE>;
+            };
+
+        };               
+    };
+

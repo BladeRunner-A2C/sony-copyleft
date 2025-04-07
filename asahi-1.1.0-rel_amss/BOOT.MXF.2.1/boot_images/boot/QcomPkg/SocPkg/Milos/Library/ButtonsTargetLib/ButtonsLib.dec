@@ -1,0 +1,34 @@
+#/** @file ButtonsLib.dec
+# ButtonsLib package.
+#
+#  Copyright (c) 2022 Qualcomm Technologies, Inc.  All Rights Reserved. 
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+#
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when         who     what, where, why
+# --------     ---     ----------------------------------------------------------
+# 10/07/2022   gan     Adding loader specific
+#==============================================================================
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = ButtonsPkg
+  PACKAGE_GUID                   = 6F9E103A-C5A5-4e86-ADC4-87EC5EEBBBC1
+  PACKAGE_VERSION                = 0.1
+
+################################################################################
+#
+# Include Section - list of Include Paths that are provided by this package.
+#                   Comments are used for Keywords and Module Types.
+#
+# Supported Module Types:
+#  UEFI BUTTONS_DXE
+#
+################################################################################
+[Includes.common]
+    ../../../../Library/ButtonsLib

@@ -1,0 +1,37 @@
+#/** @file BootRecoveryMethodCoreGpio.inf
+#  
+#  
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.
+#  All rights reserved.
+#  Qualcomm Confidential and Proprietary
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 4/13/23    ac      Initial version
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BootRecoveryMethodCoreGpio
+  FILE_GUID                      = D6BC9D9B-4B5C-4998-AC19-B6E29D062D0E
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BootRecoveryMethodCoreGpio
+
+[Sources]
+  BootRecoveryMethodCoreGpio.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+
+
+[LibraryClasses]
+  BootConfigLib 

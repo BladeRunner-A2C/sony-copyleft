@@ -1,0 +1,15 @@
+
+/dts-v1/;
+
+/ {
+	model = "acme,pin-cushion";
+	compatible = "acme,pin-cushion";
+
+	/*        client trace  verbose */
+	config = <0x0000 0x0000 0x0001>;
+
+	tlmm: tlmm { };
+
+};
+
+#include "pinctrl.dtsi"

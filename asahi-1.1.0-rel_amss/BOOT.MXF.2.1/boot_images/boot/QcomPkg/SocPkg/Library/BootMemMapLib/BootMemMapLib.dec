@@ -1,0 +1,35 @@
+#/** @file BootMemMapLib.dec
+# Boot Memory Map Library.
+#
+# Copyright (c) 2022 Qualcomm Technologies Inc. All rights reserved.
+#
+#**/
+#
+#==============================================================================
+#                              EDIT HISTORY
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 12/08/22   rama     Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = BootMemMapLib
+  PACKAGE_GUID                   = A3B7CB81-704B-46E7-9785-11AE526C3657
+  PACKAGE_VERSION                = 0.1
+
+################################################################################
+#
+# Include Section - list of Include Paths that are provided by this package.
+#                   Comments are used for Keywords and Module Types.
+#
+# Supported Module Types:
+#  BASE
+#
+################################################################################
+[Includes.common]
+  Include
+
+

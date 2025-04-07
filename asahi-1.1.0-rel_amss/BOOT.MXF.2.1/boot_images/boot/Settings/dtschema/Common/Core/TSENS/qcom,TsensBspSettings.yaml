@@ -1,0 +1,293 @@
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,TsensBspSettings.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Tsens DT
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible node...
+   Links to any data sheet or HW specific details
+
+properties:
+# A dictionary of DT properties for this binding schema
+  compatible:
+    const: qcom,TsensBspSettings
+    
+  controllerconfigs:
+    type: object
+
+    patternProperties:
+      "^controllerconfigs_[0-9]+$":
+        type: object
+        
+        properties:
+          pucTsensSROTPhys:
+            description: pucTsensSROTPhys
+            $ref: /schemas/types.yaml#/definitions/uint64
+          
+          pucTsensTMPhys:
+            description: pucTsensTMPhys
+            $ref: /schemas/types.yaml#/definitions/uint64
+          
+          pauTbcbReqs:
+            description: pauTbcbReqs
+            $ref: /schemas/types.yaml#/definitions/uint64
+          
+          uTsensSROTSize:
+            maxItems: 1
+            description: uTsensSROTSize
+            
+          uTsensTMSize:
+            description: uTsensTMSize
+          
+          uNumTbcbClients:
+            description: uNumTbcbClients
+          
+          uPeriodActive:
+            description: uPeriodActive
+          
+          uPeriodSleep:
+            description: uPeriodSleep
+            
+          uTSControl:
+            description: uTSControl
+          
+          uTSConfig:
+            description: uTSConfig
+          
+          uSidebandEnMask:
+            description: uSidebandEnMask
+          
+          uWatchdogLoadVal:
+            description: uWatchdogLoadVal
+            
+          uZeroCEnMask:
+            description: uZeroCEnMask
+            
+          nsZeroCSetDeciDegC:
+            description: nsZeroCSetDeciDegC
+            $ref: /schemas/types.yaml#/definitions/uint16
+          
+          nsZeroCResetDeciDegC:
+            description: nsZeroCResetDeciDegC
+            $ref: /schemas/types.yaml#/definitions/uint16
+          
+          bPSHoldResetEn:
+            description: bPSHoldResetEn
+            $ref: /schemas/types.yaml#/definitions/uint8
+          
+          bAutoAdjustPeriod:
+            description: bAutoAdjustPeriod
+            $ref: /schemas/types.yaml#/definitions/uint8
+            
+          bStandAlone:
+            description: bStandAlone
+            $ref: /schemas/types.yaml#/definitions/uint8
+          
+          bPWMEn:
+            description: bPWMEn
+            $ref: /schemas/types.yaml#/definitions/uint8
+          
+          bWatchdogEn:
+            description: bWatchdogEn
+            $ref: /schemas/types.yaml#/definitions/uint8
+          
+          bWatchdogResetEn:
+            description: bWatchdogResetEn
+            $ref: /schemas/types.yaml#/definitions/uint8
+        
+        required:
+          - pucTsensSROTPhys    
+          - pucTsensTMPhys      
+          - pauTbcbReqs         
+          - uTsensSROTSize      
+          - uTsensTMSize        
+          - uNumTbcbClients     
+          - uPeriodActive       
+          - uPeriodSleep        
+          - uTSControl          
+          - uTSConfig           
+          - uSidebandEnMask     
+          - uWatchdogLoadVal    
+          - uZeroCEnMask        
+          - nsZeroCSetDeciDegC  
+          - nsZeroCResetDeciDegC
+          - bPSHoldResetEn      
+          - bAutoAdjustPeriod   
+          - bStandAlone         
+          - bPWMEn              
+          - bWatchdogEn         
+          - bWatchdogResetEn    
+          
+  sensorconfigs:
+    type: object
+
+    patternProperties:
+      "^sensorconfigs_[0-9]+$":
+        type: object
+      
+        properties:
+          eCal:
+            description: eCal
+            
+          nsCalPoint1CodeDefault:
+            description: nsCalPoint1CodeDefault
+            $ref: /schemas/types.yaml#/definitions/uint16
+        
+          nsCalPoint2CodeDefault:
+            description: nsCalPoint2CodeDefault
+            $ref: /schemas/types.yaml#/definitions/uint16
+          
+          nsThresholdMinDeciDegC:
+            description: nsThresholdMinDeciDegC
+            $ref: /schemas/types.yaml#/definitions/uint16
+        
+          nsThresholdLowerDeciDegC:
+            description: nsThresholdLowerDeciDegC
+            $ref: /schemas/types.yaml#/definitions/uint16
+            
+          nsThresholdUpperDeciDegC:
+            description: nsThresholdUpperDeciDegC
+            $ref: /schemas/types.yaml#/definitions/uint16
+        
+          nsThresholdCriticalDeciDegC:
+            description: nsThresholdCriticalDeciDegC
+            $ref: /schemas/types.yaml#/definitions/uint16
+          
+          nsThresholdMaxDeciDegC:
+            description: nsThresholdMaxDeciDegC
+            $ref: /schemas/types.yaml#/definitions/uint16
+        
+          controller:
+            description: controller
+            $ref: /schemas/types.yaml#/definitions/uint8
+            
+          ucChannel:
+            description: ucChannel
+            $ref: /schemas/types.yaml#/definitions/uint8
+            
+          ucSensorID:
+            description: ucSensorID
+            $ref: /schemas/types.yaml#/definitions/uint8
+          
+          ucFuseIdx:
+            description: ucFuseIdx
+            $ref: /schemas/types.yaml#/definitions/uint8
+      
+        required:
+            - eCal                       
+            - nsCalPoint1CodeDefault     
+            - nsCalPoint2CodeDefault     
+            - nsThresholdMinDeciDegC     
+            - nsThresholdLowerDeciDegC   
+            - nsThresholdUpperDeciDegC   
+            - nsThresholdCriticalDeciDegC
+            - nsThresholdMaxDeciDegC     
+            - controller                 
+            - ucChannel                  
+            - ucSensorID                 
+            - ucFuseIdx 
+      
+  TsensBspType:
+    type: object
+    
+    properties:
+      uNumControllers:
+        maxItems: 1
+        description: uNumControllers
+    
+      uNumSensors:
+        maxItems: 1
+        description: uNumSensors
+        
+      uSensorConvTime_us:
+        maxItems: 1
+        description: uSensorConvTime_us
+      
+      nCalPoint1DeciDegC:
+        maxItems: 1
+        description: nCalPoint1DeciDegC
+        
+      nCalPoint2DeciDegC:
+        maxItems: 1
+        description: nCalPoint2DeciDegC
+        
+      uShift:
+        maxItems: 1
+        description: uShift
+      
+    required:
+      - uNumControllers
+      - uNumSensors
+      - uSensorConvTime_us
+      - nCalPoint1DeciDegC
+      - nCalPoint2DeciDegC
+      - uShift
+        
+required:
+  - compatible
+  - controllerconfigs
+  - sensorconfigs
+  - TsensBspType
+
+additionalProperties: false
+
+examples:
+- |
+   TsensBspSettings {
+        compatible = "qcom,TsensBspSettings";
+          controllerconfigs {
+            controllerconfigs_0{
+              pucTsensSROTPhys      = /bits/ 64 <0x0C222000>;
+              pucTsensTMPhys        = /bits/ 64 <0x0C271000>;
+              pauTbcbReqs           = /bits/ 64 <0>;
+              uTsensSROTSize        = <0x00001000>;
+              uTsensTMSize          = <0x00001000>;
+              uNumTbcbClients       = <0>;
+              uPeriodActive         = <0>;
+              uPeriodSleep          = <64>;
+              uTSControl            = <0x20000000>;
+              uTSConfig             = <0x0>;
+              uSidebandEnMask       = <0xffff>;
+              uWatchdogLoadVal      = <9850>;
+              uZeroCEnMask          = <0xffff>;
+              nsZeroCSetDeciDegC    = /bits/ 16 <50>;
+              nsZeroCResetDeciDegC  = /bits/ 16 <100>;
+              bPSHoldResetEn        = /bits/ 8 <1>;
+              bAutoAdjustPeriod     = /bits/ 8 <0>;
+              bStandAlone           = /bits/ 8 <0>;
+              bPWMEn                = /bits/ 8 <0>;
+              bWatchdogEn           = /bits/ 8 <1>;
+              bWatchdogResetEn      = /bits/ 8 <1>;
+            };
+          };
+          sensorconfigs {
+            sensorconfigs_0{
+              eCal                        = <0>;
+              nsCalPoint1CodeDefault      = /bits/ 16 <480>;
+              nsCalPoint2CodeDefault      = /bits/ 16 <714>;
+              nsThresholdMinDeciDegC      = /bits/ 16 <0x7fff>;
+              nsThresholdLowerDeciDegC    = /bits/ 16 <0x7fff>;
+              nsThresholdUpperDeciDegC    = /bits/ 16 <0x7fff>;
+              nsThresholdCriticalDeciDegC = /bits/ 16 <0x7fff>;
+              nsThresholdMaxDeciDegC      = /bits/ 16 <1200>;
+              controller                  = /bits/ 8 <0>;
+              ucChannel                   = /bits/ 8 <0>;
+              ucSensorID                  = /bits/ 8 <0>;
+              ucFuseIdx                   = /bits/ 8 <0>;
+            };
+          };
+          TsensBspType {
+            uNumControllers     = <1>;
+            uNumSensors         = <12>;
+            uSensorConvTime_us  = <30>;
+            nCalPoint1DeciDegC  = <300>;
+            nCalPoint2DeciDegC  = <1200>;
+            uShift              = <10>;
+          };
+   };

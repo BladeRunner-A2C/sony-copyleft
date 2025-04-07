@@ -1,0 +1,67 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,ddr.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm DDR device tree
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible node...
+   Links to any data sheet or HW specific details
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,ddr
+
+  print_severity:
+    maxItems: 1
+    description: current severity with which DDR logs are printerd, change as needed.
+
+  ddr_log_level:
+    maxItems: 1
+    description: by default only logs Error Conditions with DDRSNS, change as needed.
+    
+  ddr_trng_always_en:
+    maxItems: 1
+    description: this flag if set to '1' will force DDR training on each boot
+
+  extnd_term_log_flag:
+    maxItems: 1
+    description: this flag if set to '1' will force additional DDR training logs
+    
+  ddr_tr_led_flag:
+    maxItems: 1
+    description: this flag if set to '1' will blink the green LED when DDR training is happening
+        
+  ddr_boot_freq:
+    maxItems: 1
+    description: if non zero and valid frequency, boot frequency will be set to this or nearest frequency   
+    
+required:
+  - compatible
+  - print_severity
+  - ddr_log_level
+  - ddr_trng_always_en
+  - ddr_boot_freq
+
+additionalProperties: false
+
+examples:
+  - |
+    ddr {
+      compatible = "qcom,ddr";
+      print_severity = <8210>;
+      ddr_log_level = <0>;
+      ddr_trng_always_en = <0>;
+      extnd_term_log_flag = <0>;
+      ddr_tr_led_flag = <0>;
+      ddr_boot_freq = <2093000>;
+    };

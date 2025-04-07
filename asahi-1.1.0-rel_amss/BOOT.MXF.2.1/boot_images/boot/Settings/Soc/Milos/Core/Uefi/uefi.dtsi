@@ -1,0 +1,14 @@
+/**
+
+This is the settings file for Uefi
+
+Copyright (c) 2022-2023 Qualcomm Technologies, Inc.
+All Rights Reserved.
+*/
+
+&soc {
+        memorymap{ };
+        registermap{ };
+};
+
+#include "LAA/memmap.dtsi"

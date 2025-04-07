@@ -1,0 +1,42 @@
+#/** @file CPUInfoLib.inf
+#
+#  Cpu Info lib
+#
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     --------------------------------------------------------
+# 04/12/23   ak      Initial Revision
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = CPUInfoLib
+  FILE_GUID                      = 5A631922-A183-4414-8CCD-C879931A3DBB
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = CPUInfoLib
+
+[Sources.Arm]
+  ARM/CPUInfo.c
+  
+[Sources.AARCH64]
+  Aarch64/CPUInfo.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  QcomPkg/XBLLoaderApi.dec
+  QcomPkg/Library/MuslLib/MuslLib.dec  
+
+[LibraryClasses]
+  ArmLib
+  MuslLib
+

@@ -1,0 +1,27 @@
+#/**
+# @file MhiDevProgDeviceLibNull.inf
+#
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# All Rights Reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MhiDevProgDeviceLib
+  FILE_GUID                      = 75af0640-efeb-4e7e-b2da-831462f20d3b
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = MhiDevProgDeviceLib
+
+[Sources]
+  mhi_null.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/SdkLoader.dec
+  QcomPkg/XBLLoaderApi.dec
+
+[LibraryClasses]

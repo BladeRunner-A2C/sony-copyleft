@@ -1,0 +1,169 @@
+// -----------------------------------------------------------------------------
+//
+// @filename: pbl_load_code_fbc.cmm
+// @brief This file will load PBL binaries for full boot chain testing, setup
+// RUMI for PBL execution and boot till end of PBL.
+//
+
+// =============================================================================
+// * Copyright (c) 2019-2023 Qualcomm Technologies, Inc. All rights reserved.
+// * Confidential and Proprietary - Qualcomm Technologies, Inc.
+// =============================================================================
+
+GLOBAL &PBLDebugTable
+GLOBAL &PBL_EXECUTE_HW_SEQUENCE
+GLOBAL &APPS_ROM_BASE
+GLOBAL &TME_ROM_BASE
+GLOBAL &MASK_QTMR_FRAME_0_ADDR_IN_TME_ROM
+
+&APPS_ROM_BASE=0x00300000
+&TME_ROM_BASE=0x20200000
+
+&PBL_RECOVERABLE_ERR=0x0000000030b1a0        ;pbl_recoverable_error_handler
+&PBL_NON_RECOVERABLE_ERR=0x0000000030b04c    ;pbl_non_recoverable_error_handler
+&PBL_EXIT=0x0000000030299c                   ;pbl_exit
+&PBL_AUTH_HASH_SEG=0x0000000030ad14          ;pbl_auth_hash_seg
+&PBL_LOAD_XBL_SC_EXTN_IMG=0x00000000319a24   ;pbl_required_img_list[3].skip_loading_image ( 0x00000000319978 + Offset 0xAC )
+
+entry &load_image &test &debug_flag &emu_wa &en_tme_debug
+
+IF "&load_image"=="help"||"&load_image"==""
+(
+ area.reset
+
+ AREA.Create IO
+ AREA.Select IO
+
+ AREA.view IO
+
+ Print "Usage: cd.do pbl_load_code.cmm <load_image_bin> <test_media> "\
+ "<put_debug_bps> <need_emu_workaround> <en_tme_debug>"
+
+ Print "Example: cd.do pbl_load_code_fbc.cmm load ufs debug emuwa false"
+ Print "Example: cd.do pbl_load_code_fbc.cmm load usb debug emuwa en_tme_debug"
+ Print "Example: cd.do pbl_load_code_fbc.cmm load_sc_extn ufs nodebug emuwa en_tme_debug"
+ enddo
+)
+
+
+sys.m.nodebug
+OS.AREA V:/vi_rumi/rumi/scripts/rumi.bat reset
+wait 0.5s
+
+B::sys.d
+B::sys.u
+
+&cwd=os.pwd()
+
+; Turning MMNOC Clock On to access TME from APPS
+;d.s ENAXI:0x17402C %LE %LONG 1 ; GCC_CFG_NOC_MMNOC_AHB_CBCR
+
+IF "&load_image"=="load"||"&load_image"=="load_sc_extn"
+(
+ data.load.binary ./Palawan_APPS_PBL.mbn ezaxi:&APPS_ROM_BASE
+ data.load.binary ./Palawan_TME_CPU_ROM.mbn  ezaxi:&TME_ROM_BASE
+ IF "&load_image"=="load_sc_extn"
+ (
+  Data.Set MD:&PBL_LOAD_XBL_SC_EXTN_IMG %LE %Long 0x0
+ )
+)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; PBL Debug Table starts @ &rom_entry + 0x10
+; Each table entry is 32-bit address
+; Currently defined table entries:
+; 00 ufs_hc_init()
+; 01 pbl_execute_hw_sequence      (data)
+
+&PBLDebugTable=&APPS_ROM_BASE+0x10
+&PBL_EXECUTE_HW_SEQUENCE=Data.Long(P:&PBLDebugTable+0x04)
+
+;PRINT %HEX "0x" Var.Value(&PBLDebugTable)
+;PRINT %HEX "0x" Var.Value(&PBL_EXECUTE_HW_SEQUENCE)
+
+;debug breakpoints on APPS PBL
+IF "&debug_flag"=="debug"
+(
+ ;make sure the onchip breakpoints aren't over-flowing,
+ ;need to disable the current ones
+ b.dis /all
+
+ mode.mix
+ map.bo
+
+ b.s &PBL_RECOVERABLE_ERR
+ b.s &PBL_NON_RECOVERABLE_ERR
+ b.s &PBL_EXIT
+)
+
+;WA for emulation release
+IF "&emu_wa"=="emuwa"
+(
+ ;set pause point register twice, TME_HW_CSR_PAUSE_POINT | 0x222361D8
+ data.Set EAXI:(EAXI:0x22236034) %LE %Long 0x1
+ wait 0.04s
+ data.Set EAXI:(EAXI:0x22236034) %LE %Long 0x1
+
+ ; Mask QTMR0 to work around the issues in TME_SEQ getting timed out
+ &MASK_QTMR_FRAME_0_ADDR_IN_TME_ROM=&TME_ROM_BASE+0xC
+ ;data.set ezaxi:&MASK_QTMR_FRAME_0_ADDR_IN_TME_ROM  %LONG %LE 0x00000001
+
+ ;WA for PRNG issues seen
+ ;b.s &PBL_PRNG_GET_RANDOM_DATA_WA_ADDR /ONCHIP /PROGRAM /CMD "r.s x0 0" /RESUME
+
+)
+
+;If user wants to attach to TME T32, stop at first communication of Apps
+;with TME CPU only once
+IF "&en_tme_debug"=="en_tme_debug"
+(
+ ; Break only once on Apps
+ b.s &PBL_AUTH_HASH_SEG /Program /OnChip /COND Register(x0)==0x35
+)
+
+IF "&test"=="UFS"||"&test"=="ufs"
+(
+  &addr=eaxi:var.value(&PBL_EXECUTE_HW_SEQUENCE)
+  data.set &addr %long 0
+  go
+)
+
+IF "&test"=="sdcc"
+(
+  ;set FDL cookie for SD boot
+  data.Set EAXI:(EAXI:0x1FD9000) %LE %Long 0x2
+)
+
+IF "&test"=="usb"
+(
+  CD.DO \\qcdfs\prj\vlsi\vlsi_verify\vi_scratch\palawan\E1.1\cmm\clk\enable_all_clocks.cmm gcc
+  cd &cwd
+  CD.DO .\usb_rumi_scripts\usb_rumi_phy_init.cmm
+
+  ;set FDL cookie for USB boot
+  data.Set EAXI:(EAXI:0x1FD9000) %LE %Long 0x1
+)
+
+IF "&test"=="QSPI"||"&test"=="qspi"
+(
+  ;Set QSPI boot
+  ;r.s x3 0x4
+  ;go
+)
+
+IF "&test"=="SPI"||"&test"=="spi"
+(
+  ;Set SPI boot
+  ;r.s x3 0x5
+  ;go &PBL_EXIT
+)
+
+IF "&debug_flag"=="debug"
+(
+ while (run())
+ (
+ )
+ step
+)
+
+enddo

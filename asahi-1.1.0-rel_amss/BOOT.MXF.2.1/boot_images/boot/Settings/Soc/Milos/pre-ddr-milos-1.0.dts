@@ -1,0 +1,8 @@
+/dts-v1/;
+
+/ {
+	compatible = "qcom,milos-pre-ddr";
+	model = "qcom,milos";
+};
+
+#include "soc_pre-ddr.dtsi"                     /* Common SoC Node Definitions */

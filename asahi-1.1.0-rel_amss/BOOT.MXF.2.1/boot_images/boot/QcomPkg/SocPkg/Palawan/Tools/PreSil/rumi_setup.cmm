@@ -1,0 +1,143 @@
+;============================================================================
+;  Name:
+;    rumi_setup.cmm
+;
+;  Description:
+;     Setup RUMI
+;
+; Copyright(c) 2017-2023 by Qualcomm Technologies, Inc. All rights Reserved
+; Qualcomm Technologies Confidential and Proprietary
+;============================================================================
+;                        EDIT HISTORY FOR MODULE
+;
+;when         who     what, where, why
+;----------   ---     -------------------------------------------------------
+;06/27/2023   nnaram  Changed the dload cookie address
+;05/16/2023   nnaram  Changed the name from lanai to palawan
+;04/27/2023   yanhan  Added support for palawan
+;============================================================================;
+
+;-----------------------------------------------
+; Global Variables
+;-----------------------------------------------
+global &BootPresilBinPath
+global &TargetPresil
+global &ExecuteFlag
+&BootPresilBinPath="\\jerry\corebsp_labdata_0002\"
+local &SblDataZI
+local &SblDataZIBase
+local &SblDataZISize
+global &skip_tme_wa
+local &strippart_path
+local &storage
+global &TME_CPU_ROM_BIN
+
+&TME_CPU_ROM_BIN = "&TargetPresil"+"..\..\..\..\..\..\ssg_tmefwrel\release\Palawan\missionRom\11100000\TME_CPU_ROM.mbn"
+
+
+if ("&skip_tme_wa"=="")||("&skip_tme_wa"!="0x1")
+ &skip_tme_wa=0 ;skip tme calls
+
+;-----------------------------------------------
+; Entry
+;-----------------------------------------------
+ENTRY &Variant &RumiEmulation &storage
+area.clear
+area.select
+area
+
+sys.u
+snoop.pc on
+
+;-----------------------------------------------
+;Clear the DLOAD cookie (TCSR_TCSR_BOOT_MISC_DETECT)
+;-----------------------------------------------
+D.S EZAXI:0x1FD9000 %LE %Long 0
+
+;-----------------------------------------------
+; Load and execute PBL
+;-----------------------------------------------
+&script="&TargetPresil"+"ld_exec_pbl.cmm"
+do &script &Variant &RumiEmulation
+
+;Below should run to pbl_exit break point.
+;At that time the script will ask for symbols, add breakpoints, and continue execution
+while (run())
+(
+)
+
+;Delete pbl_exit breakpoint so execution continues at next go
+b.delete
+
+;-----------------------------------------------
+; Configure TSENS
+;-----------------------------------------------
+print "Configuring TSENS to 25 deg C"
+&script="&TargetPresil"+"tsens_rumi_cfg.cmm 25. fbc"
+do &script
+
+;disable SIMD trap as exception in EL3
+PER.Set.simple SPR:0x30102 %Quad 0x300000
+PER.Set.simple SPR:0x36112 %Quad 0x0
+
+;-----------------------------------------------
+; Generate XBL ELF Path
+;-----------------------------------------------
+print "Looking for Signed XBL ELF File"
+&xblloader_dll = "&TargetPresil"+"..\..\..\..\..\..\Build\Palawan"+"&Variant"+"\Loader\DEBUG_CLANG160LINUX\AARCH64\QcomPkg\XBLLoader\XBLLoader\DEBUG\"+"XBLLoader.dll"
+if os.file("&xblloader_dll")
+(
+  &xblloader_dll=OS.FILE.REALPATH("&xblloader_dll")
+  &strippart_path=OS.FILE.REALPATH("&TargetPresil"+"..\..\..\..\..\..\")
+)
+else
+(
+  &xblloader_dll = "&TargetPresil"+"..\..\..\..\..\..\Build\Palawan"+"&Variant"+"\Loader\DEBUG_CLANG160WIN\AARCH64\QcomPkg\XBLLoader\XBLLoader\DEBUG\"+"XBLLoader.dll"
+  if os.file("&xblloader_dll")
+  (
+    &xblloader_dll=OS.FILE.REALPATH("&xblloader_dll")
+  )
+  else
+  (
+    print "UNABLE TO FIND XBL ELF FILE!!"
+    end
+  )
+)
+
+
+data.load.elf &xblloader_dll ezaxi: /nocode /noreg /noclear /strippart "QcomPkg" /sourcepath &strippart_path
+
+go &sbl1_entry
+
+WHILE STATE.RUN()
+(
+  
+)
+
+;disable mmu
+PER.Set.simple SPR:0x36100 %Quad 0x030C5183C
+D.A qusb_ldr_eud_init mov r0,0x0
+D.A qusb_ldr_eud_init+4 ret
+
+;-----------------------------------------------
+; SECLib WA script
+;-----------------------------------------------
+&SecLibWaScriptPath="&TargetPresil"+"..\..\..\..\..\..\ssg\SecPkg\rumi\palawan\seclib_wa.cmm"
+do &SecLibWaScriptPath misc
+
+;re-enable mmu
+PER.Set.simple SPR:0x36100 %Quad 0x030C5183D
+PER.Set.simple SPR:0x36112 %Quad 0
+
+enddo
+;-----------------------------------------------
+; T32 connect
+;-----------------------------------------------
+ConnectTrace32:
+;do std_reset
+sys.up
+if (run())
+  (
+    break
+  )
+return

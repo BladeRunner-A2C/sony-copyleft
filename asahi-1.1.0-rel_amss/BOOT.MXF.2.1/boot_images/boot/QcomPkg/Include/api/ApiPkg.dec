@@ -1,0 +1,16 @@
+#/** @file ApiPkg.dec
+# Api package.
+#
+# Copyright (c) 2023 Qualcomm Technologies Inc. All rights reserved.
+#
+#**/
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = ApiPkg
+  PACKAGE_GUID                   = fb8c8226-fe92-41b2-9056-a3ccf6961268
+  PACKAGE_VERSION                = 0.1
+
+[Includes.common]
+  pmic/pm
+

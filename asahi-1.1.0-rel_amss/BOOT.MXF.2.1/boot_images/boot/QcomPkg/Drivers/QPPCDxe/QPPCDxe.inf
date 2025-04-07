@@ -1,0 +1,55 @@
+#/** @file QPPCDxe.inf
+#
+#  Component description file for QPPC DXE driver module
+#
+#  Copyright 2022 by Qualcomm Technologies, Inc.  All Rights Reserved.
+#
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 12/08/22   arajashe  Created.
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = QPPCDxe
+  FILE_GUID                      = aec5eb49-646a-4ffa-9abc-4060b6910a4b
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = QPPCDxeEntryPoint
+
+[Sources.common]
+  QPPCDxe.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  MdePkg/MdePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  QPPCLib
+  DALModEnvLib
+  ULogApiLib
+  NpaApiLib
+  BusyWaitLib
+  UefiDriverEntryPoint
+  MailboxLib
+
+[Protocols]
+  gEfiQppcProtocolGuid
+  gEfiMBoxIPCProtocolGuid
+
+[Guids]
+  gQcomTokenSpaceGuid
+
+[Depex]
+  gEfiDalSysProtocolGuid AND
+  gEfiMBoxIPCProtocolGuid
+

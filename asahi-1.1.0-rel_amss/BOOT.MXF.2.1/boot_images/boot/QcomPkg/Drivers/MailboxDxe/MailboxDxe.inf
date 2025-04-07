@@ -1,0 +1,43 @@
+#/** @file MailboxDxe.inf
+#  
+#  DXE driver for Mailbox for AP<>PDP and AP<>CPUCP Interprocessor Communication
+#  
+#  Copyright (c) 2022  Qualcomm Technologies, Inc.  All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+#07/01/2022  mad     Created
+##==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MailboxDxe
+  FILE_GUID                      = e3095547-34b8-4bd4-8d8f-c3223c30318d
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MailboxEntryPoint
+
+[Sources.common]
+  MailboxDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  MailboxLib
+
+[Protocols]
+  gEfiMBoxIPCProtocolGuid
+  
+[Depex]
+  gEfiDalSysProtocolGuid
+#  gQcomScmProtocolGuid

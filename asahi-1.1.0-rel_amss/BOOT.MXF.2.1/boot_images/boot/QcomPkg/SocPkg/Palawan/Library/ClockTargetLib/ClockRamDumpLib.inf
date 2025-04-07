@@ -1,0 +1,36 @@
+#/** @file ClockRamDumpLib.inf
+#
+#  XBL Clock RAM Dump Library INF build file
+#
+#  Copyright 2019-2023 by Qualcomm Technologies, Inc.  All Rights Reserved.
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ClockTargetLib
+  FILE_GUID                      = 8901f14c-6628-4958-af50-2298ebcf5142
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ClockTargetLib
+
+[Sources]
+
+  inc/HALclkHWIO.h
+
+[Sources.common]
+  src/ClockTarget.c
+  src/HALclkTarget.c
+  image/RamDump/ClockBSP.c
+  image/RamDump/ClockRamDump.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomPkg/SocPkg/SocPkg.dec
+  QcomPkg/SocPkg/Library/ClockBaseLib/ClockBaseLib.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  ClockBaseLib

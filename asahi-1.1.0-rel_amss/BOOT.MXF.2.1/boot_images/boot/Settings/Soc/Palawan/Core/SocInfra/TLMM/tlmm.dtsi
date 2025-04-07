@@ -1,0 +1,13 @@
+#include "gpio-dt.h"
+&soc {
+  tlmm: pinctrl@f100000 {
+      compatible = "qcom,palawan-pinctrl";
+      reg = <0xf100000 0x100000>;
+      ngpios = <178>;
+      width = <0x1000>;
+      id = <GPIO_DEVICE_TLMM>;
+      version = <0x1>;
+      gpio-controller;
+      #gpio-cells = <2>;
+  };
+};

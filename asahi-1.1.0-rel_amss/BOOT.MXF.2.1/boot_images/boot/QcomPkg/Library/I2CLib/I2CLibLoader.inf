@@ -1,0 +1,39 @@
+#/** @file I2CLibLoaderRelease.inf
+# 
+# 
+#  Copyright (c) 2023 Qualcomm Technologies, Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#               EDIT HISTORY
+#
+#
+# when      who   what, where, why
+# --------  ---   ----------------------------------------------------------
+# 06/21/23  mp    Initial revision
+#
+#==============================================================================
+
+[Defines]
+ INF_VERSION         = 0x00010005
+ BASE_NAME           = I2CLoaderLib
+ FILE_GUID           = 82964EF3-6BDE-4E44-9CBF-2F034735363B
+ MODULE_TYPE         = BASE
+ VERSION_STRING      = 1.0
+ LIBRARY_CLASS       = I2CLib
+
+[Binaries.Arm]
+  PE32|Arm/I2CLoaderLib.lib
+ 
+[Binaries.AARCH64]
+  PE32|AARCH64/I2CLoaderLib.lib
+
+[LibraryClasses]
+  ClockTargetLib
+  I2CFWImageLib
+  TlmmLib
+  BusyWaitLib
+  DTBExtnLib
+  DALCommonLoaderLib
+ 

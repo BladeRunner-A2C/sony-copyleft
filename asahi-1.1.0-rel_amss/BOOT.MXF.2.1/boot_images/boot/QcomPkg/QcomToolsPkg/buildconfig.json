@@ -1,0 +1,55 @@
+{
+  "Components" :[
+                 {   # reference sample, propagate to other components
+                   "Name" : "QcomTools" ,
+                   "Process" : [
+                                 {
+                                   "ToolChain" : "CLANG160" ,
+                                   "AArch" : "AARCH64" ,
+                                   "Params" : ["$EDK2ROOT/BaseTools/Source/Python/build/build.py","-p", "QcomPkg/QcomToolsPkg/QcomToolsPkg.dsc", "-j", "QcomPkg/QcomToolsPkg/build_QcomToolsPkg.log","-w","-a", "AARCH64","-b","$REL"]   
+                                 }
+                               ]
+                 } 
+                ] ,
+   "CreateImages" : [
+                       
+                      {
+                        "Name" : "QcomTools" ,    # Just cosmetic, readable field for reference, ignored by tool/script
+                        "Process" : [
+                                         {
+                                           "ToolChain" : "Copy" ,
+                                           "Components" : ["QcomTools"],
+										   "Createfolders" : ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/unsigned","$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/sign"],
+                                           "Params" : ["$BUILDROOT/Build/QcomTools/$REL_$COMPILER/FV/FVMAIN_COMPACT.Fv", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/unsigned/tools.fv"]
+                                         },
+										 {
+                                           "ToolChain" : "Copy" ,
+										   "Createfolders" : ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL"],
+                                   	       "Params" : ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/unsigned/tools.fv", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/tools.fv"]
+                                         },
+										 {
+										  "ToolChain" : "Pack" ,
+										  "Params" : ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/tools.fv", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/unsigned/tools_p.elf", "0x87100000", "elf", "64", "nohash"]
+										},
+										{
+                                          "ToolChain": "Network_Sign_v2",
+										  "Createfolders" : ["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/sign"],
+										  "Params": [
+										  "secure-image", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/unsigned/tools_p.elf",
+										  "--outfile", "$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/sign/tools_p.elf",
+										  "--image-id", "TOOLS-FV",
+										  "--security-profile", "$BUILDROOT/boot/QcomPkg/QcomToolsPkg/tools_tme_security_profile.xml",
+										  "--sign",
+										  "--signing-mode", "TEST"
+										]
+										},
+										{
+											"ToolChain" : "Copy",
+											"Params" :["$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL/sign/tools_p.elf","$BOOTROOT/$TARGETROOT/Bin/$TARGETID/$REL"]
+										}
+										
+                                        ]
+                      } 
+						
+					]
+ }

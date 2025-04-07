@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MemoryMaps schema_ver="1.0">
+  <Product name="SM8650_LA_1.0" status="Approved" version="4" desc="SDM8650.LA 1.0 MapJIRA-656: Request 128k of DDR for TZ on LanaiJIRA 659: Carveout pVM firmware memory on LanaiDARE region tag usage is calculated by (x * 1097 / 4096 + 2) in KB.  HYP carveout + TZ SMMU Drv: n * 5MB + 1 (for S2 PT) + n*0.5MB (AC DB) + 32MB(Gunyah) + 3MB (SMMU Debug buffer), where n is the DDR size in GB. E.g. for 4GB DDR: 4*5.5 +1+32+3 = 58MBFor PASR targets, this carveout locates at 0x8_C000_0000 – (n*5.5 +1+32+3)For non-PASR target, this carveout start address is: DDR_END – (n*5.5 +1+32+3)MTE is located at 0x8_C000_0000 ++ MTE sizeMTE size:  DDR size/32E.g. for 16GB DDR: 16G/32 = 512MB @ 0x8_C000_0000 - 0x8_DFFF_FFFFLinux kernel is loaded at 0xA8000000">
+    <Hardware>
+      <Bank name="DDR" addr="0x80000000" size="2G"/>
+    </Hardware>
+    <Software>
+      <Variant>
+        <Region name="DARE-HYP" addr="0x80000000" size="0x16E0000"/>
+        <Region name="Gunyah HYP" addr="0x80000000" size="14M"/>
+        <Region name="CPUSYS_VM" addr="0x80E00000" size="4M"/>
+        <Region name="Tags" addr="0x81200000" size="0x4E0000"/>
+        <Region name="XBL DT/log" addr="0x81A00000" size="256K"/>
+        <Region name="XBL Ramdump" addr="0x81A40000" size="0x1C0000"/>
+        <Region name="AOP image" addr="0x81C00000" size="384K"/>
+        <Region name="AOP CMD DB" addr="0x81C60000" size="128K"/>
+        <Region name="AOP config" addr="0x81C80000" size="128K" desc="JIRA358"/>
+        <Region name="TME crash dump" addr="0x81CA0000" size="256K"/>
+        <Region name="TME log" addr="0x81CE0000" size="16K"/>
+        <Region name="UEFI log" addr="0x81CE4000" size="64K" desc="JIRA352"/>
+        <Region name="secdata / APSS" addr="0x81CFF000" size="4K"/>
+        <Region name="SMEM" addr="0x81D00000" size="2M" type="static"/>
+        <Region name="ADSP_MHI" addr="0x81F00000" size="128K"/>
+        <Region name="Global SYNC" addr="0x82600000" size="1M"/>
+        <Region name="TZ_STAT" addr="0x82700000" size="1M"/>
+        <Region name="PIL_REGION" addr="0x8BC00000" size="367.5M" type="relocatable" desc="ADSP, VIDEO, SLPI"/>
+        <Region name="MPSS" addr="0x8BC00000" size="244M"/>
+        <Region name="Q6_MPSS_DTB" addr="0x9B000000" size="512K"/>
+        <Region name="IPA FW" addr="0x9B080000" size="64K"/>
+        <Region name="IPA GSI" addr="0x9B090000" size="40K"/>
+        <Region name="GPU micro-code" addr="0x9B09A000" size="8K"/>
+        <Region name="SPSS_REGION" addr="0x9B100000" size="1.5M"/>
+        <Region name="SPU secure shared memory" addr="0x9B280000" size="512K"/>
+        <Region name="Camera" addr="0x9B300000" size="8M"/>
+        <Region name="VIDEO" addr="0x9BB00000" size="8M"/>
+        <Region name="CVP" addr="0x9C300000" size="7M"/>
+        <Region name="cDSP" addr="0x9CA00000" size="32M"/>
+        <Region name="Q6_cDSP_DTB" addr="0x9EA00000" size="512K"/>
+        <Region name="Q6_ADSP_DTB" addr="0x9EA80000" size="512K"/>
+        <Region name="ADSP/SLPI" addr="0x9EB00000" size="64.5M"/>
+        <Region name="UEFI" addr="0xA7000000" size="16M"/>
+        <Region name="Linux kernel reserve" addr="0xA8000000" size="256M"/>
+        <Region name="MPSS DSM" addr="0x86B00000" size="81M"/>
+        <Region name="DSM partition 1" addr="0x86B00000" size="73M"/>
+        <Region name="DSM partition 2" addr="0x8B400000" size="8M"/>
+        <Region name="DARE-TZ" addr="0xD8000000" size="0x9D40000"/>
+        <Region name="XBL_SC" addr="0xD8000000" size="256K"/>
+        <Region name="CPUCP FW" addr="0xD8040000" size="0x1C0000"/>
+        <Region name="QTEE" addr="0xD82E0000" size="0x520000"/>
+        <Region name="TA/Tags" addr="0xD8800000" size="0x93B0000"/>
+        <Region name="Reserved" addr="0xE1BB0000" size="0x190000"/>
+        <Region name="VM_KERNEL_MEM(OEM configurable)" addr="0xF3800000" size="144M"/>
+        <Region name="LLCC LPI" addr="0xFF800000" size="6M"/>
+        <Region name="QDSS / APPS" addr="0x82800000" size="32M"/>
+        <Region name="VM_COMM_MEMS" addr="0x81F20000" size="0x20D000"/>
+        <Region name="HYP mem database" addr="0x825A0000" size="384K"/>
+        <Region name="Reserved" addr="0xD8200000" size="896K"/>
+        <Region name="PVM FW" addr="0x824A0000" size="1M"/>
+      </Variant>
+    </Software>
+  </Product>
+</MemoryMaps>
+

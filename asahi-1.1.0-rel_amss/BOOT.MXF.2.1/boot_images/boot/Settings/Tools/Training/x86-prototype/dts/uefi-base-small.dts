@@ -1,0 +1,38 @@
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	model = "QC-Overlay";
+	compatible = "qcom,overlay";
+
+	soc: soc {
+	};
+#if 0
+	firmware: firmware {
+	};
+#else
+	firmware {
+		qcom_scm {
+		};
+	};
+#endif
+};
+
+&soc {
+	qcom,wdt@17410000 {
+	};
+	kryo-erp {
+	};
+	qcom_tzlog: tz-log@14680720 {
+	};
+	arch_timer: timer {
+	};
+};
+
+#if 0
+&firmware {
+	qcom_scm {
+	};
+};
+#endif

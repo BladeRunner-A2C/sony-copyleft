@@ -1,0 +1,68 @@
+;****************************************************************************
+;**         debug_uefi_target_api.cmm
+;**
+;** This script performs setup for debugging target on secboot 3.0 Architecture.
+;**
+;** Copyright  2017, 2021, 2022 by Qualcomm Technologies, Incorporated.  All Rights Reserved.
+;**
+;****************************************************************************
+;**
+;**                        EDIT HISTORY FOR MODULE
+;**
+;**
+;** when       who     what, where, why
+;** --------   ---     ------------------------------------------------------
+;** 01/11/21   kpa     Updates to disable secure Mor reset
+;** 04/12/17   kpa     Initial creation
+
+;****************************************************************************
+
+&PmicPeekScript="&METASCRIPTSDIR\..\tools\systemdrivers\pmic\hamoa\PMICPeek.cmm"
+&SpmiCfgScript="&METASCRIPTSDIR\..\tools\systemdrivers\pmic\hamoa\spmi\spmiCfg.cmm"
+
+;=====================================================
+; Target Specific functions
+;=====================================================
+ENTRY &Api
+MainApi:
+  if ("&Api"=="SystemUp")
+  (
+    gosub SystemUp
+  )
+  else if("&Api"=="SystemDown")
+  (
+    gosub SystemDown
+  )
+
+EndofMain:
+enddo
+
+;=====================================================
+; Function to clean up just before exit
+;=====================================================
+SystemDown:
+  sys.d
+  return  ;SystemDown
+
+  
+;=====================================================
+; Function to bring the system up
+;=====================================================
+SystemUp:
+
+  IF "&METASCRIPTSDIR"!=""
+  (
+    IF (OS.FILE("&METASCRIPTSDIR/common/&CHIPSET/std_reset.cmm"))
+    (
+      do &METASCRIPTSDIR/common/&CHIPSET/std_reset.cmm   
+    )
+    else
+    (
+      sys.u  
+    )
+  )
+  else
+  (
+    sys.u  
+  )
+  return  ;SystemUp

@@ -1,0 +1,45 @@
+#  @file BootCheckEnableMediaLib.inf
+#  
+#  Library to enable UFSDxe if parition exists in spinor
+#  
+#  Copyright (c) 2023  Qualcomm Technologies Inc. All rights reserved.<BR>
+#  
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 04/20/23   vv      Initial revision.
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BootCheckEnableMediaLib
+  FILE_GUID                      = 4cebad25-10af-4320-93e8-d4aa06ae509d
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BootCheckEnableMediaLib
+
+[Sources.common]
+  BootCheckEnableMediaLib.c
+
+[BuildOptions.AARCH64]
+  #GCC:*_*_*_CC_FLAGS = -O0
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  ArmPkg/ArmPkg.dec
+
+[Guids]
+
+[LibraryClasses]
+  IoLib
+  PcdLib
+  DebugLib
+  UefiCfgLib
+  QcomLib

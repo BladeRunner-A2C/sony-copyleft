@@ -1,0 +1,22 @@
+#/** @file UCLib_core_missionLibRelease.inf
+#  
+#  
+#   Copyright (c) 2023 Qualcomm Technologies, Inc.
+#   All Rights reserved. 
+#   Confidential and Proprietary - Qualcomm Technologies, Inc.
+#  
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = UCLibMissionLib
+  FILE_GUID                      = 89828773-64ec-474c-994e-3cefc7c7967b
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = UCLibMissionLib
+
+[Binaries.Arm]
+   PE32|UCLibMissionLib.lib
+
+[Binaries.AARCH64]
+   PE32|UCLibMissionLib.lib

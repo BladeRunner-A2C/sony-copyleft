@@ -1,0 +1,15 @@
+#<SYMDEFS>#
+#DO NOT EDIT#
+0x81c800d8	OBJECT	devices
+0x81c82000	FUNC	main
+0x81c82014	FUNC	_start
+0x81c8202e	FUNC	_start_c
+0x81c82054	FUNC	_init
+0x81c82056	FUNC	__libc_start_init
+0x81c82088	FUNC	__libc_start_main
+0x81c820ba	FUNC	_Exit
+0x81c820bc	FUNC	__funcs_on_exit
+0x81c820bc	FUNC	_fini
+0x81c820bc	FUNC	__stdio_exit
+0x81c820be	FUNC	__libc_exit_fini
+0x81c820f6	FUNC	exit

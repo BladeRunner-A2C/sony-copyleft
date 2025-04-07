@@ -1,0 +1,33 @@
+#/** @file ChipInfoTargetLib.inf
+#
+#  Build file for the ChipInfo Library.
+#
+#  Copyright (c) 2017, 2023, 2024 Qualcomm Technologies, Inc. All rights reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
+#**/
+
+[Defines]
+  INF_VERSION     = 0x00010005
+  BASE_NAME       = ChipInfoXblConfigLib
+  FILE_GUID       = 958AAE62-EB81-4AA5-B5E7-B54BA8116896
+  MODULE_TYPE     = BASE
+  VERSION_STRING  = 1.0
+  LIBRARY_CLASS   = ChipInfoXblConfigLib
+
+[BuildOptions.AARCH64]
+  GCC:*_*_*_CC_FLAGS = -Werror
+
+[Sources]
+  ChipInfoXblConfigLibNull.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  QcomPkg/XBLLoaderApi.dec
+
+[LibraryClasses]
+  BaseLib

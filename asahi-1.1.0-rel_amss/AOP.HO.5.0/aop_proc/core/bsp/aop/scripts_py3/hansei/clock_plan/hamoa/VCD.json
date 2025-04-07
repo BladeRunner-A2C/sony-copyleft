@@ -1,0 +1,832 @@
+{
+    "rpmh_cdsp_noc": {
+        "VCD Index": 9,
+        "threshold": [
+            0,
+            390,
+            4063,
+            8187,
+            9478,
+            12190,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_turing_q6_axi_clk_src",
+                "clock": "gcc_ddrss_turing_q6_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 434,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "200.000000"
+                    },
+                    {
+                        "SVS": "403.000000"
+                    },
+                    {
+                        "SVS_L1": "466.500000"
+                    },
+                    {
+                        "Nominal": "600.000000"
+                    },
+                    {
+                        "Turbo": "806.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_ce": {
+        "VCD Index": 6,
+        "threshold": [
+            0,
+            1572,
+            7021,
+            14042,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_ce1_clk_src",
+                "clock": "gcc_ce1_clk",
+                "clock_div": 1,
+                "mux_sel": 422,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "SVS": "85.714286"
+                    },
+                    {
+                        "Nominal": "171.428571"
+                    },
+                    {
+                        "Turbo": "200.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_cnoc": {
+        "VCD Index": 5,
+        "threshold": [
+            0,
+            503,
+            2622,
+            5245,
+            10570,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_cfg_noc_lpass_clk_src",
+                "clock": "gcc_cfg_noc_lpass_clk",
+                "clock_div": 1.0,
+                "mux_sel": 38,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "SVS": "50.000000"
+                    },
+                    {
+                        "Nominal": "100.000000"
+                    },
+                    {
+                        "Nominal": "100.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_cnoc_center_qx_clk_src",
+                "clock": "gcc_cnoc_center_qx_clk",
+                "clock_div": 1.0,
+                "mux_sel": 17,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "50.000000"
+                    },
+                    {
+                        "SVS": "100.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    },
+                    {
+                        "Turbo": "240.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_cnoc_north_qx_clk_src",
+                "clock": "gcc_cnoc_north_qx_clk",
+                "clock_div": 1.0,
+                "mux_sel": 19,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "100.000000"
+                    },
+                    {
+                        "SVS": "200.000000"
+                    },
+                    {
+                        "Nominal": "403.000000"
+                    },
+                    {
+                        "Turbo": "533.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_cnoc_periph_clk_src",
+                "clock": "gcc_aggre_cnoc_periph_north_ahb_clk",
+                "clock_div": 1.0,
+                "mux_sel": 73,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "SVS": "50.000000"
+                    },
+                    {
+                        "Nominal": "100.000000"
+                    },
+                    {
+                        "Nominal": "100.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_config_noc_clk_src",
+                "clock": "gcc_aggre_noc_ahb_clk",
+                "clock_div": 1.0,
+                "mux_sel": 71,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "SVS": "37.500000"
+                    },
+                    {
+                        "Nominal": "75.000000"
+                    },
+                    {
+                        "Nominal": "75.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_config_noc_ddrss_sf_clk_src",
+                "clock": "gcc_cnoc_sf_qx_clk",
+                "clock_div": 1.0,
+                "mux_sel": 18,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "100.000000"
+                    },
+                    {
+                        "SVS": "200.000000"
+                    },
+                    {
+                        "Nominal": "403.000000"
+                    },
+                    {
+                        "Turbo": "533.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_config_noc_pcie_tunnel_clk_src",
+                "clock": "gcc_cnoc_pcie1_tunnel_clk",
+                "clock_div": 1.0,
+                "mux_sel": 57,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "150.000000"
+                    },
+                    {
+                        "SVS": "155.500000"
+                    },
+                    {
+                        "Nominal": "311.000000"
+                    },
+                    {
+                        "Nominal": "311.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_mmnoc": {
+        "VCD Index": 4,
+        "threshold": [
+            0,
+            522,
+            5446,
+            9677,
+            10975,
+            14515,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_mmnoc_hf_qx_clk_src",
+                "clock": "gcc_camera_hf_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 157,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "200.000000"
+                    },
+                    {
+                        "SVS": "355.333333"
+                    },
+                    {
+                        "SVS_L1": "403.000000"
+                    },
+                    {
+                        "Nominal": "533.000000"
+                    },
+                    {
+                        "Turbo": "600.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_mmnoc_sf_qx_clk_src",
+                "clock": "gcc_av1e_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 178,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "200.000000"
+                    },
+                    {
+                        "SVS": "355.333333"
+                    },
+                    {
+                        "SVS_L1": "403.000000"
+                    },
+                    {
+                        "Nominal": "533.000000"
+                    },
+                    {
+                        "Turbo": "600.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_pcie_anoc": {
+        "VCD Index": 2,
+        "threshold": [
+            0,
+            448,
+            4671,
+            7007,
+            9413,
+            12449,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_aggre_noc_hs_sf_clk_src",
+                "clock": "gcc_aggre_noc_pcie_hs_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 109,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "200.000000"
+                    },
+                    {
+                        "SVS": "300.000000"
+                    },
+                    {
+                        "SVS_L1": "403.000000"
+                    },
+                    {
+                        "Nominal": "533.000000"
+                    },
+                    {
+                        "Turbo": "700.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_aggre_noc_north_sf_clk_src",
+                "clock": "gcc_aggre_noc_pcie_north_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 90,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "100.000000"
+                    },
+                    {
+                        "SVS": "200.000000"
+                    },
+                    {
+                        "SVS": "200.000000"
+                    },
+                    {
+                        "Nominal": "403.000000"
+                    },
+                    {
+                        "Turbo": "533.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_aggre_noc_pcie_tunnel_clk_src",
+                "clock": "gcc_aggre_noc_pcie1_tunnel_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 103,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "150.000000"
+                    },
+                    {
+                        "SVS": "155.500000"
+                    },
+                    {
+                        "SVS": "155.500000"
+                    },
+                    {
+                        "Nominal": "311.000000"
+                    },
+                    {
+                        "Nominal": "311.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_qupv3_core_2x": {
+        "VCD Index": 8,
+        "threshold": [
+            0,
+            960,
+            2500,
+            5000,
+            7500,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_qupv3_wrap0_core_2x_clk_src",
+                "clock": "gcc_qupv3_wrap0_core_2x_clk",
+                "clock_div": 1,
+                "mux_sel": 355,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "50.000000"
+                    },
+                    {
+                        "SVS": "100.000000"
+                    },
+                    {
+                        "SVS_L1": "150.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_qupv3_wrap1_core_2x_clk_src",
+                "clock": "gcc_qupv3_wrap1_core_2x_clk",
+                "clock_div": 1,
+                "mux_sel": 369,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "50.000000"
+                    },
+                    {
+                        "SVS": "100.000000"
+                    },
+                    {
+                        "SVS_L1": "150.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_qupv3_wrap2_core_2x_clk_src",
+                "clock": "gcc_qupv3_wrap2_core_2x_clk",
+                "clock_div": 1,
+                "mux_sel": 383,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "50.000000"
+                    },
+                    {
+                        "SVS": "100.000000"
+                    },
+                    {
+                        "SVS_L1": "150.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_shub_dch": {
+        "VCD Index": 1,
+        "threshold": [
+            0,
+            4190,
+            6453,
+            8365,
+            11024,
+            12891,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_memnoc_clk_src",
+                "clock": "gcc_gemnoc_pd_div2_clk",
+                "clock_div": 2.0,
+                "mux_sel": 442,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "550.000000"
+                    },
+                    {
+                        "SVS": "847.000000"
+                    },
+                    {
+                        "SVS_L1": "1098.000000"
+                    },
+                    {
+                        "Nominal": "1447.000000"
+                    },
+                    {
+                        "Turbo": "1692.000000"
+                    },
+                    {
+                        "Turbo_L1": "1890.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_sys_noc": {
+        "VCD Index": 3,
+        "threshold": [
+            0,
+            587,
+            3062,
+            6124,
+            12340,
+            16383
+        ],
+        "Clock Domains": [
+            {
+                "domain": "gcc_aggre_noc_clk_src",
+                "clock": "gcc_aggre_noc_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 112,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "50.000000"
+                    },
+                    {
+                        "SVS": "100.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    },
+                    {
+                        "Turbo": "240.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_aggre_noc_usb_clk_src",
+                "clock": "gcc_aggre_noc_usb_north_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 107,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "100.000000"
+                    },
+                    {
+                        "SVS": "200.000000"
+                    },
+                    {
+                        "Nominal": "403.000000"
+                    },
+                    {
+                        "Turbo": "533.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_qdss_stm_clk_src",
+                "clock": "gcc_cnoc_qdss_stm_clk",
+                "clock_div": 1,
+                "mux_sel": 32,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "50.000000"
+                    },
+                    {
+                        "SVS": "100.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_qdss_trig_clk_src",
+                "clock": "gcc_cpuss_trig_clk",
+                "clock_div": 1,
+                "mux_sel": 486,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "37.500000"
+                    },
+                    {
+                        "SVS": "75.000000"
+                    },
+                    {
+                        "Nominal": "150.000000"
+                    },
+                    {
+                        "Nominal": "150.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_sys_noc_clk_src",
+                "clock": "gcc_aggre_noc_center_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 76,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "50.000000"
+                    },
+                    {
+                        "SVS": "100.000000"
+                    },
+                    {
+                        "Nominal": "200.000000"
+                    },
+                    {
+                        "Turbo": "240.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_sys_noc_cpucp_ahb_clk_src",
+                "clock": "gcc_cnoc_apss_qh_clk",
+                "clock_div": 1.0,
+                "mux_sel": 16,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "SVS": "50.000000"
+                    },
+                    {
+                        "Nominal": "100.000000"
+                    },
+                    {
+                        "Nominal": "100.000000"
+                    }
+                ]
+            },
+            {
+                "domain": "gcc_sys_noc_sf_axi_clk_src",
+                "clock": "gcc_aggre_noc_center_hs_axi_clk",
+                "clock_div": 1.0,
+                "mux_sel": 78,
+                "freq": [
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "19.200000"
+                    },
+                    {
+                        "LowSVS": "100.000000"
+                    },
+                    {
+                        "SVS": "200.000000"
+                    },
+                    {
+                        "Nominal": "403.000000"
+                    },
+                    {
+                        "Turbo": "533.000000"
+                    }
+                ]
+            }
+        ]
+    },
+    "rpmh_ddrmc": {
+        "VCD Index": 0,
+        "threshold": [
+            0,
+            761,
+            2084,
+            2925,
+            5924,
+            6509,
+            7972,
+            10422,
+            12141,
+            16383
+        ], 
+        "Clock Domains": [
+            {
+                "domain": "mccc_ddrmc", 
+                "clock": "mccc_ddrmc_ch0_clk",
+                "clock_div": 1.0, 
+                "mux_sel": 0, 
+                "freq": [
+                    {
+                        "MinSVS": "19.200000"
+                    }, 
+                    {
+                        "LowSVS": "200.000000"
+                    }, 
+                    {
+                        "LowSVS": "547.200000"
+                    }, 
+                    {
+                        "SVS": "768.000000"
+                    },
+                    {
+                        "SVS": "1555.200000"
+                    },
+                    {
+                        "SVS_L1": "1708.800000"
+                    },
+                    {
+                        "SVS_L1": "2092.800000"
+                    },
+                    {
+                        "Nominal": "2736.000000"
+                    },
+                    {
+                        "Turbo": "3187.200000"
+                    },
+                    {
+                        "Turbo_L1": "3686.400000"
+                    }
+                ] 
+            }
+        ] 
+    } 
+}

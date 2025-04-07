@@ -1,0 +1,37 @@
+#/** @file SPIEnhancedLibRelease.inf
+# 
+# 
+# Copyright (c) 2023 Qualcomm Technologies, Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#               EDIT HISTORY
+#
+#
+# when      who   what, where, why
+# --------  ---   ----------------------------------------------------------
+# 06/21/23  mp    Initial revision
+#
+#==============================================================================
+
+[Defines]
+ INF_VERSION         = 0x00010005
+ BASE_NAME           = SPIEnhancedLib
+ FILE_GUID           = 37CD8E7D-9EA3-49F4-ACFF-580C99660C0C
+ MODULE_TYPE         = BASE
+ VERSION_STRING      = 1.0
+ LIBRARY_CLASS       = SPILib
+
+[Binaries.Arm]
+  PE32|Arm/SPIEnhancedLib.lib
+ 
+[Binaries.AARCH64]
+  PE32|AARCH64/SPIEnhancedLib.lib
+
+[LibraryClasses]
+  SPIFWImageLib
+  BusyWaitLib
+  ClockApiLib
+  DTBExtnLib
+

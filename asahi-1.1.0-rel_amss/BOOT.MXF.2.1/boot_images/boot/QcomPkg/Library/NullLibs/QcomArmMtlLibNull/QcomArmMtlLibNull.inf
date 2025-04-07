@@ -1,0 +1,24 @@
+#/** @file
+#  Copyright (c) 2017-2021, Arm Limited. All rights reserved.
+#  Copyright (c) 2023, Qualcomm Technologies, Inc. All Rights Reserved.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010019
+  BASE_NAME                      = QcomArmMtlLibNull
+  FILE_GUID                      = CEC3ADAE-CB6C-4550-890A-296B7D0324EA
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomArmMtlLib
+
+[Sources.common]
+  QcomArmMtlLibNull.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  

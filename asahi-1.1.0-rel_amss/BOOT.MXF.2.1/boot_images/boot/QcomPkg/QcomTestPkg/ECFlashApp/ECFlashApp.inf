@@ -1,0 +1,50 @@
+#/** @file ECFlashApp.inf
+#
+#  EC Flash Application inf file.
+#
+#  Copyright (c) 2021-2023 Qualcomm Technologies, Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+# when         who     what, where, why
+# ----------   ---     ----------------------------------------------------------
+# 03/03/23   bkulkarn  Switch to EfiShellProtocol to resolve UEFI panic for long filename
+# 12/08/22   bkulkarn  Update Hamoa EC FW partition size/I2C core instance, code refactoring
+# 11/14/22   ananns    Removed SPIApiLib dependency in ECFlashApp for Hamoa
+# 10/17/21   sumesahu  Initial revision
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ECFlashApp
+  FILE_GUID                      = 484523A5-6A18-463F-EA1D-DE3D740ABAD5
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ECFlashAppMain
+
+[Sources]
+  ECFlashApp.c
+  ECUpgrade.c
+  ECI2C.c
+  ECPredefine.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  MemoryAllocationLib
+  UefiLib
+  BaseMemoryLib
+  I2CApiLib
+  QcomLib
+  
+[Protocols]
+  gEfiShellProtocolGuid

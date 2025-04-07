@@ -1,0 +1,40 @@
+#/** @file BootRecoveryMethodLib_WLUN.inf
+#
+#  BootRecoveryMethodLib
+#  
+#  Copyright 2023 Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 01/25/21   vk      Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BootRecoveryMethodLib
+  FILE_GUID                      = 443DB2BA-B18E-11ED-86FD-7B85A7DD74D8
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BootRecoveryMethodLib
+
+[Sources.common]
+  boot_recovery_method_wlun.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/XBLLoaderApi.dec
+  QcomPkg/LoaderFramework/LoaderFrameworkApi.dec
+  QcomPkg/Library/MuslLib/MuslLib.dec
+  QcomPkg/XBLLoader/ExtDrivers/ExtDrivers.dec
+  QcomSdkPkg/SdkLoader.dec
+  
+[LibraryClasses]
+

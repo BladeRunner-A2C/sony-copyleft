@@ -1,0 +1,40 @@
+/**
+
+This is the configuration file for Quantum TZ Memory mapping
+
+Copyright (c) 2023 Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+
+**/
+
+#include "qntm_tz_memmap_defines.h"
+
+&soc {
+		qntm_tz_memmap {
+            compatible = "qcom,qntm_tz_memmap";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			memory@14680000{
+				device_type = "memory";
+				reg = < 0x0 0x14680000 0x0 0x2C000>;
+				MemLabel = "IMEM";
+				SharedImemOffset      = <SHARED_IMEM_OFFSET_ADDR>;
+				ImemHypOffset         = <IMEM_HYP_OFFSET_ADDR>;
+				ImemTzDiagOffset      = <IMEM_TZ_DIAG_OFFSET_ADDR>;
+				SystemImemTzOffset    = <SYSTEM_IMEM_TZ_OFFSET_ADDR>;
+				SystemImemTzSize      = <SYSTEM_IMEM_TZ_SIZE_ADDR>;
+				NumClusters           = <NUM_OF_CLUSTERS>;
+				NumCpusPerCluster     = <NUM_OF_CPUS_PER_CLUSTER>;
+			};
+			memory@80000000{
+				device_type = "memory";
+				reg = < 0x0 0x80000000 0x0 0x80000000>;
+				MemLabel = "DDR";
+				SclTzDdrOffset        = <SCL_TZ_DDR_OFFSET_ADDR>;
+				SclTzDdrSize          = <SCL_TZ_DDR_SIZE_ADDR>;
+				TzAppsRegionSize      = <TZ_APPS_REGION_SIZE_ADDR>;
+			};
+		};
+	};

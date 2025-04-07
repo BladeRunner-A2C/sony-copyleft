@@ -1,0 +1,50 @@
+/**
+
+This is the configuration file for Quantum sid mapping 
+
+Copyright (c) by Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+**/
+
+#include <qntm_defines.h>
+#include <qntm_defines_common.h>
+
+&sw {
+	qntm_def {
+
+		compatible = "qcom,qntm_def";
+
+		qntm_dym_sid_info_type_1 {
+			subsys                = <QUANTUM_ADSP>;                    //LPASS ADSP Guest OS PD
+			share_method          = <SHARE_BY_SID>;
+			avmid                 = <0>;
+			subsys_name           = "LPASS";
+			sid                   = <0x1003>;
+			input_base            = <LPASS_INPUT_BASE_MILOS>;
+			csid                  = <0x3>;
+			mask                  = <0x00>;
+		};
+		qntm_dym_sid_info_type_2 {
+			subsys                = <QUANTUM_CDSP>;                    //Compute DSP application streams 1
+			share_method          = <SHARE_BY_SID>;
+			avmid                 = <0>;
+			subsys_name           = "COMPUTE";
+			sid                   = <0x0c01>;
+			input_base            = <COMPUTE_INPUT_BASE_MILOS>;
+			csid                  = <0x1>;
+			mask                  = <0x00>;
+		};
+		qntm_dym_sid_info_type_3 {
+			subsys                = <QUANTUM_MPSS>;
+			share_method          = <SHARE_BY_HYP_ASSIGN>;
+			avmid                 = <AC_VM_MSS_MSA>;
+			subsys_name           = <0>;
+			sid                   = <0>;
+			input_base            = <0>;
+			csid                  = <0>;
+			mask                  = <0>;
+		};
+	};
+};

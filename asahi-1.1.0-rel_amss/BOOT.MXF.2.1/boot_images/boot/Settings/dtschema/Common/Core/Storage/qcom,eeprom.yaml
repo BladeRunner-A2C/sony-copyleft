@@ -1,0 +1,167 @@
+# Copyright (c) 2022,2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,eeprom.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm EEPROM DT
+
+maintainers:
+  - dt_pocs@qti.qualcomm.com
+
+description: |
+  The Qualcomm compatible node...
+  Links to data required for functioning of EEPROM driver
+
+properties:
+# A dictionary of DT properties for this binding schema
+  compatible:
+    const: qcom,eeprom
+    
+  EEPROM_Configurations:
+    type: object
+    description: All EEPROM configurations
+
+    properties:
+      Custom_device_name:
+        description: Custom device string
+      Custom_deviceid:
+        description: Custom device Id value
+      Custom_blockcount:
+        description: Custom device Blockcount
+      Custom_pagesperblock:
+        description: Custom device Page per Super block
+      Custom_pagesizebytes:
+        description: Custom device Page Size in Bytes
+      Custom_wbuffersizebytes:
+        description: Custom device Write buffer size
+      Custom_flags:
+        description: Custom device flags
+      Custom_clk:
+        description: Custom device clock
+      Custom_baseaddress:
+        description: Custom device baseaddress
+      Custom_instance:
+        description: Custom device instance
+        
+      RF_device_name:
+        description: RF device string
+      RF_deviceid:
+        description: RF device Id value
+      RF_blockcount:
+        description: RF device Blockcount
+      RF_pagesperblock:
+        description: RF device Page per Super block
+      RF_pagesizebytes:
+        description: RF device Page Size in Bytes
+      RF_wbuffersizebytes:
+        description: RF device Write buffer size
+      RF_flags:
+        description: RF device flags
+      RF_clk:
+        description: RF device clock
+      RF_baseaddress:
+        description: RF device baseaddress
+      RF_instance:
+        description: RF device instance 
+        
+      CDT_device_name:
+        description: CDT device string
+      CDT_deviceid:
+        description: CDT device Id value
+      CDT_blockcount:
+        description: CDT device Blockcount
+      CDT_pagesperblock:
+        description: CDT device page per Super block
+      CDT_pagesizebytes:
+        description: CDT device page Size in Bytes
+      CDT_wbuffersizebytes:
+        description: CDT device Write buffer size
+      CDT_flags:
+        description: CDT device flags
+      CDT_clk:
+        description: CDT device clock
+      CDT_baseaddress:
+        description: CDT device baseaddress
+      CDT_instance:
+        description: CDT device instance
+        
+    required:
+      - Custom_device_name
+      - Custom_deviceid
+      - Custom_blockcount
+      - Custom_pagesperblock
+      - Custom_pagesizebytes
+      - Custom_wbuffersizebytes
+      - Custom_flags
+      - Custom_clk
+      - Custom_baseaddress
+      - Custom_instance
+      - RF_device_name
+      - RF_deviceid
+      - RF_blockcount
+      - RF_pagesperblock
+      - RF_pagesizebytes
+      - RF_wbuffersizebytes
+      - RF_flags
+      - RF_clk
+      - RF_baseaddress
+      - RF_instance
+      - CDT_device_name
+      - CDT_deviceid
+      - CDT_blockcount
+      - CDT_pagesperblock
+      - CDT_pagesizebytes
+      - CDT_wbuffersizebytes
+      - CDT_flags
+      - CDT_clk
+      - CDT_baseaddress
+      - CDT_instance
+ 
+required:
+  - compatible
+
+additionalProperties: false
+
+examples:
+-  |
+    eeprom_driver: eeprom {
+      compatible = "qcom,eeprom";
+           
+      EEPROM_Configurations {
+        Custom_device_name = "CAT24C08";
+        Custom_deviceid = <2>;
+        Custom_blockcount = <1>;
+        Custom_pagesperblock = <64>;
+        Custom_pagesizebytes = <16>; 
+        Custom_wbuffersizebytes = <16>; 
+        Custom_flags = <0x1>;
+        Custom_clk = <400>;
+        Custom_baseaddress = <0x50>;
+        Custom_instance = <0x5>;
+           
+        RF_device_name = "AT24C128BN";
+        RF_deviceid = <1>;
+        RF_blockcount = <512>;
+        RF_pagesperblock = <32>;
+        RF_pagesizebytes = <32>; 
+        RF_wbuffersizebytes = <32>; 
+        RF_flags = <0>;
+        RF_clk = <400>;
+        RF_baseaddress = <0x50>;
+        RF_instance = <0x5>;
+            
+        CDT_device_name = "AT24C512C";
+        CDT_deviceid = <0>;
+        CDT_blockcount = <1>;
+        CDT_pagesperblock = <512>;
+        CDT_pagesizebytes = <128>; 
+        CDT_wbuffersizebytes = <32>; 
+        CDT_flags = <0>;
+        CDT_clk = <400>;
+        CDT_baseaddress = <0x52>;
+        CDT_instance = <0x5>;
+      };
+    };

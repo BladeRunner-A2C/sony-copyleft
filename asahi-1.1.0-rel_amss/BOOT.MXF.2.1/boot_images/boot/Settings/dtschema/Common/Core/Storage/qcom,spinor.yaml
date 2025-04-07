@@ -1,0 +1,110 @@
+# Copyright (c) 2022,2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,spinor.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm SPINOR DT
+
+maintainers:
+  - dt_pocs@qti.qualcomm.com
+
+description: |
+  The Qualcomm compatible node...
+  Links to data required for functioning of SPINOR driver
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,spinor
+
+  reg:
+    description: Base address of the SPINOR registers , change as needed (in accordance with IPCAT).
+
+  enable-logging:
+    maxItems: 1
+    description: Set 1 if you want to print extra log statements, change as needed.
+    $ref: /schemas/types.yaml#/definitions/uint8
+
+  dma-enable:
+    maxItems: 1
+    description: Enable DMA or PIO mode accordingly
+    $ref: /schemas/types.yaml#/definitions/uint8
+
+  device-params:
+    type: object
+
+    properties:
+      slot-0:
+        type: object
+
+        properties:
+          max-freq-khz:
+            description: Max Frequency for slot-0 part in kHz
+
+        required:
+          - max-freq-khz
+        
+      slot-1:
+        type: object
+
+        properties:
+          max-freq-khz:
+            description: Max Frequency for slot-1 part in kHz
+
+    required:
+      - slot-0
+
+  polling-params:
+    type: object
+    
+    properties:
+      erase-status-polling-msec:
+        description: erase_err_status_reg Register status polling intervals in ms
+        $ref: /schemas/types.yaml#/definitions/uint8
+
+      write-status-polling-usec:
+        description: write_err_status_reg Register status polling intervals in usec
+        $ref: /schemas/types.yaml#/definitions/uint16
+
+    required:
+      - erase-status-polling-msec
+      - write-status-polling-usec
+
+required:
+  - compatible
+  - reg
+  - enable-logging
+  - dma-enable
+  - device-params
+  - polling-params
+
+additionalProperties: false
+
+examples:
+  - |
+    spinor: spinor0@88DC000 {
+      compatible = "qcom,spinor";
+      reg = <0x088DC000 0x00004000>;
+
+      enable-logging = /bits/ 8 <1>; 
+
+      dma-enable = /bits/ 8 <0>; 
+
+      device-params {
+        slot-0 {
+          max-freq-khz = <52000>;
+        };
+        slot-1 {
+          max-freq-khz = <52000>;
+        };
+      };
+
+      polling-params {
+          erase-status-polling-msec = /bits/ 8 <1>;
+          write-status-polling-usec = /bits/ 16 <100>;
+      };
+    };

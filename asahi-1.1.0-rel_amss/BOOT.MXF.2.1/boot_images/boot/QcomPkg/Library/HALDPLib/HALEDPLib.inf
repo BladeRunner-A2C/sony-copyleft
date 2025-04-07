@@ -1,0 +1,65 @@
+#/** @file HALEDPLib.inf
+#
+#  DP configuration library
+#
+#  Copyright (c) 2021-2023, Qualcomm Technologies, Inc.
+#  All Rights Reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = HALDPLibeDPOnly
+  FILE_GUID                      = 60155696-6548-11e9-87dd-2727a758a13e
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = HALEDPLib
+
+[BuildOptions]
+  RVCT:*_*_*_CC_FLAGS =
+
+[BuildOptions.AARCH64]
+  GCC:*_*_*_CC_FLAGS = -DDPDRIVER_EDP_MODE
+  GCC:*_*_*_CC_FLAGS = -DRAMDUMP_MODE
+
+[Sources.common]
+  dp_audio_stub.c
+  dp_aux.c
+  dp_dpcd.c
+  dp_driver.c
+  dp_edid.c
+  dp_host.c
+  dp_link.c
+  dp_redirector.c
+  dp_system.c
+  dp_sim.c
+  hal_dp_audio_stub.c
+  hal_dp_aux.c
+  hal_dp_dsc_stub.c
+  hal_dp_generic_sdp.c
+  hal_dp.c
+  hal_dp_hpd.c
+  hal_dp_mainlink.c
+  hal_dp_phy.c
+  hal_dp_phy_1_4_1.c
+  hal_dp_qmp_phy_1_4_1_stub.c
+  edid.c
+  edp_psr_stub.c
+  dp_dsc_stub.c
+  displayid.c
+  dp_sinkcustom.c
+  
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  ArmPkg/ArmPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/Library/HALDPLib/HALDPLibStub.dec
+  
+[Protocols]
+  gEfiBootLogoProtocolGuid
+
+[Pcd]
+ gQcomTokenSpaceGuid.PcdDPControllerModeType

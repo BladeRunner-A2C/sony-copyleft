@@ -1,0 +1,88 @@
+; aop_restore_from_riscv.cmm
+; ------------------------------------------------------------------
+;
+; When to use this script 
+; -----------------------
+; This script should be used to configure a T32 simulator session loaded with a
+; crashed AOP memory image to the register state at the time of the crash.
+;
+; Note: You must have the symbols loaded for the build for this script to work.
+;
+; What this script does
+; -----------------------
+; This script looks for a crash dump in the global variable aop_core_dump.  If
+; it finds one it will restore the register state of that crash.
+;
+; How to use this script
+; ----------------------
+; After loading all memory dumps and symbols...
+;
+; do aop_restore_from_riscv
+;
+ENTRY
+
+; Check to see if a valid core dump exists.
+&cookie=V.VALUE(aop_core_dump.cookie)
+&dumped=V.VALUE(aop_core_dump.dumped_at)
+
+if (&cookie!=0xbaff1ed)||(&dumped==0)
+(
+    PRINT "*** No valid core dump detected! ***"
+    ENDDO
+)
+
+; Basic RISCV registers
+register.set X5  v.value(aop_core_dump.registers.gp_regs[0])
+register.set X6  v.value(aop_core_dump.registers.gp_regs[1])
+register.set X7  v.value(aop_core_dump.registers.gp_regs[2])
+register.set X8  v.value(aop_core_dump.registers.gp_regs[3])
+register.set X9  v.value(aop_core_dump.registers.gp_regs[4])
+register.set X10 v.value(aop_core_dump.registers.gp_regs[5])
+register.set X11 v.value(aop_core_dump.registers.gp_regs[6])
+register.set X12 v.value(aop_core_dump.registers.gp_regs[7])
+register.set X13 v.value(aop_core_dump.registers.gp_regs[8])
+register.set X14 v.value(aop_core_dump.registers.gp_regs[9])
+register.set X15 v.value(aop_core_dump.registers.gp_regs[10])
+register.set X16 v.value(aop_core_dump.registers.gp_regs[11])
+register.set X17 v.value(aop_core_dump.registers.gp_regs[12])
+register.set X18 v.value(aop_core_dump.registers.gp_regs[13])
+register.set X19 v.value(aop_core_dump.registers.gp_regs[14])
+register.set X20 v.value(aop_core_dump.registers.gp_regs[15])
+register.set X21 v.value(aop_core_dump.registers.gp_regs[16])
+register.set X22 v.value(aop_core_dump.registers.gp_regs[17])
+register.set X23 v.value(aop_core_dump.registers.gp_regs[18])
+register.set X24 v.value(aop_core_dump.registers.gp_regs[19])
+register.set X25 v.value(aop_core_dump.registers.gp_regs[20])
+register.set X26 v.value(aop_core_dump.registers.gp_regs[21])
+register.set X27 v.value(aop_core_dump.registers.gp_regs[22])
+register.set X28 v.value(aop_core_dump.registers.gp_regs[23])
+register.set X29 v.value(aop_core_dump.registers.gp_regs[24])
+register.set X30 v.value(aop_core_dump.registers.gp_regs[25])
+register.set X31 v.value(aop_core_dump.registers.gp_regs[26])
+
+; Main RISCV  registers
+register.set x1        v.value(aop_core_dump.registers.RA)
+register.set x2        v.value(aop_core_dump.registers.SP_main)
+register.set x3        v.value(aop_core_dump.registers.GP_main)
+register.set x4        v.value(aop_core_dump.registers.TP_main)
+
+&mcause=v.value((aop_core_dump.registers.MCAUSE)>>31)
+
+if (&mcause==0x0)
+(
+    register.set PC        v.value(aop_core_dump.registers.RA - 0x4)
+)
+else
+(
+    register.set PC        v.value(aop_core_dump.registers.RA - 0x4)
+)
+
+PER.Set.simple CSR:0x300 %Long  v.value(aop_core_dump.registers.MSTATUS)
+PER.Set.simple CSR:0x305 %Long  v.value(aop_core_dump.registers.MTVEC)
+
+PER.Set.simple CSR:0x340 %Long  v.value(aop_core_dump.registers.MSCRATCH)
+PER.Set.simple CSR:0x341 %Long  v.value(aop_core_dump.registers.MEPC)
+PER.Set.simple CSR:0x342 %Long  v.value(aop_core_dump.registers.MCAUSE)
+PER.Set.simple CSR:0x343 %Long  v.value(aop_core_dump.registers.MTVAL)
+PER.Set.simple CSR:0x344 %Long  v.value(aop_core_dump.registers.MIP)
+

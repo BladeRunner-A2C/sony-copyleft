@@ -1,0 +1,47 @@
+;============================================================================
+;  Name:
+;    ld_exec_pbl.cmm
+;
+;  Description:
+;     Load and execute PBL on RUMI
+;
+; Copyright(c) 2021,2023 by Qualcomm Technologies, Inc. All rights Reserved
+; Qualcomm Technologies Confidential and Proprietary
+;============================================================================
+;                        EDIT HISTORY FOR MODULE
+;
+;when         who     what, where, why
+;----------   ---     -------------------------------------------------------
+;2023-04-27   yanhan  Added support for palawan
+;2021-11-04   ck      Initial Version
+;============================================================================;
+global &TargetPresil
+
+ENTRY &Variant &RumiEmulation
+;-----------------------------------------------
+; Load PBL image
+;-----------------------------------------------
+print "Loading PBL"
+IF "&RumiEmulation"=="E1.1"||"&RumiEmulation"=="e1.1"
+(
+ &script="&TargetPresil"+"pbl_load_code_fbc.cmm"
+)
+ELSE IF "&RumiEmulation"=="E2"||"&RumiEmulation"=="e2"
+(
+ &script="&TargetPresil"+"E2\pbl_load_code_fbc.cmm"
+)
+ELSE IF "&RumiEmulation"=="E3"||"&RumiEmulation"=="e3"
+(
+ &script="&TargetPresil"+"E3\pbl_load_code_fbc.cmm"
+)
+ELSE IF "&RumiEmulation"=="E4"||"&RumiEmulation"=="e4"
+(
+ &script="&TargetPresil"+"E4\pbl_load_code_fbc.cmm"
+)
+ELSE
+(
+  &script="&TargetPresil"+"pbl_load_code_fbc.cmm"
+)
+
+cd.do &script load ufs debug emuwa false
+print "Loading PBL Done"

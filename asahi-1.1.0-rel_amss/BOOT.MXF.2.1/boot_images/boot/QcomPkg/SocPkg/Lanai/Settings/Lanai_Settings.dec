@@ -1,0 +1,56 @@
+#/** @file Lanai_Settings.dec
+# 
+#
+# Copyright 2019-2023 by Qualcomm Technologies, Inc.  All Rights Reserved. 
+# 
+#
+#**/
+#
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when          who       what, where, why
+# --------      ---      ----------------------------------------------------------
+# 02/01/2023   avishalk   Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = Lanai_Settings
+  PACKAGE_GUID                   = 100f2081-6b6b-41ad-a57d-2408f3cd8af0
+  PACKAGE_VERSION                = 0.1
+
+################################################################################
+#
+# Include Section - list of Include Paths that are provided by this package.
+#                   Comments are used for Keywords and Module Types.
+#
+# Supported Module Types:
+#  BASE SEC PEI_CORE PEIM DXE_CORE DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SMM_DRIVER DXE_SAL_DRIVER UEFI_DRIVER UEFI_APPLICATION
+#
+################################################################################
+[Includes]
+  
+  Charger
+  CPR
+  DALConfig
+  DSF
+  GPI
+  HWIO
+  I2C
+  ICB
+  Railway
+  SMMU
+  SPI
+  TLMM
+  UART
+  
+
+
+  
+
+
+
+

@@ -1,0 +1,37 @@
+#/** @file SPILibLoaderRelease.inf
+# 
+# 
+#  Copyright (c) 2023 Qualcomm Technologies, Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#               EDIT HISTORY
+#
+#
+# when      who   what, where, why
+# --------  ---   ----------------------------------------------------------
+# 06/21/23  mp    Initial revision
+#
+#==============================================================================
+
+[Defines]
+ INF_VERSION         = 0x00010005
+ BASE_NAME           = SPILoaderLib
+ FILE_GUID           = 1C619C42-AB6C-4AE0-8B67-19879C83CAB2
+ MODULE_TYPE         = BASE
+ VERSION_STRING      = 1.0
+ LIBRARY_CLASS       = SPILib
+
+[Binaries.Arm]
+  PE32|Arm/SPILoaderLib.lib
+ 
+[Binaries.AARCH64]
+  PE32|AARCH64/SPILoaderLib.lib
+
+[LibraryClasses]
+  ClockTargetLib
+  SPIFWImageLib
+  TlmmLib
+  BusyWaitLib
+  DTBExtnLib

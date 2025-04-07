@@ -1,0 +1,56 @@
+#/**
+#             @file SmcInvokeSampleApp.inf
+#  
+#  Copyright (c) 2023 Qualcomm Technologies, Inc. All rights reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+#
+# 04/1/20    shl      Initial revision.
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = SmcInvokeExampleApp
+  FILE_GUID                      = 7F6C2A5E-8F0A-46C4-8660-6FD4011FC5FC
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  SmcInvokeExampleApp.c
+  CCallbackObjectExample.c
+
+[Packages]
+  MdePkg/MdePkg.dec		
+  QcomPkg/QcomPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  TestInterfaceLib
+  UefiBootServicesTableLib
+  QcomLib
+  BootConfigLib
+  EfiFileLib
+  MemoryAllocationLib
+  
+[Guids]
+   
+[Ppis]
+
+[Protocols]
+  gQcomScmProtocolGuid
+  gEfiShmBridgeProtocolGuid
+
+[Pcd]
+

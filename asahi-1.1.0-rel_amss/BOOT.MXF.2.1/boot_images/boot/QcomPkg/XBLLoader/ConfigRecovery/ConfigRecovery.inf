@@ -1,0 +1,33 @@
+#/** @file ConfigRecovery.inf
+#
+#  ConfigRecovery
+#  
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 03/08/23   sp      Initial Revision
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ConfigRecovery
+  FILE_GUID                      = 2775d9af-574d-4b36-bba4-ca1ca04827f7
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ConfigRecovery
+
+[Sources.common]
+  boot_cfg_recovery.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomPkg/XBLLoader/ExtDrivers/ExtDrivers.dec

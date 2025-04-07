@@ -1,0 +1,128 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,oeminfo.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm oeminfo
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   The Qualcomm compatible node...
+   Links to any data on oeminfo
+properties:
+  compatible:
+    const: qcom,oeminfo
+  OEMDevices:
+    type: object
+    description: The method of OEMID reading. It just can be oneof ADC,PMICGpio and SOCGpio.
+    properties:
+        ADC:
+          description: Get correspoding OEM variant ID from ADC input.
+          type: object
+          properties:
+            ADCMsmt:
+              description: The "ADCMsmt" property holds values of potential ADC readings in microvolts.
+              $ref: /schemas/types.yaml#/definitions/uint32-array
+              minItems: 1 
+              maxItems: 256
+            OEMVariant:
+              description: The "OEMVariant" property contains an equally sized list of OEM Variant values that are associated 1-to-1 with the respective ADC measurement values
+              $ref: /schemas/types.yaml#/definitions/uint32-array
+              minItems: 1
+              maxItems: 256
+          allOf:
+            - if:
+                properties:
+                  OEMDevices: 
+                    const: ADC
+              then:
+                required:
+                  - ADCMsmt
+                  - OEMVariant
+        PMICGpio:
+          description: Get correspoding OEM variant ID from PMIC GPIOs input combination.
+          type: object
+          properties:
+            Pmic:
+              description: PMIC index of correspoding input PMIC GPIO. It should be associated 1-to-1 with Gpio value.
+              $ref: /schemas/types.yaml#/definitions/uint32-array
+              minItems: 1 
+              maxItems: 8 
+            Gpio:
+              description: \"Gpio\" is an array of uint32_t values denoting the GPIO pin numbers.
+              $ref: /schemas/types.yaml#/definitions/uint32-array
+              minItems: 1 
+              maxItems: 8 
+            OEMVariant:
+              description: OEM Variant values.
+              $ref: /schemas/types.yaml#/definitions/uint32-array
+              minItems: 1
+              maxItems: 256
+          allOf:
+            - if:
+                properties:
+                  OEMDevices: 
+                    const: PMICGpio
+              then:
+                required:
+                  - Pmic
+                  - Gpio
+                  - OEMVariant 
+        SOCGpio:
+          description: Get correspoding OEM variant ID from SOC GPIOs input combination.
+          type: object
+          properties:
+            Gpio:
+              description: \"Gpio\" is an array of uint32_t values denoting the GPIO pin numbers.
+              $ref: /schemas/types.yaml#/definitions/uint32-array
+              minItems: 1 
+              maxItems: 8
+            OEMVariant:
+              description: OEM Variant values.
+              $ref: /schemas/types.yaml#/definitions/uint32-array
+              minItems: 1
+              maxItems: 256
+          allOf:
+            - if:
+                properties:
+                  OEMDevices: 
+                    const: SOCGpio
+              then:
+                required:
+                  - Gpio
+                  - OEMVariant 
+
+additionalProperties: true
+examples:
+  - |
+    OEMInfo { 
+    /*This order is strictly relevant to the internal functionality of the driver 
+    *and is not pertinent information to the user. This is because the driver, 
+    *in its current state, cannot support more than one input type simultaneously.
+    *There are considerations for future versions of the driver to support such 
+    *functionality, if requested. But as delivered, a declaration of more than one 
+    *"OEMDevice" in the DT file will cause a failure of the driver's initialization
+    */
+    OEMDevices { 
+      ADC { 
+        ADCMsmt = < 200000 40000 1800000>; //microvolt
+        OEMVariant = < 0 1 2 >; 
+      };
+
+      //PMICGpio{
+      //  Pmic = < 1 1 >; //PMIC index
+      //  Gpio = < 6 5 >;
+      //  OEMVariant = < 2 3 4 5>;
+      //};
+
+      //SOCGpio{
+      //  Gpio = <146 144>;
+      //  OEMVariant = <0 1 2 3>;
+      //};
+    };
+    };

@@ -1,0 +1,54 @@
+#/** @file MfgModeMgmtDxe.inf
+#
+#  Support for EFI_RECOVERY protocol
+#
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.
+#  All rights reserved.
+#  Qualcomm Technologies, Confidential and Proprietary.
+#
+#**/
+#
+#/*=============================================================================
+#                              EDIT HISTORY
+#
+#
+# when           who         what, where, why
+# --------       ---         -----------------------------------------------------------
+# 2023/03/16     gpavithr    Initial revision
+#=============================================================================*/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MfgModeMgmtDxe
+  FILE_GUID                      = 26E10D98-65D7-4A4B-8807-3577DBDC54D4
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MfgModeMgmtDxeEntryPoint
+
+[Sources]
+  MfgModeMgmtDxe.c
+  MfgModeMgmtDxe.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  QcomLib
+  GenericBdsLib
+  DebugLib
+
+[Protocols]
+  gEfiQCMfgModeMgmtProtocolGuid                  ## PRODUCES
+  gQcomScmProtocolGuid                           ## CONSUMES
+
+[Guids]
+  gQcomTokenSpaceGuid                            ## CONSUMES
+
+[Depex]
+  gQcomScmProtocolGuid
+  AND gEfiTzeLoaderProtocolGuid
+  AND gEfiVariableServicesProtocolGuid

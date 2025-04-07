@@ -1,0 +1,57 @@
+#/** @file HSUartTest.inf
+#  
+#  HSUart Test code INF file
+#  
+#  Copyright 2023 Qualcomm Technologies, Inc. All rights reserved
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 01/10/23   RK      Removed dependency of HSUART lib
+# 01/05/23   RK      Created
+#
+#==============================================================================
+
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = HSUartTest
+  FILE_GUID                      = 008B69EA-6690-4646-B508-B0327B112F6E
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = HSUARTTestMain
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = ARM
+#
+
+[Sources]
+  HSUartapp.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  UefiBootServicesTableLib
+  PcdLib
+  BaseMemoryLib  
+  MemoryAllocationLib  
+  DevicePathLib  
+  TestInterfaceLib
+  QcomLib
+  BusyWaitLib
+ 
+[Protocols]
+  gQcomHSUartProtocolGuid

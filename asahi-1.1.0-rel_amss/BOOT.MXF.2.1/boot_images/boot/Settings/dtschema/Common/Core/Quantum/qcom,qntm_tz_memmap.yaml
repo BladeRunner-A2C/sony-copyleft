@@ -1,0 +1,116 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,qntm_tz_memmap.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Technologies Core UEFI-TZT DeviceTree Schema
+
+maintainers:
+  - Quantum team <uefi-ext.sw.dev@qualcomm.com>
+
+description: |
+  Driver to enable UEFI-TZT Framework
+
+# A dictionary of DT properties for this binding schema
+properties:
+  compatible:
+    const: qcom,qntm_tz_memmap
+  
+  "#address-cells":
+    const: 2
+
+  "#size-cells":
+    const: 2
+    
+patternProperties:
+  "^.+@[0-9A-Fa-f]+$":
+    type: object
+    description: IMEM and DDR memory map for Quantum UEFI-TZT framework
+    
+    properties:
+      reg:
+        maxItems: 1
+      
+      MemLabel:
+        description: Defines the name for the Memory Region 
+        $ref: /schemas/types.yaml#/definitions/string
+    
+      SharedImemOffset:
+        description: Shared IMEM Offset Address
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      ImemHypOffset:
+        description: Hypervisor offset address
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      ImemTzDiagOffset:
+        description: TZ-Diag Base offset address
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      SystemImemTzOffset:
+        description: System IMEM TZ offset address
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      SystemImemTzSize:
+        description: System IMEM TZ size
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      NumClusters:
+        description: Number of CPU Core Clusters
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      NumCpusPerCluster:
+        description: Number of CPUs per cluster
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      SclTzDdrOffset:
+        description: TZ DDR Offset Address
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      SclTzDdrSize:
+        description: QTEE region size
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      TzAppsRegionSize:
+       description: TZ Apps region size 
+       $ref: /schemas/types.yaml#/definitions/uint32
+       
+    required:
+      - reg
+      - MemLabel
+
+required:
+  - compatible
+
+additionalProperties: false
+
+examples:
+- |
+    qntm_tz_memmap {
+        compatible = "qcom,qntm_tz_memmap";
+        #address-cells = <2>;
+        #size-cells = <2>;
+        memory@14680000{
+            device_type = "memory";
+            reg = <0x0 0x14680000 0x0 0x2C000>;
+            MemLabel = "IMEM";
+            SharedImemOffset      = <0x0>;
+            ImemHypOffset         = <0x00000B20>;
+            ImemTzDiagOffset      = <0x00000720>;
+            SystemImemTzOffset    = <0xF000>;
+            SystemImemTzSize      = <0x19000>;
+            NumClusters           = <2>;
+            NumCpusPerCluster     = <4>;
+        };
+        memory@80000000{
+            device_type = "memory";
+            reg = <0x0 0x80000000 0x0 0x80000000>;
+            MemLabel = "DDR";
+            SclTzDdrOffset        = <0x582E0000>;
+            SclTzDdrSize          = <0x520000>;
+            TzAppsRegionSize      = <0x93B0000>;
+        };
+    };

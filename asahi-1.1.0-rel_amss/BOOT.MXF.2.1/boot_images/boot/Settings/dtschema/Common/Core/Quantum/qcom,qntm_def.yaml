@@ -1,0 +1,87 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,qntm_def.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Technologies Core Quantum SMMU SID DeviceTree Schema
+
+maintainers:
+  - Quantum team <uefi-ext.sw.dev@qualcomm.com>
+
+description: |
+  Driver to get SMMU SID configurations
+
+# A dictionary of DT properties for this binding schema
+properties:
+  compatible:
+    const: qcom,qntm_def
+
+patternProperties:
+  "^qntm_dym_sid_info_type_[0-9]+$":
+    type: object
+        
+    properties:
+      subsys:
+        description: Name of the Quantum subsystem
+        $ref: /schemas/types.yaml#/definitions/uint32
+    
+      share_method:
+        description: Share method
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+      avmid:
+        description: AVMID from IPCAT
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+      subsys_name:
+        description: Name of the subsystem
+
+      sid:
+        description: SID 
+        $ref: /schemas/types.yaml#/definitions/uint32
+
+      input_base:
+        description: Input base from IPCAT
+        $ref: /schemas/types.yaml#/definitions/uint32
+        
+      csid:
+        description: CSID from IPCAT
+
+      mask:
+        description: mask from IPCAT
+
+    required:
+      - subsys
+      - share_method
+      - avmid
+      - subsys_name
+      - sid
+      - input_base
+      - csid
+      - mask
+
+required:
+  - compatible
+
+additionalProperties: false
+
+examples:
+- |
+    qntm_def {
+      
+      compatible = "qcom,qntm_def";
+
+      qntm_dym_sid_info_type_1 {
+        subsys                = <1>;
+        share_method          = <1>;
+        avmid                 = <0>;
+        subsys_name           = <0>;
+        sid                   = <0>;
+        input_base            = <0>;
+        csid                  = <0>;
+        mask                  = <0>;
+      };
+    };

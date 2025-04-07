@@ -1,0 +1,29 @@
+#/** @file UartQupv3Lib.dec
+#  
+#  Uart headers declaration file.
+#  
+#  Copyright (c) 2023 Qualcomm Technologies, Inc. All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ---------------------------------------------------------
+# 03/28/23   AG      Initial revision
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION    = 0x00010005
+  BASE_NAME      = UartSettingsLib
+  MODULE_TYPE    = BASE
+  VERSION_STRING = 1.0
+  LIBRARY_CLASS  = UartSettingsLib
+
+[Includes.common]
+  Include
+  Library/UartQupv3Lib

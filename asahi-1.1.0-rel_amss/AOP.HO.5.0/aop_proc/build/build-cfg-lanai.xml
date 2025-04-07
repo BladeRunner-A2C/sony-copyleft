@@ -1,0 +1,11 @@
+<ENVIRONMENT>
+<PYTHON >
+<Version>
+3.8.2 (default, Apr 13 2020, 23:04:40) 
+[GCC 5.4.0 20160609]
+</Version></PYTHON ><COMPILER>
+<Name >
+Snapdragon LLVM
+</Name ><Version>
+11.0.4
+</Version></COMPILER></ENVIRONMENT>

@@ -1,0 +1,43 @@
+#/** @file coldplugLibNull.inf
+#
+#  Null Coldplug lib if Coldplug is not available
+#
+#  Copyright 2019-2023 by Qualcomm Technologies, Inc.  All Rights Reserved
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when         who     what, where, why
+# ----------   ---     ----------------------------------------------------------
+# 2023-02-08 avishalk Added ColdplugLib.dec
+# 2021-02-04 eo        Add search_and_get_partition_name support
+# 2017-07-19 wkimberl  Initial revision
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ColdplugLibNull
+  FILE_GUID                      = 6FE29222-9F0D-43DA-AB1E-7F5E2D151034
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ColdplugLib
+
+[Sources]
+ 
+  ColdplugLibNull.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec 
+  QcomPkg/XBLLoaderApi.dec
+  QcomPkg/Library/ColdplugLib/ColdplugLib.dec
+
+[LibraryClasses]
+  DebugLib
+  SdccCommonLib

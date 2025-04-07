@@ -1,0 +1,38 @@
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,pm-keymap.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Platform Key Maps
+
+maintainers:
+  - PoC <PoC@qti.qualcomm.com>
+
+description: |
+   Qualcomm Platform Key Maps for various chipset platforms
+
+properties:
+# A dictionary of DT properties for this binding schema
+
+  compatible:
+    const: qcom,pm-keymap
+  
+  key-maps:
+    description: key-maps
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+      
+required:
+  - compatible
+  - key-maps
+
+
+additionalProperties: false
+
+examples:
+  - |
+    platform-key-maps {
+      compatible = "qcom,pm-keymap";  
+      
+      key-maps = <1 2 3 0 0>; /* power vol_up  vol_down  reserved1   reserved2 */
+    };

@@ -1,0 +1,271 @@
+/**
+This is the configuration file for PIL Proxy Vote
+
+Copyright (c) 2023 Qualcomm Technologies, Inc. All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+**/
+
+#include <systemcache_defines.h>
+#include <systemcache_target_defines.h>
+
+&soc {
+	systemcache {
+		compatible = "qcom,systemcache";
+
+		llcc_broadcast_trp_offset = <LLCC_BROADCAST_ANDTRP_REG_BASE_OFFSET>;
+		scid_attr0_reserved_ways_bmsk = <LLCC_TRP_SCT_n_ATTRIBUTE0_CFG_RESRVED_WAYS_BMSK>;
+		scid_attr0_reserved_ways_shft = <LLCC_TRP_SCT_n_ATTRIBUTE0_CFG_RESRVED_WAYS_SHFT>;
+		scid_attr2_bonus_ways_bmsk = <LLCC_TRP_SCT_n_ATTRIBUTE2_CFG_BONUS_WAYS_BMSK>;
+		scid_attr2_bonus_ways_shft = <LLCC_TRP_SCT_n_ATTRIBUTE2_CFG_BONUS_WAYS_SHFT>;
+
+		llcc_channel_offsets = <LLCC0_TRP_REG_BASE_OFFSET LLCC1_TRP_REG_BASE_OFFSET LLCC2_TRP_REG_BASE_OFFSET LLCC3_TRP_REG_BASE_OFFSET>;
+
+		/* SCT Table Version: 15.0 */
+		num_sct_tables = <1>;
+
+		/* SCT_3.5MB */
+		sct_table_1 {
+			sct_table_entry_0 {
+				usecase_id				= <RESERVE>;
+				scid					= <0>;
+				max_capacity			= <0>;		/* Max Capacity in KB */
+				priority				= <0>;
+				bonus_ways				= <0x0>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_1 {
+				usecase_id				= <CPUSS>;
+				scid					= <1>;
+				max_capacity			= <3200>;		/* Max Capacity in KB */
+				priority				= <0>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <FALSE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <TRUE>;
+			};
+			sct_table_entry_2 {
+				usecase_id				= <VIDSC0>;
+				scid					= <2>;
+				max_capacity			= <128>;		/* Max Capacity in KB */
+				priority				= <3>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_3 {
+				usecase_id				= <MODEMHP_GROW>;
+				scid					= <25>;
+				max_capacity			= <1024>;		/* Max Capacity in KB */
+				priority				= <3>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <FALSE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_4 {
+				usecase_id				= <GPUHTW>;
+				scid					= <11>;
+				max_capacity			= <256>;		/* Max Capacity in KB */
+				priority				= <1>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_5 {
+				usecase_id				= <GPU>;
+				scid					= <9>;
+				max_capacity			= <2688>;		/* Max Capacity in KB */
+				priority				= <1>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <FALSE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <TRUE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_6 {
+				usecase_id				= <MMUHWT>;
+				scid					= <18>;
+				max_capacity			= <512>;		/* Max Capacity in KB */
+				priority				= <1>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <TRUE>;
+			};
+			sct_table_entry_7 {
+				usecase_id				= <DISPLAY>;
+				scid					= <16>;
+				max_capacity			= <3584>;		/* Max Capacity in KB */
+				priority				= <1>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NSE>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_8 {
+				usecase_id				= <MODEMHP_FIX>;
+				scid					= <24>;
+				max_capacity			= <1024>;		/* Max Capacity in KB */
+				priority				= <3>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_9 {
+				usecase_id				= <MODEM_PAGING>;
+				scid					= <27>;
+				max_capacity			= <256>;		/* Max Capacity in KB */
+				priority				= <3>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_10 {
+				usecase_id				= <MODEM_VPE>;
+				scid					= <29>;
+				max_capacity			= <64>;		/* Max Capacity in KB */
+				priority				= <1>;
+				bonus_ways				= <0x3C00>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x10>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_11 {
+				usecase_id				= <WRITE_CACHE>;
+				scid					= <31>;
+				max_capacity			= <256>;		/* Max Capacity in KB */
+				priority				= <1>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <TRUE>;
+			};
+			sct_table_entry_12 {
+				usecase_id				= <CAMERA_EXP0>;
+				scid					= <4>;
+				max_capacity			= <256>;		/* Max Capacity in KB */
+				priority				= <3>;
+				bonus_ways				= <0xF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_13 {
+				usecase_id				= <CAMERA_EXP1>;
+				scid					= <7>;
+				max_capacity			= <1536>;		/* Max Capacity in KB */
+				priority				= <2>;
+				bonus_ways				= <0x3FF0>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NSE>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+			sct_table_entry_14 {
+				usecase_id				= <LCP_DARE>;
+				scid					= <30>;
+				max_capacity			= <128>;		/* Max Capacity in KB */
+				priority				= <3>;
+				bonus_ways				= <0x3FFF>;
+				reserved_ways			= <0x0>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x10>;
+				activate_at_boot		= <TRUE>;
+			};
+			sct_table_entry_15 {
+				usecase_id				= <ISLAND_1>;
+				scid					= <12>;
+				max_capacity			= <3328>;		/* Max Capacity in KB */
+				priority				= <7>;
+				bonus_ways				= <0x0>;
+				reserved_ways			= <0x1FFF>;
+				cache_mode				= <CACHE_MODE_NORMAL>;
+				fixedsize				= <TRUE>;
+				dis_capacity_alloc		= <FALSE>;
+				write_scid_en			= <FALSE>;
+				write_scid_cacheable_en	= <FALSE>;
+				algo_cfg				= <0x0>;
+				activate_at_boot		= <FALSE>;
+			};
+		};
+	};
+};

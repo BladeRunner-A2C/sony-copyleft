@@ -1,0 +1,29 @@
+&soc {
+  OEMInfo {
+    compatible = "qcom,oeminfo";
+    /*This order is strictly relevant to the internal functionality of the driver
+    *and is not pertinent information to the user. This is because the driver,
+    *in its current state, cannot support more than one input type simultaneously.
+    *There are considerations for future versions of the driver to support such
+    *functionality, if requested. But as delivered, a declaration of more than one
+    *"OEMDevice" in the DT file will cause a failure of the driver's initialization
+    */
+    OEMDevices {
+      //ADC {
+      //  ADCMsmt = < 200000 40000 1800000>; //microvolt
+      //  OEMVariant = < 0 1 2 >;
+      //};
+
+      //PMICGpio{
+      //  Pmic = < 1 1 >; //PMIC index
+      //  Gpio = < 6 5 >;
+      //  OEMVariant = < 2 3 4 5>;
+      //};
+
+      //SOCGpio{
+      //  Gpio = <146 144>;
+      //  OEMVariant = <4 1 2 3>;
+      //};
+    };
+  };
+};

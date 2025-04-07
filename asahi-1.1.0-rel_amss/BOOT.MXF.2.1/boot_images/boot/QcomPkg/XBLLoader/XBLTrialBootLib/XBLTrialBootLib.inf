@@ -1,0 +1,37 @@
+#/** @file XBLTrialBootLib.inf
+#
+#  XBLTrialBootLib
+#  
+#  Copyright 2022 by Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 09/15/22   sp  Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = XBLTrialBootLib
+  FILE_GUID                      = BD4CC3FB-4872-DDC9-2CE9-AF999D7B9264
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = XBLTrialBootLib
+
+[Sources]
+  xbl_trial_boot.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomPkg/SocPkg/Library/BootPblSharedDataLib/BootPblSharedDataLib.dec
+  QcomPkg/LoaderFramework/LoaderFrameworkApi.dec
+  QcomPkg/XBLLoader/ExtDrivers/ExtDrivers.dec
+

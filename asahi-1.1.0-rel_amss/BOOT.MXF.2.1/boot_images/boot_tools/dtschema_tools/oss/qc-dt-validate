@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+
+import os
+import pathlib
+import qc_dtschema
+import io
+import sys
+import platform
+import pkg_resources
+
+dt_script_name = "dt-validate"
+
+dist = pkg_resources.get_distribution('dtschema')
+dist = dist.location
+script = dist
+
+# Search for scripts in following:
+# 	1. 	Search for installed package location. It will point to "site-packages" location.
+# 		Move 3 levels up for Linux and scripts will be installed in "bin" folder.
+# 		Move 2 levels up for Windows and scripts will be installed in "Scripts" folder.
+#	2.	Search for Python installed location and search for "bin" and "Scripts" for 
+#		Linux and Windows respectively.
+
+if platform.system() == "Windows":
+	
+	if os.path.exists(dist) == True:
+		script = os.path.join(dist, '..', '..', "Scripts", dt_script_name)
+	
+	if os.path.exists(dist) != True or os.path.exists(script) != True:
+		script = os.path.join(sys.prefix, "Scripts", dt_script_name)
+else:
+	
+	if os.path.exists(dist) == True:
+		script = os.path.join(dist, '..', '..', '..', "bin", dt_script_name)
+	
+	if os.path.exists(dist) != True or os.path.exists(script) != True:
+		script = os.path.join(sys.prefix, "bin", dt_script_name)
+	
+		if os.path.exists(script) != True:
+			script = os.path.expanduser("~")
+			script = os.path.join(script, ".local", "bin", dt_script_name)
+	
+output_buffer = io.StringIO()
+sys.stdout = output_buffer
+sys.stderr = output_buffer
+qc_dtschema.run_main(script)
+sys.stdout = sys.__stdout__
+sys.stderr = sys.__stderr__
+
+buffer = output_buffer.getvalue()
+index_count = 1
+print_issue = True
+if buffer != "":
+	for lines in buffer.splitlines():
+		if print_issue:
+			print("\n====================================================\n")
+			print("Issue #%s:\n" % (index_count))
+			print_issue = False
+			index_count += 1
+	
+		print(lines)
+		if "From schema:" in lines:
+			print_issue = True
+	sys.exit(1)

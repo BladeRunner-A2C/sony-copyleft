@@ -1,0 +1,379 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,i2ctp.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: i2ctrackpad configuration Device tree settings
+
+maintainers:
+  - PoC <rgotur@qti.qualcomm.com>
+
+description: |
+  The Qualcomm compatible node...
+  Links to any data sheet or HW specific details
+
+properties:
+  compatible:
+    const: qcom,i2ctp
+  
+  device-hid-desc:
+    description: i2c device HID address, <higher address, lower address>
+
+  device-timeout-value:
+    description: i2c trackpad device timeout in mili sec
+
+  device-interrupt-gpios:
+    description: i2c peripheral device interrupt
+
+  device-gpio-init-interval:
+    description: Gpio initilization time interval
+    
+  pmic-resource-name:
+    $ref: /schemas/types.yaml#/definitions/string
+    description: pmic resource name
+
+  pmic-client-name:
+    $ref: /schemas/types.yaml#/definitions/string
+    description: pmic client name
+
+  i2c-instance:
+    description: i2c instance exposed by i2c driver for the i2c bus used by keyboard
+
+  i2c-slave-config:
+    type: object
+    description: i2c slave config details
+
+    properties:
+      bus-frequency-khz:
+        description: i2c bus frequency
+
+      slave-address:
+        description: i2c slave address
+
+      i2c-mode:
+        description: i2c communication Mode
+        
+      slave-max-clock-stretch-us:
+        description: Slave Max clock limit
+        
+      core-configuration-1:
+        description: reserved for now. configure to 0 by default
+
+      core-configuration-2:
+        description: reserved for now. configure to 0 by default
+        
+    required:
+    - bus-frequency-khz
+    - slave-address
+    - i2c-mode
+    - slave-max-clock-stretch-us
+    - core-configuration-1
+    - core-configuration-2
+
+  config-power-on:
+    type: object
+    description: Power ON configuration settings
+
+    properties:
+      tlmm-gpio-config:
+        type: object
+        description: gpio configuration settings
+        
+        properties:
+          function-select:
+            description: function Select, 0 for generic I/O
+
+          direction:
+            description: gpio direction. GPIO_INPUT=0 GPIO_OUTPUT=1
+
+          pull:
+            description: gpio pull type. GPIO_NO_PULL=0 GPIO_PULL_DOWN=1 GPIO_KEEPER=2 GPIO_PULL_UP=3
+
+          drive-strength:
+            description: gpio drive strength. GPIO_2MA=0 GPIO_4MA=1 GPIO_6MA=2 GPIO_8MA=3 GPIO_10MA=4 GPIO_12MA=5 GPIO_14MA=6 GPIO_16MA=7
+
+          gpio-pin:
+            description: gpio number
+
+          gpio-val:
+            description: gpio Value. GPIO_LOW_VALUE=0 GPIO_HIGH_VALUE=1
+
+          gpio-enable:
+            description: gpio control. TLMM_GPIO_ENABLE=1 TLMM_GPIO_DISABLE=0
+    
+        required:
+        - function-select
+        - direction
+        - pull
+        - drive-strength
+        - gpio-pin
+        - gpio-val
+        - gpio-enable
+
+      pmic-gpio-config:
+        type: object
+        description: pmic gpio settings
+        
+        properties:
+          gpio-config-type:
+            description: pmic gpio Config Type
+
+          index:
+            description: index
+
+          gpio:
+            description: gpio
+
+          out-buf-config-type:
+            description: out buffer configuration type
+
+          volatge-source-type:
+            description: volatge source type
+
+          src-config-type:
+            description: source configuration type
+
+          out-drive-strength:
+            description: output drive strength
+
+          pull-type:
+            description: pull type
+
+          enable-pmgpio:
+            description: enable or disable pmic gpio
+
+          set-output-level:
+            description: configure output level
+
+        required:
+        - gpio-config-type
+        - index
+        - gpio
+        - out-buf-config-type
+        - volatge-source-type
+        - src-config-type
+        - out-drive-strength
+        - pull-type
+        - enable-pmgpio
+        - set-output-level
+
+      pmic-vreg-config:
+        type: object
+        description: pmic vreg configuration settings
+
+        properties:
+          vol-reg-id:
+            description: voltage register id
+
+          vol-reg-type:
+            description: voltage register type
+
+          voltage:
+            description: voltage 
+
+          enable-pmreg:
+            description: enable or disable pmic vreg
+
+          sw-power-mode:
+            description: software power mode
+
+        required:
+        - vol-reg-id
+        - volreg-type
+        - voltage
+        - enable-pmreg
+        - sw-power-mode
+
+      delay:
+        type: object
+        description: delay configuration
+        properties:
+          delay:
+            description: delay in milli second
+
+    required:
+    - tlmm-gpio-config
+
+  config-power-off:
+    type: object
+    description: configPowerOff
+    properties:
+      tlmm-gpio-config:
+        type: object
+        description: gpio configuration settings
+        
+        properties:
+          function-select:
+            description: function Select, 0 for generic I/O
+
+          direction:
+            description: gpio direction. GPIO_INPUT=0 GPIO_OUTPUT=1
+
+          pull:
+            description: gpio pull type. GPIO_NO_PULL=0 GPIO_PULL_DOWN=1 GPIO_KEEPER=2 GPIO_PULL_UP=3
+
+          drive-strength:
+            description: gpio drive strength. GPIO_2MA=0 GPIO_4MA=1 GPIO_6MA=2 GPIO_8MA=3 GPIO_10MA=4 GPIO_12MA=5 GPIO_14MA=6 GPIO_16MA=7
+
+          gpio-pin:
+            description: gpio number
+
+          gpio-val:
+            description: gpio Value. GPIO_LOW_VALUE=0 GPIO_HIGH_VALUE=1
+
+          gpio-enable:
+            description: gpio control. TLMM_GPIO_ENABLE=1 TLMM_GPIO_DISABLE=0
+    
+        required:
+        - function-select
+        - direction
+        - pull
+        - drive-strength
+        - gpio-pin
+        - gpio-val
+        - gpio-enable
+
+      pmic-gpio-config:
+        type: object
+        description: pmic gpio settings
+        
+        properties:
+          gpio-config-type:
+            description: pmic gpio Config Type
+
+          index:
+            description: index
+
+          gpio:
+            description: gpio
+
+          out-buf-config-type:
+            description: out buffer configuration type
+
+          volatge-source-type:
+            description: volatge source type
+
+          src-config-type:
+            description: source configuration type
+
+          out-drive-strength:
+            description: output drive strength
+
+          pull-type:
+            description: pull type
+
+          enable-pmgpio:
+            description: enable or disable pmic gpio
+
+          set-output-level:
+            description: configure output level
+
+        required:
+        - gpio-config-type
+        - index
+        - gpio
+        - out-buf-config-type
+        - volatge-source-type
+        - src-config-type
+        - out-drive-strength
+        - pull-type
+        - enable-pmgpio
+        - set-output-level
+
+      pmic-vreg-config:
+        type: object
+        description: pmic vreg configuration settings
+
+        properties:
+          vol-reg-id:
+            description: voltage register id
+
+          vol-reg-type:
+            description: voltage register type
+
+          voltage:
+            description: voltage 
+
+          enable-pmreg:
+            description: enable or disable pmic vreg
+
+          sw-power-mode:
+            description: software power mode
+
+        required:
+        - vol-reg-id
+        - volreg-type
+        - voltage
+        - enable-pmreg
+        - sw-power-mode
+
+      DELAY:
+        type: object
+        description: delay configuration
+        properties:
+          delay:
+            description: delay in milli second
+
+    required:
+    - tlmm-gpio-config
+
+required:
+- compatible
+- device-interrupt-gpios
+- i2c-instance
+- i2c-slave-config
+- config-power-on
+
+additionalProperties: false
+
+examples:
+  - |
+    i2ctp{
+      /*
+       * crd configuration
+       */
+      compatible = "qcom,i2ctp";
+
+      device-hid-desc = <0x0 0x1>;
+      device-timeout-value = <50>;
+      device-interrupt-gpios = <&tlmm 3 0>;
+      device-gpio-init-interval = <8000000>;
+
+      pmic-resource-name = "NA";
+      pmic-client-name = "NA";
+
+      i2c-instance = <0x1>;
+      i2c-slave-config{
+        bus-frequency-khz = <400>;
+        slave-address = <0x3A>;
+        i2c-mode = <0>;
+        slave-max-clock-stretch-us = <500>;
+        core-configuration-1 = <0>;
+        core-configuration-2 = <0>;
+      };
+      config-power-on{
+        tlmm-gpio-config{
+          function-select = <0>; // 0 for generic I/O
+          direction = <0>;       // GPIO_INPUT=0 GPIO_OUTPUT=1
+          pull = <3>;            // GPIO_NO_PULL=0 GPIO_PULL_DOWN=1 GPIO_KEEPER=2 GPIO_PULL_UP=3
+          drive-strength = <2>;  // GPIO_2MA=0 GPIO_4MA=1 GPIO_6MA=2 GPIO_8MA=3 GPIO_10MA=4 GPIO_12MA=5 GPIO_14MA=6 GPIO_16MA=7 
+          gpio-pin = <67>;       // GPIO number
+          gpio-val = <1>;        // GPIO_LOW_VALUE=0 GPIO_HIGH_VALUE=1  
+          gpio-enable = <1>;     // TLMM_GPIO_ENABLE=1 TLMM_GPIO_DISABLE=0
+        };
+      };
+      config-power-off {
+        tlmm-gpio-config{
+          function-select = <0>; // 0 for generic I/O
+          direction = <0>;       // GPIO_INPUT=0 GPIO_OUTPUT=1
+          pull = <3>;            // GPIO_NO_PULL=0 GPIO_PULL_DOWN=1 GPIO_KEEPER=2 GPIO_PULL_UP=3
+          drive-strength = <0>;  // GPIO_2MA=0 GPIO_4MA=1 GPIO_6MA=2 GPIO_8MA=3 GPIO_10MA=4 GPIO_12MA=5 GPIO_14MA=6 GPIO_16MA=7 
+          gpio-pin = <67>;       // GPIO number
+          gpio-val = <1>;        // GPIO_LOW_VALUE=0 GPIO_HIGH_VALUE=1  
+          gpio-enable = <0>;     // TLMM_GPIO_ENABLE=1 TLMM_GPIO_DISABLE=0
+        };
+      };
+    };

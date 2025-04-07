@@ -1,0 +1,48 @@
+#/** @file XBLLoaderLibPkg.dec
+# Pmic package.
+#
+# Copyright (c) 2022,2023 Qualcomm Technologies, Inc. All rights reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
+#**/
+#
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 02/13/23   sy      Added Palawan Support  
+# 08/04/17   naa     Added reference to DCB interface for DDI
+# 08/17/15   sr      Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = DDRTargetLibPkg
+  PACKAGE_GUID                   = D9496A2E-8A24-4F85-A8CA-B20C374B9CAA
+  PACKAGE_VERSION                = 0.1
+
+################################################################################
+#
+# Include Section - list of Include Paths that are provided by this package.
+#                   Comments are used for Keywords and Module Types.
+#
+# Supported Module Types:
+#  BASE SEC PEI_CORE PEIM DXE_CORE DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SMM_DRIVER DXE_SAL_DRIVER UEFI_DRIVER UEFI_APPLICATION
+#
+################################################################################
+[Includes.common]
+  ../../../Palawan/Library/DDRTargetLib
+  ../../../Palawan/Include
+  ../../../../XBLLoader
+
+  ../../../../Include/api/pmic/pm
+  ../../../../../../edk2/ArmPkg/Include
+  ../../../../../../edk2/ArmPkg/Include/Library/ArmLib.h
+  
+#  Z:\8996\boot\boot.xf.1.0.bootxf10_ddr_initial_commit\QcomPkg\Library\DDRLib\common\sns_api
+
+
+

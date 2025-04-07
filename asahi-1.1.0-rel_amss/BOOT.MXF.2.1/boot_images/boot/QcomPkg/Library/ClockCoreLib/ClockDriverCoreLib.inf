@@ -1,0 +1,95 @@
+#/** @file ClockDriverCoreLib.inf
+#
+#  Component description file for Clock DXE driver module
+#
+#  Copyright (c) 2023 Qualcomm Technologies Inc. All rights reserved.
+#
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 04/11/23   saurku      Created.
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = ClockDriverCoreLib
+  FILE_GUID                      = 37910403-72c5-4cd9-a276-6e7b6a7ce23d
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = ClockDriverCoreLib
+
+  
+[Sources.common]
+  src/ClockDriverNull.c
+  src/ClockDriver.c
+  src/ClockDriverImage.c
+  src/ClockSources.c
+  src/ClockBIST.c
+  src/ClockFileLog.c
+  src/ClockVoltage.c
+  src/ClockUEFIDiag.c
+  src/ClockQDSS.c
+  src/ClockQMP.c
+  src/ClockCESTA.c
+  inc/ClockDriver.h
+  inc/ClockBSP.h
+  inc/ClockCESTA.h
+  inc/ClockDriverImage.h
+  inc/ClockFileLog.h
+  inc/ClockNPAStub.h
+  inc/ClockQMP.h
+  inc/ClockSWEVT.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  #ClockTargetLib
+  ClockLib
+  DALModEnvLib
+  BaseLib
+  UefiLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  BaseMemoryLib
+  DebugLib
+  MemoryAllocationLib
+  CacheMaintenanceLib
+  ULogApiLib
+  NpaApiLib
+  MuslLib
+  QdssLib
+  FuseControlLib
+  BusyWaitLib
+  PwrUtilsApiLib
+  CmdDbApiLib
+
+[Protocols]
+  gEfiClockProtocolGuid
+  gEfiTestClockProtocolGuid
+  gEfiGLINKProtocolGuid
+  gEfiPlatformInfoProtocolGuid
+  gEfiVariableServicesProtocolGuid
+  gEfiQppcProtocolGuid
+
+[Guids]
+  gQcomTokenSpaceGuid
+  gEfiEventExitBootServicesGuid
+
+[Depex]
+  gEfiDalSysProtocolGuid
+  AND
+  gEfiChipInfoProtocolGuid
+  
+

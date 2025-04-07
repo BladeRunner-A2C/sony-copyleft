@@ -1,0 +1,70 @@
+#/** @file  SSRDxe.inf
+#    
+#  Component discription file for SSR DXE driver
+#
+#  Copyright 2019-2023 by Qualcomm Technologies, Inc. All Rights Reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 12/22/22   Raja    Update copyright
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = SSRDxe
+  FILE_GUID                      = 6b593a13-4e39-4cf5-b4e2-50b9540a324a
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = SSRDxeEntry
+
+[BuildOptions]
+  GCC:*_*_*_CC_FLAGS = -Wno-gnu-folding-constant
+  
+[Sources.common]
+  SSRDxe.c
+  SSRCfg.c
+  SSRCore.c
+  SSRSmp2p.c
+  SSRNotifier.c
+  common_v01.c
+  subsystem_control_v02.c
+  
+[Packages]
+  QcomPkg/QcomPkg.dec
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  UefiDriverEntryPoint
+  UefiLib
+  UefiBootServicesTableLib
+  BaseMemoryLib
+  DebugLib
+  MemoryAllocationLib
+  QcomBaseLib
+  QcomLib
+  PrintLib
+  KernelLib
+  WatchDogLib
+
+[Protocols]
+  gEfiSSRProtocolGuid         #PRODUCES
+  gEfiTestSSRProtocolGuid     #PRODUCES
+  gEfiSMP2PProtocolGuid       #CONSUMES
+  gEfiPilProtocolGuid         #CONSUMES
+  gEfiSMEMProtocolGuid        #CONSUMES
+  gEfiDtbExtnProtocolGuid     #CONSUMES
+  gEfiQSocketQMIProtocolGuid  #CONSUMES
+  gEfiGLINKProtocolGuid
+
+[Depex] 
+  TRUE

@@ -1,0 +1,53 @@
+#/*===============================================================================
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.  All Rights Reserved.
+#
+#  FILE:         RmVmDxe.inf
+#  DESCRIPTION:
+#
+#  REVISION HISTORY
+#  when       who         what, where, why
+#  --------   ---         --------------------------------------------------------
+#  02/10/23   kedara      Initial version
+#
+#================================================================================*/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = RmVmDxe
+  FILE_GUID                      = 1d9cc582-7a90-4109-835b-0cb05b6762e1
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = RmVmDxeInitialize
+
+[Sources.common]
+  RmVmDxe.c
+  RmVmImpl.c
+  
+[Sources.AARCH64]
+  RmAsm.S
+  
+[Packages]
+  QcomPkg/QcomPkg.dec
+  MdePkg/MdePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  ArmPkg/ArmPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec  
+
+ [LibraryClasses]
+  UefiDriverEntryPoint
+  DTBExtnLibAll
+  FdtLib
+  PcdLib
+  UefiBootServicesTableLib  
+  DxeServicesTableLib  
+  UncachedMemoryAllocationLib
+
+[Protocols]
+  gEfiRmVmProtocolGuid
+  gQcomScmProtocolGuid  
+
+[FixedPcd]
+  gQcomTokenSpaceGuid.PcdIMemCookiesBase  
+  
+[Depex]
+  TRUE

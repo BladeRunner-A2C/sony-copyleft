@@ -1,0 +1,46 @@
+#/** @file OEMInfoLib.inf
+#
+#  Component description file for OEMInfoLib driver module
+#
+#  Copyright (c) 2022, 2024 Qualcomm Technologies, Inc. All rights reserved.
+#  Confidential and Proprietary - Qualcomm Technologies, Inc.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 08/17/22   ajg     Began development of OEMInfoLib 
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = OEMInfoLib
+  FILE_GUID                      = 9fae2b91-bace-4848-9f54-e36c739df955
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = OEMInfoLib
+
+[BuildOptions.AARCH64]
+  GCC:*_*_*_CC_FLAGS = -Werror 
+
+[Sources.common]
+  OEMInfo.c
+  OEMInfoImage.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  QcomPkg/XBLLoaderApi.dec
+
+[LibraryClasses]
+  BaseLib
+  CoreUtilsLib
+  DALCommonLoaderLib # for malloc and free

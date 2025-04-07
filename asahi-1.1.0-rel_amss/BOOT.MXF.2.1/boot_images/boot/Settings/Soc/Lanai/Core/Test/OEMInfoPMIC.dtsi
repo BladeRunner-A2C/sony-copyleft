@@ -1,0 +1,21 @@
+#include <limits.h>
+&soc { 
+  OEMInfo { 
+    compatible = "qcom,oeminfo";
+    /*This order is strictly relevant to the internal functionality of the driver 
+    *and is not pertinent information to the user. This is because the driver, 
+    *in its current state, cannot support more than one input type simultaneously.
+    *There are considerations for future versions of the driver to support such 
+    *functionality, if requested. But as delivered, a declaration of more than one 
+    *"OEMDevice" in the DT file will cause a failure of the driver's initialization
+    */
+    OEMDevices { 
+      PMICGpio{
+        Pmic = < 0 1 >;
+        Gpio = < 5 4 >;
+        // Purposely missing 4th variant to check out of bounds
+        OEMVariant = < UINT_MAX 0 UCHAR_MAX >;
+      };
+    };
+  };
+};

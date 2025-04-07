@@ -1,0 +1,19 @@
+#/** @file DevPrgLibPkg.dec
+# Device Programmer Library package.
+#
+# Copyright (c) 2021 Qualcomm Technologies Inc. All rights reserved.
+#
+#**/
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = DevPrgLibPkg
+  PACKAGE_GUID                   = 273770c6-eea8-4466-9efe-15404580f14c
+  PACKAGE_VERSION                = 0.1
+
+[Includes.common]
+  devprg_log.h
+  devprg_target.h
+  devprg_transport.h
+
+

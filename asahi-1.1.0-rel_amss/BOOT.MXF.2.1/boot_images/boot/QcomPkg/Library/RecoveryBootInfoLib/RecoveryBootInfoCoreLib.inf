@@ -1,0 +1,38 @@
+#/** @file RecoveryBootInfoCoreLib.inf
+#  
+#  
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.
+#  All rights reserved.
+#  Qualcomm Confidential and Proprietary
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 3/20/23    vk      Initial version
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = RecoveryBootInfoCoreLib
+  FILE_GUID                      = E1B9398F-2783-435C-9486-41A83CC09CF0
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = RecoveryBootInfoCoreLib
+
+[Sources]
+  recovery_boot_info.c
+  recovery_boot_uefi.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  ServicesUtilsLib  

@@ -1,0 +1,69 @@
+OEM DEC:
+{
+    "EntitlementCertificate": {
+        "CertificateVersion": 1,
+        "KeyIdentifier": "QTI_ENTITLEMENT_ROOT_KID",
+        "AlgorithmIdentifier": "ECDSA_P521_SHA512",
+        "Entitlements": {
+            "DebugEntitlement": {
+                "InstanceVersion": "0x00000001",
+                "AuthorizedDebugVector": "0x00009a61f3ffff030000000000000000",
+                "AuthorizedDebugOptions": [
+                    "DISABLE_SYSTEM_WATCHDOG",
+                    "ALLOW_SYSTEM_WATCHDOG_ACCESS"
+                ],
+                "InstantiationConstraints": [
+                    "IS_FINGERPRINT_BOUND"
+                ],
+                "ChipConstraints": {
+                    "SocHardwareVersion": "0xa00cffff",
+                    "SocLifeCycleState": [
+                        "OPERATIONAL_EXT",
+                        "OPERATIONAL_INT"
+                    ],
+                    "OemLifeCycleState": [
+                        "DEVELOPMENT"
+                    ]
+                }
+            }
+        },
+        "Signature": "0x00000030f55f7daf178f10cd5d7053db7536c070e56d4b27074be15d7bfec7d06374be95c0f09f8c47436a9b5d7ed535838a6403a4a94f772cf9b9f2d245437b2660b37a00000099427a6cfd4724f9f9e4237351c41c1ec74e74501bc73b1383e284aebe3a0b6b8b2d5bbc101c3b604991f7e65057e941653e7a03d5ffe77663fcca41cf11972a5d"
+    }
+}
+
+The Debug Options authorized by the DEC:
+Value: 0x00009a61f3ffff030000000000000000
+| Bit  | ID                         | Description                                                  |
+|------|----------------------------|--------------------------------------------------------------|
+| 17   | SHRM_DBGEN                 | Enable SHRM_DBGEN (SHRM Invasive Debug).                     |
+| 19   | CPUCP_DBGEN                | Enable CPUCP_DBGEN (CPUCP Invasive Debug).                   |
+| 20   | CPUCP_NIDEN                | Enable CPUCP_NIDEN (CPUCP Non-Invasive Debug).               |
+| 23   | QSEE_DBGEN                 | Enable QSEE_DBGEN (QSEE/TZ/APPS Secure Invasive Debug).      |
+| 24   | QSEE_NIDEN                 | Enable QSEE_NIDEN (QSEE/TZ/APPS Secure Non-Invasive Debug).  |
+| 29   | APPS_DBGEN                 | Enable APPS_DBGEN (APPS Non-Secure Invasive Debug).          |
+| 30   | APPS_NIDEN                 | Enable APPS_NIDEN (APPS Non-Secure Non-Invasive Debug).      |
+| 32   | MSS_SCALAR_DBGEN           | Enable MSS_SCALAR_DBGEN (Modem SCALAR Invasive Debug).       |
+| 33   | MSS_SCALAR_NIDEN           | Enable MSS_SCALAR_NIDEN (Modem SCALAR Non-Invasive Debug).   |
+| 36   | TITAN_DBGEN                | Enable TITAN_DBGEN (TITAN/Camera Invasive Debug).            |
+| 37   | TITAN_NIDEN                | Enable TITAN_NIDEN (TITAN/Camera Non-Invasive Debug).        |
+| 38   | LPASS_DBGEN                | Enable LPASS_DBGEN (LPASS/ADSP/Audio Invasive Debug).        |
+| 39   | LPASS_NIDEN                | Enable LPASS_NIDEN (LPASS/ADSP/Audio Non-Invasive Debug).    |
+| 40   | TURING_DBGEN               | Enable TURING_DBGEN (TURING/CDSP/Compute Invasive Debug).    |
+| 41   | TURING_NIDEN               | Enable TURING_NIDEN (TURING/CDSP/Compute Non-Invasive Debug).|
+| 42   | IRIS_DBGEN                 | Enable IRIS_DBGEN (IRIS/Video Invasive Debug).               |
+| 43   | IRIS_NIDEN                 | Enable IRIS_NIDEN (IRIS/Video Non-Invasive Debug).           |
+| 44   | MDSS_DBGEN                 | Enable MDSS_DBGEN (MDSS/Display Invasive Debug).             |
+| 45   | MDSS_NIDEN                 | Enable MDSS_NIDEN (MDSS/Display Non-Invasive Debug).         |
+| 46   | DDRSS_DBGEN                | Enable DDRSS_DBGEN (DDRSS Invasive Debug).                   |
+| 47   | DDRSS_NIDEN                | Enable DDRSS_NIDEN (DDRSS Non-Invasive Debug).               |
+| 48   | GPU_DBGEN                  | Enable GPU_DBGEN (GPU Invasive Debug).                       |
+| 49   | GPU_NIDEN                  | Enable GPU_NIDEN (GPU Non-Invasive Debug).                   |
+| 50   | DAP_DBGEN                  | Enable DAP_DBGEN (DAP Invasive Debug).                       |
+| 51   | DAP_NIDEN                  | Enable DAP_NIDEN (DAP Non-Invasive Debug).                   |
+| 52   | APPS_SCANDUMP_REENABLE     | Enable APPS_SCANDUMP_REENABLE feature.                       |
+| 53   | DDRSS_SCANDUMP_REENABLE    | Enable DDRSS_SCANDUMP_REENABLE feature.                      |
+| 54   | DEBUGBUS_DISABLE_REENABLE  | Enable DEBUGBUS_DISABLE_REENABLE feature.                    |
+| 55   | DCC_DISABLE_REENABLE       | Enable DCC_DISABLE_REENABLE feature.                         |
+| 56   | EUD_DISABLE_REENABLE       | Enable EUD_DISABLE_REENABLE feature.                         |
+| 57   | SMMU_SCAN_DUMP_REENABLE    | Enable SMMU_SCAN_DUMP_REENABLE feature.                      |
+

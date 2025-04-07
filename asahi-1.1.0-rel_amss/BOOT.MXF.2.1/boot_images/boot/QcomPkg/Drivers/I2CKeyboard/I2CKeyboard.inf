@@ -1,0 +1,70 @@
+#/** @file I2CKeyboard.inf
+#
+#  I2C Keyboard UEFI Driver INF file
+#
+#  Copyright (c) 2017 - 2023 Qualcomm Technologies Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who        what, where, why
+# --------   ---        ----------------------------------------------------------
+# 23/02/23   bkulkarn   Support to query & update EC device status in NV and code refactoring
+# 11/16/22   bkulkarn   Changes to power-on EC till EDK2/FmpDevicePkg dependencies are resolved
+# 10/14/22   ananns     Added KB_I2C to support I2C block read and write for Kodiak, Poipu and Hamoa
+# 04/06/22   vbu        Added QcomSdkPkg.dec
+# 02/19/19   ssumit     Adding QcomLib to get support of platform check
+# 03/13/17   ltg        Initial revision for UEFI I2C Keyboard Driver
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = I2CKeyboard
+  FILE_GUID                      = 8C88DA42-7CA9-40B6-9FD3-473B8A775ACC
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = I2CKeyboardEntryPoint
+
+[Sources]
+  EfiKey.c
+  EfiKey.h
+  Keyboard.c
+  Keyboard.h
+  KeyboardI2C.c
+  KeyboardI2C.h
+  KeyboardLog.h
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  MemoryAllocationLib
+  UefiLib
+  UefiBootServicesTableLib
+  UefiDriverEntryPoint
+  BaseMemoryLib
+  DevicePathLib
+  I2CApiLib
+  QcomLib
+  NpaApiLib
+  I2CClientLib
+  ECFwUpdateLib
+
+[Protocols]
+ gEfiSimpleTextInProtocolGuid
+ gEfiSimpleTextInputExProtocolGuid
+ gEfiTLMMProtocolGuid
+ gQcomPmicGpioProtocolGuid                                         ## CONSUMES
+ gChargerExProtocolGuid                                            ## CONSUMES
+ gEfiDtbExtnProtocolGuid
+ gQcomPmicVregProtocolGuid
+
+[Depex]
+ gEfiSimpleTextInProtocolGuid

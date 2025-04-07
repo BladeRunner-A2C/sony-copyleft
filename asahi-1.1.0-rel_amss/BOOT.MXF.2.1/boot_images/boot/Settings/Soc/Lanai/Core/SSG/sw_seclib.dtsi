@@ -1,0 +1,10 @@
+
+&sw {
+      seclib {
+              compatible = "qcom,seclib";
+              lcp_dare { 
+                         smmu_pt = <5>; /* smmu_pt size per GB of total DDR size */
+              };
+      };
+};
+

@@ -1,0 +1,38 @@
+#/** @file XBLRecoveryBootLib.inf
+#
+#  XBLRecoveryBootLib
+#  
+#  Copyright 2023 Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 01/25/21   vk      Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = XBLRecoveryBootLib
+  FILE_GUID                      = 6A98A042-B18E-11ED-9FA0-57A75017E92C
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = XBLRecoveryBootLib
+
+[Sources.common]
+  xbl_recovery_boot.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/XBLLoaderApi.dec
+  QcomPkg/LoaderFramework/LoaderFrameworkApi.dec
+  QcomPkg/Library/MuslLib/MuslLib.dec
+  QcomPkg/XBLLoader/ExtDrivers/ExtDrivers.dec
+  QcomSdkPkg/SdkLoader.dec
+  

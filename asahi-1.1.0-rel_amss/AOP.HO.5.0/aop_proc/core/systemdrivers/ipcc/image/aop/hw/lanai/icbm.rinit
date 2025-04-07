@@ -1,0 +1,7 @@
+# AOSS Island Communication Bus Configuration
+
+module : { name = LPASS_HOST_LINK_REGS, group = ICBM, import = arc_export }
+regs:
+  LPASS_REMAPPER_CFGd_INCOMING_START_ADDRESS[0] = 0xC0000
+  LPASS_REMAPPER_CFGd_OUTGOING_AOSS_BASE_ADDRESS[0] = 0x250000
+  LPASS_REMAPPER_CFGd[0] = 0x5

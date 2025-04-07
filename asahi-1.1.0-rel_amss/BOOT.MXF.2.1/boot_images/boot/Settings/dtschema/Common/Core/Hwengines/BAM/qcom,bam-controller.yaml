@@ -1,0 +1,100 @@
+# Copyright (c) 2022 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,bam-controller.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: file for bam device config
+
+maintainers:
+  - PoC <bnigam@qti.qualcomm.com>
+
+description: |
+  The Qualcomm compatible node...
+  Links to any data sheet or HW specific details
+
+# A dictionary of DT properties for this binding schema
+properties:
+  compatible: 
+    const: qcom,bam-controller
+
+  reg:
+    maxItems: 1
+  
+  "#address-cells":
+    const: 1
+
+  "#size-cells":
+    const: 0
+
+patternProperties:
+  "^bam_config_[0-9]+$":
+    type: object
+    description: child devices
+      
+    properties:
+      reg:
+        maxItems: 1
+
+      bam_pa:
+        description: bam_pa
+        $ref: /schemas/types.yaml#/definitions/uint64
+      
+      options:
+        description: options
+      
+      cfg_bits:
+        description: cfg_bits
+        
+      ee:
+        description: ee
+        $ref: /schemas/types.yaml#/definitions/uint8
+        
+      sec_config:
+        description: sec_config
+        
+      size:
+        description: size
+        $ref: /schemas/types.yaml#/definitions/uint32
+           
+    required:
+      - bam_pa
+      - options
+      - cfg_bits
+      - ee
+      - sec_config
+      - size
+
+required:
+  - compatible
+
+additionalProperties: false
+
+examples:
+  - |
+    bam:bam@1C9C000{      
+      #address-cells = <1>;
+      #size-cells = <0>;
+      compatible = "qcom,bam-controller";
+      reg = <0x01C9C000 0x40000>;
+  
+        bam_config_1 {
+          bam_pa             = /bits/ 64 <0x01C9C000>;
+          options            = <0x80>; /*BAM_TGT_CFG_FORCEINIT*/
+          cfg_bits           = <0xFFFFF004>; /*BAM_CNFG_BITS_VAL*/
+          ee                 = /bits/ 8 <0>;
+          sec_config         = <0>;
+          size               = <0x40000>; /*BAM_MAX_MMAP*/
+        };
+        bam_config_2 {
+          bam_pa             = /bits/ 64 <0x01C9C000>;
+          options            = <0x80>; /*BAM_TGT_CFG_FORCEINIT*/
+          cfg_bits           = <0xFFFFF004>; /*BAM_CNFG_BITS_VAL*/
+          ee                 = /bits/ 8 <0>;
+          sec_config         = <0>;
+          size               = <0x40000>; /*BAM_MAX_MMAP*/
+        };
+    };
+

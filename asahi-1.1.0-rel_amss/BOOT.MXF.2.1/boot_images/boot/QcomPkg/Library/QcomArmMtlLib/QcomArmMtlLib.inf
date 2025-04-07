@@ -1,0 +1,30 @@
+#/** @file
+#  Copyright (c) 2017-2021, Arm Limited. All rights reserved.
+#  Copyright (c) 2023, Qualcomm Technologies, Inc. All Rights Reserved.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010019
+  BASE_NAME                      = QcomArmMtlLib
+  FILE_GUID                      = 8EB0D6ED-5385-475F-925E-F168269EF534
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = QcomArmMtlLib
+
+[Sources.common]
+  QcomArmMtlLib.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+ 
+[LibraryClasses]
+  ScmiPlatformLib
+  ScmiTargetLib
+   
+[Protocols]
+  gEfiMBoxIPCProtocolGuid

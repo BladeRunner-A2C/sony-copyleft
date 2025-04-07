@@ -1,0 +1,7 @@
+&sw {
+	pmic {
+		arb: arb { };
+	};
+};
+
+#include "arb.dtsi"

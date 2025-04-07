@@ -1,0 +1,58 @@
+// Core/Storage/SDCC/sdcc.dtsi
+// core storage HW settings
+
+#include "sdcc_defines.h" 
+#include "gpio-dt.h"
+
+
+&soc {
+   sdcc: sdc1@8804000 {
+      compatible = "qcom,sdcc";
+      reg = <0x8804000 0x00001000>;
+
+      EnableLogging = /bits/ 8 <0>; 
+
+      DriveStrength = <0x1FE4>; 
+      MaxSpeedMode = /bits/ 8 <SDCC_SDR104_MODE>; 
+
+      pinctrl-names = "active";
+      pinctrl-0 = <&sdc2_active>;
+
+      HsrSettings {
+         DLLConfig = <0x7442C>;
+         DLLConfig3 = <0x08>;
+         DLLTestCtrl = <0x1800000>; 
+         DDRConfig = <0x80040868>; 
+         DLLUserCtrl = <0x090106C0>;
+         DLLConfig2 = <0x5400>; 
+
+         SDR104 {
+            DLLConfig2 = <0xA800>;
+            DLLConfig3 = <0x10>; 
+         };
+
+         SDR50 {
+            DLLConfig2 = <0x5400>;
+            DLLConfig3 = <0x08>;
+         };
+      };
+   };
+};
+
+
+&tlmm {
+   sdc2_active: sdc2_active {
+
+      config = <&sdc2_data0   (GPIO_DRIVE_STRENGTH(1200) | GPIO_OUTPUT | GPIO_PULL_UP)>,
+               <&sdc2_data1   (GPIO_DRIVE_STRENGTH(1200) | GPIO_OUTPUT | GPIO_PULL_UP)>,
+               <&sdc2_data2   (GPIO_DRIVE_STRENGTH(1200) | GPIO_OUTPUT | GPIO_PULL_UP)>,
+               <&sdc2_data3   (GPIO_DRIVE_STRENGTH(1200) | GPIO_OUTPUT | GPIO_PULL_UP)>,
+               <&sdc2_fb_clk  (GPIO_DRIVE_STRENGTH(1200) | GPIO_OUTPUT | GPIO_NO_PULL)>,
+               <&sdc2_cmd     (GPIO_DRIVE_STRENGTH(1200) | GPIO_OUTPUT | GPIO_NO_PULL)>,
+               <&sdc2_clk     (GPIO_DRIVE_STRENGTH(1200) | GPIO_OUTPUT | GPIO_NO_PULL)>;
+   };
+};
+
+
+
+

@@ -1,0 +1,38 @@
+#/** @file BootPartitionLib.inf
+#
+#  Boot Partition Lib
+#  
+#  Copyright (c) 2022 Qualcomm Technologies, Inc.  All Rights Reserved.
+#  Qualcomm Technologies Proprietary and Confidential.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when       who     what, where, why
+# --------   ---     ----------------------------------------------------------
+# 12/14/22   suhas   Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BootPartitionLib
+  FILE_GUID                      = 66783276-5F02-419C-A27B-8016C43C0723
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BootPartitionLib
+
+[Sources]
+  boot_partition.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomPkg/XBLLoaderApi.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  QcomSdkPkg/SdkLoader.dec  
+
+[LibraryClasses]

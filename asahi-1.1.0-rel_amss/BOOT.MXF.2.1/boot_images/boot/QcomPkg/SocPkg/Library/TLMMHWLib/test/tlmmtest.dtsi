@@ -1,0 +1,31 @@
+#include "gpio-dt.h"
+
+&tlmm {
+    lpass_slimbus_active: lpass_slimbus_active {
+      config = <&coex_uart1_rx 0>, <&coex_uart1_tx (GPIO_DRIVE_STRENGTH(800) | GPIO_INPUT | GPIO_STRONG_PULL)>;
+    };
+    lpass_slimbus_idle: lpass_slimbus_idle {
+      config = <&coex_uart1_rx GPIO_PULL_DOWN>, <&coex_uart1_tx GPIO_DRIVE_STRENGTH(400)>;
+    };
+    lpass_slimbus_sleep: lpass_slimbus_sleep {
+      config = <&coex_uart1_rx (GPIO_NO_PULL | GPIO_OUTPUT)>, <&coex_uart1_tx (GPIO_DRIVE_STRENGTH(800) | GPIO_INPUT | GPIO_STRONG_PULL)>;
+    };
+    lpass_slimbus_wake: lpass_slimbus_wake {
+      config = <&coex_uart1_rx GPIO_PULL_DOWN>, <&coex_uart1_tx GPIO_DRIVE_STRENGTH(400)>;
+    };
+};
+  
+&soc {
+  lpass-slimbus@b0000000 {
+    compatible= "qcom,lpass-slimbus";
+    reg= <0xb0000000 0x300000>;
+    pinctrl-names = "active", "idle", "sleep", "wake";
+    pinctrl-0 = <&lpass_slimbus_active>;
+    pinctrl-1 = <&lpass_slimbus_idle>;
+    pinctrl-2 = <&lpass_slimbus_sleep>;
+    pinctrl-3 = <&lpass_slimbus_wake>;
+    foo-gpios = <&tlmm 64 0>;
+    mode-gpios = <&tlmm 65 (GPIO_DRIVE_STRENGTH(800) | GPIO_INPUT | GPIO_STRONG_PULL)>;
+  };
+};
+

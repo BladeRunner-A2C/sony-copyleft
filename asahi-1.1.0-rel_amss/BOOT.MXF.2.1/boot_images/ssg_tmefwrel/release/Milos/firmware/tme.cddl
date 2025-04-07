@@ -1,0 +1,288 @@
+; Copyright (c) 2022 Qualcomm Technologies, Inc.
+; All rights reserved.
+; Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+; This corresponds to a COSE_Sign1 structure under which EAT will be wrapped
+tme_signed_eat_type = #6.18([
+    protected_header: bstr .cbor tme_eat_protected_header,
+    unprotected_header: {
+        tme_kid => bstr
+    },
+    payload: bstr .cbor tme_eat_type,
+    signature: bstr .size 136
+])
+ 
+tme_eat_protected_header = {
+    tme_qcose_hdr_alg_label => tme_ES512,
+    tme_payload_version => tstr .eq "TME EAT 1.1"
+}
+ 
+tme_qcose_hdr_alg_label = 1
+; Values for private use must be less than -65536, so we're using the same value as QWES
+tme_payload_version = -77005
+tme_kid = 2
+ 
+tme_ES512 = -36
+
+;=============================================================================================================================
+;                                                         TME EAT CDDL
+;=============================================================================================================================
+tme_eat_type =
+{
+;-----------------------------------------------------------------------------------------------------------------------------
+;                                                  TME EAT Standard Claims
+;-----------------------------------------------------------------------------------------------------------------------------
+    cti                          : bstr .size 4,
+    nonce                        : bstr .size 32,
+    oemid                        : bstr .size 16,
+    secboot_enabled              : bool,
+    debug_status                 : debug-status-cbor-type,
+    uptime                       : uint,
+    boot_seed                    : bstr .size 4,
+   
+;-----------------------------------------------------------------------------------------------------------------------------
+;                                                  TME EAT Proprietary Claims
+;-----------------------------------------------------------------------------------------------------------------------------
+    components_info                           : components_info_type,
+    ? tme_oem_pk_hash                         : hash_type,                           ; Only sent if SECURE_BOOT:PK_HASH_IN_FUSE is set
+    tme_mrc                                   : bstr .bits tme_mrc_fields,
+    tme_soc_lcs                               : tme_soc_lcs_type,
+    tme_oem_lcs                               : bstr,
+    tme_oem_prod_id                           : bstr,
+    tme_qc_hw_version                         : bstr .bits tme_qc_hw_version_fields,
+    ? tme_google_bcc_device_pk                : pk_type,
+    tme_anti_rollback_info                    : tme_anti_rollback_info_type,
+    tme_debug_state                           : bstr .bits tme_debug_fields,
+    tme_secboot_state                         : bstr .bits tme_secboot_fields
+}
+  
+;=============================================================================================================================
+;                                                      TME EAT CDDL Types
+;=============================================================================================================================
+  
+;----------------------------------------------------------------------------------------------------------------------
+;                                           TME CDDL Type : TME Debug Status Type
+;----------------------------------------------------------------------------------------------------------------------
+debug-status-cbor-type = &(
+    enabled: 0,
+    disabled: 1,
+    disabled-since-boot: 2,
+    disabled-permanently: 3,
+    disabled-fully-and-permanently: 4
+)
+  
+;----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Type : Components Info Type
+;----------------------------------------------------------------------------------------------------------------------
+ 
+components_info_type = {
+    * component_id_type => component_props_type ; => is used instead of : because component_id_type is not an integer literal
+}
+ 
+; Taken from https://ssg-dev-02.qualcomm.com/source/xref/ssg.tmefw.1.0/sources/tlvCommands/inc/SeqServiceCommandDefs.h#163 and
+; https://ssg-dev-02.qualcomm.com/source/xref/ssg.tmefw.1.0/sources/external_teams/ssg/securemsm/secboot/inc/secboot_swid.h
+component_id_type = &(
+    MDM_SS_SWID           : 0x0002,
+    DEVICE_PRGM_SS_SWID   : 0x0003,
+    TZ_CONFIG_SS_SWID     : 0x0005,
+    QTEE_SS_SWID          : 0x0007,
+    UEFI_SS_SWID          : 0x0009,
+    QHEE_SS_SWID          : 0x0015,
+    VIP_SS_SWID           : 0x001a,
+    SHRM_SS_SWID          : 0x0020,
+    AOP_SS_SWID           : 0x0021,
+    OEM_MISC_SS_SWID      : 0x0022,
+    QTI_MISC_SS_SWID      : 0x0023,
+    XBL_CONFIG_SS_SWID    : 0x0025,
+    UEFI_FW_SS_SWID       : 0x0027,
+    SEC_ELF_SS_SWID       : 0x002b,
+    CPUCP_SS_SWID         : 0x0031,
+    TME_FW_SS_SWID        : 0x0035,
+    XBL_SC_SS_SWID        : 0x0036,
+    TME_SEQ_SS_SWID       : 0x0037,
+    AOP_CONFIG_SS_SWID    : 0x003D,
+    XBL_SC_EXT_SS_SWID    : 0x0041,
+    XBL_RAM_DUMP_SS_SWID  : 0x0042,
+    Q6_MPSS_DTB           : 0x0051,
+    TME_SIGNED_CMD_SWID   : 0x0200
+)
+ 
+component_props_type = {
+    ? component_version                 : bstr,       ; TME may only report the version or hash for some
+    ? component_hash                    : hash_type   ; components
+}
+ 
+;----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Type : TME SOC LCS Type
+;----------------------------------------------------------------------------------------------------------------------
+ 
+; Taken from https://ipcatalog.qualcomm.com/swi/chip/403/version/11140/module/14991335#REMAPPED_TME_LCS_0
+tme_soc_lcs_type = &(
+    blank            : 0,
+    operational      : 1,
+    ext_operational  : 5,
+    rma              : 7,
+    int_operational  : 11,
+    development      : 14
+)
+ 
+;-----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Type : Hash type
+;-----------------------------------------------------------------------------------------------------------------------
+ 
+hash_type = {
+    hash_id                           : hash_id_type,
+    hash_value                        : bstr
+}
+ 
+; We should keep an internal registry of hash algorithms
+hash_id_type = &(
+    SHA512                            : 0,
+    SHA384                            : 1
+)
+ 
+;-----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Type : PK type
+;-----------------------------------------------------------------------------------------------------------------------
+ 
+pk_type = {
+    pk_id                             : pk_id_type,
+    pk_value                          : bstr
+}
+ 
+; We should keep an internal registry of PK cryptographic algorithms
+pk_id_type = &(
+    ed25519                           : 0
+)
+ 
+;-----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Bitfield : TME QC HW Version
+;-----------------------------------------------------------------------------------------------------------------------
+tme_qc_hw_version_fields = &(
+    MINOR_VERSION_0                   : 0,
+    MINOR_VERSION_1                   : 1,
+    MINOR_VERSION_2                   : 2,
+    MINOR_VERSION_3                   : 3,
+    MINOR_VERSION_4                   : 4,
+    MINOR_VERSION_5                   : 5,
+    MINOR_VERSION_6                   : 6,
+    MINOR_VERSION_7                   : 7,
+    MAJOR_VERSION_0                   : 8,
+    MAJOR_VERSION_1                   : 9,
+    MAJOR_VERSION_2                   : 10,
+    MAJOR_VERSION_3                   : 11,
+    MAJOR_VERSION_4                   : 12,
+    MAJOR_VERSION_5                   : 13,
+    MAJOR_VERSION_6                   : 14,
+    MAJOR_VERSION_7                   : 15,
+    DEVICE_NUMBER_0                   : 16,
+    DEVICE_NUMBER_1                   : 17,
+    DEVICE_NUMBER_2                   : 18,
+    DEVICE_NUMBER_3                   : 19,
+    DEVICE_NUMBER_4                   : 20,
+    DEVICE_NUMBER_5                   : 21,
+    DEVICE_NUMBER_6                   : 22,
+    DEVICE_NUMBER_7                   : 23,
+    FAMILY_NUMBER_0                   : 24,
+    FAMILY_NUMBER_1                   : 25,
+    FAMILY_NUMBER_2                   : 26,
+    FAMILY_NUMBER_3                   : 27,
+    FAMILY_NUMBER_4                   : 28,
+    FAMILY_NUMBER_5                   : 29,
+    FAMILY_NUMBER_6                   : 30,
+    FAMILY_NUMBER_7                   : 31
+)
+ 
+;-----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Bitfield : Debug
+;-----------------------------------------------------------------------------------------------------------------------
+tme_debug_fields = &(
+    tme_debug_dis                      : 0,
+    tz_debug_dis                       : 1,
+    mss_debug_dis                      : 2,
+    ns_debug_dis                       : 3,
+    cp_debug_dis                       : 4
+)
+ 
+;-----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Bitfield : Antirollback
+;-----------------------------------------------------------------------------------------------------------------------
+tme_antirollback_info_type = {
+    tme_antirollback_state            : bstr .bits tme_antirollback_fields,
+    tme_antirollback_oem_versions     : tme_antirollback_versions_type,
+    tme_antirollback_qti_versions     : tme_antirollback_versions_type
+}
+
+tme_antirollback_fields = &(
+    boot_antirollback_en              : 0,
+    tzapps_antirollback_en            : 1,
+    pilsubsys_antirollback_en         : 2,
+    msa_antirollback_en               : 3
+)
+ 
+tme_antirollback_versions_type = {
+    * component_id_type => uint ; => is used instead of : because component_id_type is not an integer literal
+}
+;-----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Bitfield : MRC
+;-----------------------------------------------------------------------------------------------------------------------
+tme_mrc_fields = &(
+    OEM_ROOT_CERT_ACTIVATION_0        : 0,
+    OEM_ROOT_CERT_ACTIVATION_1        : 1,
+    OEM_ROOT_CERT_ACTIVATION_2        : 2,
+    OEM_ROOT_CERT_ACTIVATION_3        : 3,
+    OEM_ROOT_CERT_REVOCATION_0        : 4,
+    OEM_ROOT_CERT_REVOCATION_1        : 5,
+    OEM_ROOT_CERT_REVOCATION_2        : 6,
+    OEM_ROOT_CERT_REVOCATION_3        : 7
+)
+ 
+;-----------------------------------------------------------------------------------------------------------------------
+;                                     TME CDDL Bitfield : SecBoot
+;-----------------------------------------------------------------------------------------------------------------------
+tme_secboot_fields = &(
+    AUTH_EN             : 0,
+    PK_HASH_IN_FUSE     : 1,
+    PK_HASH_BLOWN       : 2
+)
+
+; Labels of the top level fields of proprietary claims are published in the table above.
+; This shows all the labels for the map elements within the proprietary claims.
+; These defined separately and are not put in the table above so it is easier to read.
+ 
+;=============================================================================================================================
+;                                                      TME EAT CDDL Constants
+;=============================================================================================================================
+ 
+cti                      = 7
+nonce                    = 10
+oemid                    = 258
+secboot_enabled          = 262
+debug_status             = 263
+uptime                   = 31 ; Not yet standardized
+boot_seed                = 32 ; Not yet standardized
+ 
+components_info          = -80000
+tme_oem_pk_hash          = -80001
+tme_mrc                  = -80002
+tme_soc_lcs              = -80003
+tme_oem_lcs              = -80004
+tme_oem_prod_id          = -80005
+tme_qc_hw_version        = -80006
+tme_google_bcc_device_pk = -80007
+tme_antirollback_info    = -80008
+tme_debug_state          = -80009
+tme_secboot_state        = -80010
+ 
+component_version        = 0
+component_hash           = 1
+ 
+hash_id                  = 0
+hash_value               = 1
+ 
+pk_id                    = 0
+pk_value                 = 1
+ 
+tme_antirollback_state         = 0
+tme_antirollback_oem_versions  = 1
+tme_antirollback_qti_versions  = 2

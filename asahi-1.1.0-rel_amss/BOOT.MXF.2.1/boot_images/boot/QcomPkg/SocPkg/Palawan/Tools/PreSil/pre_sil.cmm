@@ -1,0 +1,39 @@
+;===========================================================================
+;  Name:
+;    pre_sil.cmm
+;
+;  Description:
+;     Add presil changes to this file.
+;
+; Copyright (c) 2021 Qualcomm Technologies Incorporated.
+; All Rights Reserved.
+; Qualcomm Technologies Confidential and Proprietary
+;
+;----------------------------------------------------------------------------
+
+;============================================================================
+;  CMM script variables
+;============================================================================
+
+local &CwDirII
+local &SmemBinaryFile
+
+;============================================================================
+
+
+;---------------------------------------------------
+; Entry point
+;---------------------------------------------------
+ENTRY &PreSil &Modules
+
+  &CwDirII=os.ppd()
+
+  IF "&PreSil"=="FBC"
+  (
+  )
+
+
+ 
+enddo
+
+

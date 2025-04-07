@@ -1,0 +1,17 @@
+
+all: lesson_4
+
+clean:
+	rm -f ../dt_vtechstudy.o
+	rm -f ../main.o
+	rm -f *.o
+	rm -f *.pp
+	rm -f overlay-tlmm-?.dtbo
+	rm -f *.dtb
+	rm -f *.merged
+	rm -f lesson_4
+
+CPPFLAGS = -I.. -I../../../oss-dtc/libfdt
+
+lesson_4: lesson_4.o get_prop_value.o ../main.o ../dt_vtechstudy.o
+	cc -o lesson_4 ../main.o ../dt_vtechstudy.o get_prop_value.o lesson_4.o ../../../oss-dtc/libfdt/libfdt-win.a

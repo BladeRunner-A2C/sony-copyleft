@@ -1,0 +1,2142 @@
+ /*! \file  pm_config_target_sbl_sequence.c 
+ *   
+ *  \brief  File Contains the PMIC Set Mode Driver Implementation 
+ *  \details Set Mode Driver implementation is responsible for setting and getting 
+ *  all mode settings such as Register values, memory values, etc. 
+ *   
+ *    PMIC code generation Version: 1.0.0.0 
+ *    Date: 1/24/2024 
+ *    PMIC PSI Version: Palawan-SBL-b0x0A_v0x0A - Approved 
+ *    PBS RAM Version: Azura_PBS2_RAM_b0x0A_v0x0A_p0x00 
+ *    PBS RAM Version: Azura_PBS1_RAM_b0x0A_v0x0A_p0x00 
+ *    PBS RAM Version: Azura_PBS3_RAM_b0x0A_v0x07_p0x00 
+ *    PBS RAM Version: Kohala_RAM_b0x00_v0x0C_p0x00 
+ *    PBS RAM Version: Sculpin_A_RAM_b0x01_v0x03_p0x00 
+ *    This file contains code for Target specific settings and modes. 
+ *   
+ *  Copyright (c) 2018,2024 Qualcomm Technologies, Inc. All rights reserved. 
+ *  Confidential and Proprietary - Qualcomm Technologies, Inc. 
+ */ 
+ 
+/*=========================================================================== 
+ 
+                        EDIT HISTORY FOR MODULE 
+ 
+  This document is created by a code generator, therefore this section will 
+  not contain comments describing changes made to the module. 
+ 
+$Header: $  
+$DateTime: $  $Author: $ 
+ 
+when       who     what, where, why 
+--------   ---     ----------------------------------------------------------  
+ 
+===========================================================================*/ 
+ 
+/*=========================================================================== 
+ 
+                     INCLUDE FILES  
+ 
+===========================================================================*/ 
+ 
+#include "pm_target_information.h" 
+#include "pm_config_sbl.h" 
+ 
+/*========================== PSI Sequence LUT =============================*/ 
+ 
+//NOTES ON CREATING PSI SEQUENCE: 
+ 
+//1. When creating PSI sequence(Table A), if configuration do not need conditional check, set cond start/end index to 0 
+//2. If Reg configuration require conditional check, indicate the range of conditional check using cond start/end index 
+//3. For Reg operation PM_SBL_DELAY case, address field contains delay amount in us 
+//4. For Reg Operation PM_SBL_PBS_RAM case, data field contains index to access in PBS RAM Table 
+//5. For Reg Operation PM_SBL_PBS_RAM case, address field contains size of PBS RAM 
+ 
+//Table B (Conditional configuration check Table): 
+//1. DO NOT use the first entry. Index 0 is used when no conditional configuration is needed (This is just to avoid confusion) 
+//2. Single or multiple configuration can be added in Table B 
+//3. If multiple configuration is needed, it should be entered in a consecutive order, so that it can be indexed in one range(from Table A) 
+ 
+#define SBL_CONFIG_INFO_DATA \
+{ \
+ 	PSI_SIGNATURE,	/* PSI Signature */ \
+ 	0x02,	/* PSI Major Version */ \
+ 	0x02,	/* PSI Minor Version */ \
+ 	0x01,	/* Number of target configurations */ \
+ 	0x64	/* Total number of conditional entries on pm_sbl_cond_seq_type table */ \
+}
+#define SBL_COND_SEQ_DATA \
+{ \
+	 /*btype  bid  sid  data   mask   register      operator */\
+	 {   0,    0,   7,  0x10,  0xFF,  0x0052,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   7,  0x10,  0xFF,  0x0052,       EQUAL        }, \
+	 {   0,    0,   7,  0x4C,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   7,  0x10,  0xFF,  0x0052,       EQUAL        }, \
+	 {   0,    0,   7,  0x01,  0xFF,  0x2580,       EQUAL        }, \
+	 {   0,    0,   0,  0x10,  0xFF,  0x0052,       EQUAL        }, \
+	 {   0,    0,   0,  0x10,  0xFF,  0x0052,      GREATER       }, \
+	 {   0,    0,   7,  0x20,  0xFF,  0x0052,       EQUAL        }, \
+	 {   0,    0,   0,  0x20,  0xFF,  0x0052,       EQUAL        }, \
+	 {   0,    0,   7,  0x20,  0xFF,  0x0052,       EQUAL        }, \
+	 {   0,    0,   0,  0x02,  0xFF,  0x504B,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x504B,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x7157,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x7072,       EQUAL        }, \
+	 {   0,    0,   7,  0x01,  0xFF,  0xF270,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   7,  0x00,  0xFF,  0xF270,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   7,  0x00,  0xFF,  0x2580,       EQUAL        }, \
+	 {   0,    0,   7,  0x40,  0xF0,  0x01FF,       EQUAL        }, \
+	 {   0,    0,   7,  0xA0,  0xA0,  0x270B,       EQUAL        }, \
+	 {   0,    0,   7,  0x90,  0x90,  0x270B,       EQUAL        }, \
+	 {   0,    1,   9,  0x94,  0xFF,  0x01FF,       EQUAL        }, \
+	 {   0,    1,   9,  0xCB,  0xFF,  0x06F1,       EQUAL        }, \
+	 {   0,    1,  11,  0x94,  0xFF,  0x01FF,       EQUAL        }, \
+	 {   0,    1,  11,  0xCB,  0xFF,  0x06F1,       EQUAL        }, \
+	 {   0,    1,   9,  0x96,  0xFF,  0x01FF,       EQUAL        }, \
+	 {   0,    1,   9,  0xCB,  0xFF,  0x06F2,       EQUAL        }, \
+	 {   0,    1,  11,  0x96,  0xFF,  0x01FF,       EQUAL        }, \
+	 {   0,    1,  11,  0xCB,  0xFF,  0x06F2,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x16CC,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x1ACC,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x1ECC,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x604A,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x604A,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x604A,       EQUAL        }, \
+	 {   0,    0,   7,  0x4C,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x604A,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x604A,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x604A,       EQUAL        }, \
+	 {   0,    0,   7,  0x4C,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x7068,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x7068,       EQUAL        }, \
+	 {   0,    0,   1,  0x00,  0x80,  0x3E08,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0x03,  0x86BF,       EQUAL        }, \
+	 {   0,    0,   0,  0x02,  0x03,  0x86BF,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x709B,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x7846,       EQUAL        }, \
+	 {   0,    0,   0,  0x3C,  0xFF,  0x9D75,        LESS        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x3C,  0xFF,  0x9D75,  GREATER_OR_EQUAL  }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x9D6D,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x9D6D,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x9DBE,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x9DBE,       EQUAL        }, \
+	 {   0,    0,   7,  0x47,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   7,  0x40,  0xF0,  0x01FF,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0x01,  0x729A,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x7163,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x7099,       EQUAL        }, \
+	 {   0,    1,  13,  0x54,  0xFF,  0x0105,       EQUAL        }, \
+	 {   0,    0,   7,  0x00,  0x0F,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x01,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x03,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x14,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x24,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x05,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x06,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x07,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x38,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x49,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x5A,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   7,  0x0B,  0xFF,  0xF8B4,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0xFF,  0x70AE,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0xFF,  0x70AE,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0x01,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x02,  0x02,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x04,  0x04,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0x01,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x02,  0x02,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x08,  0x08,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x00,  0x10,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x10,  0x10,  0x7296,       EQUAL        }, \
+	 {   0,    0,   0,  0x02,  0x02,  0xB749,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0x03,  0xB749,  GREATER_OR_EQUAL  }, \
+	 {   0,    0,   0,  0x03,  0x03,  0xB749,   LESS_OR_EQUAL    }, \
+	 {   0,    0,   0,  0x01,  0x03,  0xB749,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0x03,  0xB749,  GREATER_OR_EQUAL  }, \
+	 {   0,    0,   0,  0x03,  0x03,  0xB749,   LESS_OR_EQUAL    }, \
+	 {   0,    0,   0,  0x00,  0x30,  0xB749,       EQUAL        }, \
+	 {   0,    0,   0,  0x01,  0x03,  0xB749,  GREATER_OR_EQUAL  }, \
+	 {   0,    0,   0,  0x03,  0x03,  0xB749,   LESS_OR_EQUAL    }, \
+	 {   0,    0,   0,  0x10,  0x30,  0xB749,       EQUAL        }, \
+ }
+#define SBL_SEQ_DATA \
+{ \
+	 /*Mode - Leica2_reset */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8C44,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8D44,    0x00,   0xFF,    0,       0 },\
+	 /*Mode - Azura_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x737C,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x7094,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x7095,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x72AF,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x72B1,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x72B2,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x709F,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D45,    0x2A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0DF2,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xBC40,    0x01,   0xFF,   66,      66 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xBC45,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xBC44,    0x80,   0xFF,   66,      66 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x709D,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x709D,    0x01,   0xFF,   50,      50 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0740,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0741,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1240,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1241,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5140,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5141,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5144,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x51DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5058,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x505D,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5061,    0xD0,   0xFF,   12,      12 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5062,    0xB0,   0xFF,   12,      12 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x505C,    0x01,   0xFF,   12,      12 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5061,    0x80,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5062,    0x80,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5055,    0x33,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x505C,    0x7B,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x50E8,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6469,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6448,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6146,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x621A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x594C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A4C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5B4C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x544C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x554C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x564C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x574C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x584C,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A70,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5443,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5543,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5643,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5743,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5843,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x594A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A4A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5B4A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x544A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x554A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x564A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x574A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x584A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A44,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A4D,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5B44,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5B4D,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5448,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5548,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5648,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5748,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5848,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5948,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A48,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5B48,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5C48,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5545,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x544B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x564B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x574B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x584B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5045,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x504E,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5041,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x50DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5460,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5560,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5660,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5760,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5860,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5960,    0x03,   0xFF,   12,      12 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A60,    0x03,   0xFF,   12,      12 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5B60,    0x03,   0xFF,   12,      12 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5C60,    0x03,   0xFF,   12,      12 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5960,    0x90,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5A60,    0x90,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5B60,    0x90,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5C60,    0x90,   0xFF,   13,      13 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x5E43,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x7846,    0x4B,   0xFF,   51,      51 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x78DA,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D46,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x16C4,    0x55,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x16C5,    0x55,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1AC4,    0x55,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1EC4,    0x55,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x708B,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A33,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A31,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A40,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A41,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A42,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A43,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0, PM_SBL_PBS_RAM,     0,    0x04A2,       0,   0x1A,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A40,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A41,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A42,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A43,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A50,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A51,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A54,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A55,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A58,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1A59,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1ADA,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1C40,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1840,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1C46,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1D40,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1D46,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x708A,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1633,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1640,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1641,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1642,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1643,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1650,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1651,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0, PM_SBL_PBS_RAM,     0,    0x1FE0,       1,   0x16,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1640,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1641,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1642,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1643,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1650,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1651,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1654,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1655,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1658,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1659,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x16DA,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1840,    0x46,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1C40,    0x58,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1846,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1940,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1946,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8354,    0x17,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1942,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_DELAY,     0,    0x07D0,    0x99,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x708C,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E33,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E31,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x12E5,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E40,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E41,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E42,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E43,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0, PM_SBL_PBS_RAM,     0,    0x02FE,       2,   0x1E,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E40,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E41,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E42,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E43,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E50,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E51,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E54,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E55,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E58,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1E59,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1EDA,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2040,    0x4A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2046,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2140,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2146,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8374,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2142,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_DELAY,     0,    0x00C8,    0x99,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1246,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x12EB,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x12EB,    0x00,   0xFF,   15,      15 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1246,    0x88,   0xFF,   15,      15 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8373,    0x02,   0xFF,   15,      15 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2142,    0x08,   0xFF,   15,      15 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x16C4,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x16C5,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1AC4,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1EC4,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6916,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x691A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x691B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6912,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6911,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6913,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6914,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6915,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C16,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C1A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C1B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C12,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C11,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C13,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C14,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6C15,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D47,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D42,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D45,    0x29,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D50,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D46,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0DF4,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0DE7,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D44,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2C50,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2C51,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2C55,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D1A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D1B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D16,    0xFE,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D14,    0xFE,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D15,    0xFE,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D50,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D51,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D55,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2DB0,    0x33,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2DB1,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2DB5,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D90,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D91,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D95,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2DA0,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2DA1,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2DA5,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D80,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D81,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D85,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D70,    0x21,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D71,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2D75,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E1A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E16,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E14,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E15,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E85,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E50,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E51,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E60,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E61,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E70,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E71,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0D40,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x12DA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x728D,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x04DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1AA7,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0DF5,    0x06,   0xFF,    0,       0 },\
+	 /*Mode - MOD_FTS_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9BAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9EAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA1AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA4AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA7AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xAAAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9BAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9EAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA1AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA4AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA7AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAAAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9BAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9EAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xA1AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xA4AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xA7AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAAAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xADAC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB0AC,    0x4D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA14B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA44B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9B4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA44B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAA4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xA74B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA4B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB04B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9BA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9BA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9C1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9EA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9EC2,    0x9C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9EC3,    0x1B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9EC4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9F1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA13B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA13C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA160,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA161,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA1A3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA1C2,    0x9C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA1C3,    0x1B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA1C4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA21B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA43B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA43C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA460,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA461,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA4A3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA4A0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA4A8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA4C4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA4C2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA51B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA45A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9B3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9B3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9B60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9B61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9BA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9BA8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9BC2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9C1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9EA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9EA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9EA8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9EC3,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9EC4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9EC2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E5A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9F1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9F16,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9F14,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9F15,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA43B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA43C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA460,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA461,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA4A3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA4A0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA4A8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA4C4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA4C2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA51B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA45A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA440,    0xD8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA441,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAA3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAA3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAA60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAA61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAAA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAAA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAAA8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAAC2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAB1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAB16,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAB14,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xAB15,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9BA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9BA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9BA8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9BC4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9BC2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9C1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9EA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9EA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9EC4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9EC2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9F16,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9F1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9F14,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9F15,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E5A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E87,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E80,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E85,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E9B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9EA8,    0x99,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E9C,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E9D,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA60,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA61,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAAA3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAAA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAAA8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAAC4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAAC2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAB1B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA5A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB03B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB03C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB060,    0x56,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB061,    0x4E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB0A3,    0x9E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB0A8,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB0C4,    0x52,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB0C2,    0x9D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xB11B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B76,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9BAC,    0x79,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B86,    0x30,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9BA5,    0x76,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B4E,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B7F,    0x77,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B59,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B56,    0x82,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B6F,    0xB8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B94,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9BAE,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9B88,    0x6C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E76,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9EAC,    0x79,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E70,    0x12,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E86,    0x30,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9EA5,    0x76,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E4E,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E7F,    0x77,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E59,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E56,    0x82,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E60,    0x3A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E61,    0x30,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E6D,    0x44,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E6E,    0x3A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E6F,    0xB8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E94,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9EAE,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E88,    0x6C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E3B,    0x83,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9E3C,    0x83,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x9EA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B88,    0x6C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B80,    0x89,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9BA0,    0x88,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9DDA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9C60,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9C61,    0x1E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9C65,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9C66,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9CAC,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9BA5,    0xB4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B81,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B4D,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9B88,    0x6C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9B3B,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9B3C,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9BA0,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9BA5,    0x76,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9B56,    0x82,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9BDA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9DDA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B39,    0xFC,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B3A,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E39,    0x94,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E3A,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA440,    0xD8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA441,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E40,    0xD8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x9E41,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA440,    0xD8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xA441,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E40,    0xD8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E41,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA40,    0xD8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xAA41,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9B40,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x9B41,    0x03,   0xFF,    0,       0 },\
+	 /*Mode - HFS_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA160,    0xD4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA161,    0x9C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA170,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA171,    0x17,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA172,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA173,    0x17,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA14D,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA24A,    0x5A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA25A,    0x76,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA263,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA168,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA169,    0x73,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA16A,    0x38,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA180,    0x11,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA164,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA14C,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA15A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA24B,    0x89,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA145,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA155,    0x24,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA156,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA157,    0x29,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_DELAY,     0,    0x0032,    0x99,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA145,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA13B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA13C,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA189,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA1DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA2DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA3DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2813,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2812,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x281A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2814,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2815,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2848,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2842,    0x80,   0xFF,    0,       0 },\
+	 /*Mode - Leica2_SBL_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4277,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4377,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4477,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4577,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4677,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4476,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4676,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4255,    0x8C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4355,    0x8C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4555,    0x8C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4277,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4377,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4477,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4577,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4677,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4476,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4676,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4255,    0x8C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4355,    0x8C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4555,    0x8C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4088,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4188,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4288,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4388,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4488,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4588,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4688,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4088,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4188,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4288,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4388,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4488,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4588,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4688,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0xC042,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0xC042,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0xC142,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0xC142,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0616,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0616,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x061A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x061A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0614,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0614,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - LDO_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC13B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC23B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC33B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC43B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC53B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC63B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC73B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC83B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC93B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA3B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB3B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC13B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC23B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC33B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC13B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC23B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC33B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC13B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC23B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC33B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC53B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC63B,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC164,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC264,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC364,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC464,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC564,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC664,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC764,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC864,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC964,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA64,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB64,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC164,    0xDE,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC264,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC364,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC164,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC264,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC364,    0x5E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC164,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC264,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC364,    0x8E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC464,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC564,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC664,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC6E6,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCBE6,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC1E5,    0x58,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC2E5,    0x58,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC3E5,    0x58,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC5E5,    0x58,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC6E5,    0x58,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC1E6,    0x44,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC2E6,    0x44,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC3E6,    0x44,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC5E6,    0x44,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC6E6,    0x44,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC165,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC265,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC365,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC465,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC565,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC665,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC765,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC865,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC965,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA65,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB65,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC165,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC265,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC365,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC165,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC265,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC365,    0xED,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC18A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC28A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC38A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC48A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC58A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC68A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC78A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC88A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC98A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA8A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB8A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC18A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC28A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC38A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC18A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC28A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC38A,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC188,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC288,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC388,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC488,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC588,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC688,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC788,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC888,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC988,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA88,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB88,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCC88,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCD88,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCE88,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCF88,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD088,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD188,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD288,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD388,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD488,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD588,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD688,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD788,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC188,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC288,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC388,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC188,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC288,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC388,    0xDA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC188,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC288,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC388,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC488,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC588,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC688,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC788,    0xF4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC18B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC28B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC38B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC48B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC58B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC68B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC78B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC88B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC98B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA8B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB8B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCC8B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCD8B,    0x41,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCE8B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCF8B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD08B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD18B,    0x41,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD28B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD38B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD48B,    0x41,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD58B,    0x41,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD68B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD78B,    0x41,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC18B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC28B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC38B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC18B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC28B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC38B,    0xC1,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC553,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC140,    0x90,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC141,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC840,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC841,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC940,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC941,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA40,    0x90,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA41,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB40,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB41,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCD40,    0x90,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCD41,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD040,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD041,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD240,    0xF0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD241,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD340,    0xB8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD341,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD440,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD441,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD540,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD541,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD640,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD641,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD740,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xD741,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4040,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4041,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4140,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4141,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4240,    0xF0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4241,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4340,    0xF0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4341,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4540,    0xF0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4541,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4640,    0xF0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4641,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4040,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4041,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4140,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4141,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4240,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4241,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4340,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4341,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4440,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4441,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4540,    0xF0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4541,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4640,    0xE8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4641,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC140,    0x58,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC141,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC240,    0xB8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC241,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC340,    0x20,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC341,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC440,    0xF0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC441,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC640,    0xB0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC641,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC740,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC741,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE116,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE216,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xE116,    0x3C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xE116,    0x33,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xE116,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0xE116,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0xE116,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC760,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC860,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCB60,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC460,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4460,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4260,    0xE4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4360,    0xE4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC460,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC560,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC660,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC360,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC360,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4060,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x4160,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4060,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x4160,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC560,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC660,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC160,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC260,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC360,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC960,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xCA60,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC260,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC160,    0xF0,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC160,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC260,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xC360,    0xF4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B31,    0xAD,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E31,    0xA5,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA131,    0xA3,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B32,    0x49,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA132,    0x49,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E32,    0x49,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B33,    0x8A,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E33,    0x8A,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA133,    0x8A,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B34,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E34,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA134,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B35,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E35,    0x60,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA135,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B36,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E36,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA136,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B37,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E37,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA137,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9B38,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9E38,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xA138,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F40,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F44,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F46,    0xE2,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F48,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F4C,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F50,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F54,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F58,    0x0D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0F5C,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE147,    0xA4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE247,    0xA4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xE147,    0xA4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xE147,    0xA4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xE147,    0xA4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0xE147,    0xA4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0xE147,    0xA4,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE11A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE21A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xE11A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xE11A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xE11A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0xE11A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0xE11A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE115,    0x00,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE215,    0x30,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xE115,    0x3C,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xE115,    0x33,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xE115,    0xFF,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0xE115,    0x03,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0xE115,    0x3F,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE1E3,    0x80,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE2E3,    0x80,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xE1E3,    0x80,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xE1E3,    0x80,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xE1E3,    0x80,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0xE1E3,    0x80,   0xFF,   14,      14 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0xE1E3,    0x80,   0xFF,   14,      14 },\
+	 /*Mode - KOHALA_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1948,    0x82,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1641,    0xC0,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1642,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1643,    0x04,   0xFF,    2,       2 },\
+	 {    0,   0, PM_SBL_PBS_RAM,     7,    0x0200,       3,   0x16,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1641,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1642,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1643,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1650,    0x08,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1651,    0x04,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1654,    0x0C,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1655,    0x04,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x16DA,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x094D,    0x01,   0xFF,   36,      37 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x094D,    0x02,   0xFF,   41,      42 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C47,    0x02,   0x02,   36,      37 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF075,    0x00,   0x80,   41,      42 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0949,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x5143,    0x01,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x5144,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x5140,    0x59,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1840,    0x14,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1841,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1846,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1842,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D16,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D12,    0x22,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D13,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D1B,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D1A,    0x02,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D48,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D14,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D15,    0xA2,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E16,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E12,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E13,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E1B,    0x01,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E1A,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E48,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E14,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E15,    0x84,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C16,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C12,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C13,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C1B,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C1A,    0x02,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C48,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C14,    0xFF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1C15,    0x84,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3C46,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x514A,    0x01,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0EE9,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0EE8,    0x40,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0E41,    0xC0,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1445,    0xA2,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0949,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1940,    0x02,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1948,    0x02,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1946,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1658,    0x10,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1659,    0x04,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3070,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFD51,    0x06,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x25D2,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4FD2,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0CE3,    0x10,   0xFF,    2,       2 },\
+	 /*Mode - SCULPINA_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1948,    0x82,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1641,    0xC0,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1642,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1643,    0x04,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1641,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1642,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1643,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1641,    0xC0,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1642,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1643,    0x04,   0xFF,    4,       4 },\
+	 {    0,   0, PM_SBL_PBS_RAM,     7,    0x0200,       4,   0x16,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1641,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1642,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1643,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1650,    0x08,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1651,    0x04,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1654,    0x0C,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1655,    0x04,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x16DA,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x094D,    0x01,   0xFF,   38,      39 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x094D,    0x02,   0xFF,   43,      44 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C47,    0x02,   0x02,   38,      39 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0949,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x5143,    0x01,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x5144,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x5140,    0x59,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1840,    0x04,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1841,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1846,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1842,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D15,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D16,    0xFF,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D12,    0x77,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D13,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D1B,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D1A,    0x02,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D48,    0xFD,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D14,    0xF7,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1D15,    0x77,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E48,    0x1B,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E1A,    0x02,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E14,    0x1B,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E12,    0x1B,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E13,    0x03,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E1B,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1E15,    0x1B,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F16,    0xFF,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F12,    0x20,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F13,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F1B,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F1A,    0x02,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F48,    0xFF,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F14,    0xFF,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1F15,    0x20,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1640,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3C46,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x514A,    0x01,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0EE9,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0EE8,    0x40,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0E41,    0xC0,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1445,    0xA2,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0949,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1940,    0x02,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1948,    0x02,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1946,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1658,    0x10,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x1659,    0x04,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3070,    0x03,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFD51,    0x06,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4FD2,    0x03,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0940,    0x70,   0xFF,    4,       4 },\
+	 /*Mode - BCL_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4740,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4744,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4748,    0x38,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4749,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474B,    0x4B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474D,    0x60,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474E,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474F,    0x87,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4755,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4756,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4770,    0xB0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4772,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4775,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4781,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4782,    0x0D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4783,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4784,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4790,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4791,    0x17,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4744,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4747,    0x16,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4749,    0x0E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x474A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4750,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x475A,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x475B,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x475C,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x475D,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x475E,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x475F,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4790,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4792,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4793,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4940,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4990,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4944,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4746,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4746,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4816,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4816,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4814,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4814,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4815,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x4815,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x471B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x471B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474B,    0x26,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474B,    0x1E,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474D,    0x30,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474D,    0x27,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474E,    0x01,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x474E,    0x01,   0xFF,   49,      49 },\
+	 /*Mode - BOB_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE493,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE468,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE469,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE448,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE45A,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE48E,    0x09,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE453,    0xE2,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE434,    0x0F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE436,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE46E,    0x6E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE437,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE43A,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0984,    0x92,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_DELAY,     0,    0x000A,    0x99,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE437,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE459,    0x13,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE467,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE485,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xE48B,    0xC1,   0xFF,    0,       0 },\
+	 /*Mode - FLASH_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xEE70,    0x32,   0xFF,    0,       0 },\
+	 /*Mode - LED_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x859A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x859B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x859C,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x859D,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x859E,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x859F,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A0,    0x0D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A1,    0x11,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A2,    0x16,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A3,    0x1C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A4,    0x23,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A5,    0x2F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A6,    0x39,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A7,    0x45,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A8,    0x55,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85A9,    0x69,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85AA,    0x87,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85AB,    0xAF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85AC,    0xD7,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85AD,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85AE,    0xD7,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85AF,    0xAF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B0,    0x87,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B1,    0x69,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B2,    0x55,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B3,    0x45,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B4,    0x39,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B5,    0x2F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B6,    0x23,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B7,    0x1C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B8,    0x16,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85B9,    0x11,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85BA,    0x0D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85BB,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85BC,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85BD,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85BE,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x85BF,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - HAPTICS_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF075,    0x81,   0xFF,   58,      59 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF075,    0x01,   0xFF,   56,      57 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF04E,    0xE0,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF062,    0x32,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF067,    0x0A,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF072,    0x04,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF063,    0x39,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF068,    0xD4,   0xFF,    1,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF092,    0x08,   0xFF,   52,      53 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF093,    0x32,   0xFF,   52,      53 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF096,    0x00,   0xFF,   52,      53 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF097,    0x24,   0xFF,   52,      53 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF098,    0x17,   0xFF,   52,      53 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF099,    0x07,   0xFF,   52,      53 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF092,    0x0C,   0xFF,   54,      55 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF093,    0x58,   0xFF,   54,      55 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF096,    0x00,   0xFF,   54,      55 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF097,    0x24,   0xFF,   54,      55 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF098,    0x0D,   0xFF,   54,      55 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF099,    0x05,   0xFF,   54,      55 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF04A,    0x84,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF049,    0x01,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF076,    0x44,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF06B,    0x86,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF086,    0x01,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF060,    0x16,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF061,    0x3B,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF0EF,    0x06,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF046,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF0A0,    0x00,   0xFF,   62,      63 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF0A0,    0x80,   0xFF,   60,      61 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D64,    0xB4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D65,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D4B,    0x5A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D4C,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D4D,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D4E,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D4F,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D50,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D51,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D52,    0xA6,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D53,    0x90,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D54,    0x90,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D55,    0x61,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D56,    0x61,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D57,    0x61,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D58,    0x50,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D59,    0x35,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D5A,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D5B,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D5C,    0x66,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D5D,    0x26,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D5E,    0x95,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D5F,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D60,    0x2D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D61,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D62,    0x66,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D63,    0x26,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D70,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D92,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D81,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D82,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D83,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D84,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D85,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D86,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D87,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D88,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D89,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D8A,    0x5A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D8B,    0xA0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9D8C,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - HBST_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF23F,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF268,    0x81,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF266,    0x01,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF257,    0x10,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF254,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF2E6,    0x0B,   0xFF,    1,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF2EF,    0x80,   0xFF,    1,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF24F,    0x13,   0xFF,   18,      19 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF256,    0x89,   0xFF,   18,      19 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF25D,    0x65,   0xFF,   18,      19 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF25F,    0x63,   0xFF,   18,      19 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF262,    0x80,   0xFF,   18,      19 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF267,    0x81,   0xFF,   18,      19 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF258,    0xB4,   0xFF,   18,      19 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF24F,    0x10,   0xFF,   16,      17 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF256,    0x09,   0xFF,   16,      17 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF25D,    0x20,   0xFF,   16,      17 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF25F,    0x44,   0xFF,   16,      17 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF262,    0x00,   0xFF,   16,      17 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF267,    0x01,   0xFF,   16,      17 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF258,    0x3C,   0xFF,   16,      17 },\
+	 /*Mode - SPMI_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1147,    0x80,   0xFF,   15,      15 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1147,    0x00,   0xFF,   46,      46 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0647,    0x80,   0xFF,   45,      45 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0616,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x061A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x061B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0614,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0615,    0x02,   0xFF,    0,       0 },\
+	 /*Mode - INT_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x0577,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x0577,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x0577,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0xA15C,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x0577,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x0577,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0577,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0577,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x05DA,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x07DA,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - PSTM_INT_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2616,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2612,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x261A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x261B,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2614,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2615,    0xC0,   0xFF,    0,       0 },\
+	 /*Mode - VDD_ACTIVE_ERROR */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2716,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2713,    0x24,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2712,    0xDF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x271A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x271B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2714,    0xA4,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2715,    0xA4,   0xFF,    0,       0 },\
+	 /*Mode - VDD2L_PRIMING */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8B45,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8B44,    0x00,   0xFF,   65,      65 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8B40,    0x01,   0xFF,   65,      65 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8BDA,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - OCP_INT_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1C16,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1C12,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1C1A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1C14,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1C15,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x1C16,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x1C12,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x1C1A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x1C14,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x1C15,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x1C16,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x1C12,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x1C1A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x1C14,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x1C15,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x1D16,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x1D12,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x1D1A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x1D14,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x1D15,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x1D16,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x1D12,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x1D1A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x1D14,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x1D15,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x1D16,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x1D12,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x1D1A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x1D14,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x1D15,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0916,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x091A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0914,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0915,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0916,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x091A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0914,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0915,    0x10,   0xFF,    0,       0 },\
+	 /*Mode - APC_INT_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B16,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B12,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B1A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B14,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9B15,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E16,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E12,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E1A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E14,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x9E15,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x8841,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x8941,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - ENABLE_GPIO_06D_INT */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x8D40,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x8D16,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x8D1A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x8D12,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x8D11,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x8D14,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x8D15,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - MOD_ADC_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x3611,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x3612,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x3614,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x3615,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x361A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2B14,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2B15,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2B1A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9414,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9415,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x941A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9614,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9615,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x961A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6B11,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6B12,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6B14,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6B15,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6B1A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x3611,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x3612,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x3614,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x3615,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x361A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x3947,    0x8A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x3611,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x3612,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x3614,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x3615,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x361A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x3947,    0x8A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x3611,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x3612,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x3614,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x3615,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x361A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x3947,    0x8A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x3611,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x3612,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x3614,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x3615,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x361A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x3947,    0x8A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3611,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3612,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3614,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3615,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x361A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3A46,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3A47,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3943,    0x32,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3070,    0x43,   0xFF,    1,       1 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96A2,    0x68,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96A3,    0x68,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96A7,    0x9F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96A8,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96AA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96AB,    0x09,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96AC,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96AD,    0x0D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96AE,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x96AF,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9045,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9145,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9245,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9345,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9545,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9745,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9746,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9747,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9748,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9749,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x974A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x974E,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x974F,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x97B8,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x97B9,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x97E5,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2EB0,    0x40,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2EB1,    0x06,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2EB5,    0x00,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2EB6,    0x80,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E16,    0x80,   0x80,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E1A,    0x03,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E1B,    0x00,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E14,    0x80,   0x80,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2E15,    0x80,   0x80,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB75A,    0x00,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB75A,    0x01,   0xFF,   94,      94 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x394F,    0x01,   0xFF,   92,      93 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74A,    0x01,   0xFF,   92,      93 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74B,    0x01,   0xFF,   92,      93 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74C,    0xD5,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74D,    0x03,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74E,    0xC8,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74F,    0x05,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB750,    0xE6,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB751,    0x08,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB752,    0xD4,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB753,    0x0D,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB754,    0x40,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB755,    0x15,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB756,    0x4B,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB757,    0x1F,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB758,    0x24,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB759,    0x2E,   0xFF,   98,     100 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74C,    0x51,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74D,    0x07,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74E,    0xB2,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB74F,    0x0B,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB750,    0x8C,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB751,    0x12,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB752,    0x41,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB753,    0x1C,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB754,    0xC1,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB755,    0x27,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB756,    0x57,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB757,    0x32,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB758,    0x4B,   0xFF,   95,      97 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xB759,    0x3B,   0xFF,   95,      97 },\
+	 /*Mode - PSTM_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2914,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2916,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x291A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2915,    0x02,   0xFF,    0,       0 },\
+	 /*Mode - LDO_OCP_INT */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x7114,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x7116,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x711A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x7115,    0x02,   0xFF,    0,       0 },\
+	 /*Mode - Bonefish_INIT */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1545,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1546,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xFF57,    0x80,   0xFF,   86,      88 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0990,    0x80,   0xFF,   89,      89 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0990,    0xC0,   0xFF,   90,      90 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC549,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC249,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B49,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC649,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC249,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC545,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0xC245,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x9B45,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xC645,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0xC245,    0x03,   0xFF,    0,       0 },\
+	 /*Mode - XVLO_INIT */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0884,    0xEA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x0884,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x0884,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x0884,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x0884,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x0884,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0984,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0984,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0884,    0x67,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0886,    0x8B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x0886,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x0886,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x0886,    0x8B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x0886,    0x8B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x0886,    0x8B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0886,    0x8B,   0xFF,    0,       0 },\
+	 /*Mode - Bonefish_DVDD_CTL */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0546,    0x80,   0xFF,    0,       0 },\
+	 /*Mode - SCHG_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C4E,    0x00,   0x08,   20,      20 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C4E,    0x08,   0x08,    6,       6 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C91,    0x0A,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C93,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C9E,    0x49,   0xFF,    3,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C9D,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CAE,    0xA1,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CB2,    0x8F,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CB6,    0x11,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CB5,    0x05,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CB5,    0x05,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2644,    0x85,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2660,    0x84,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2664,    0xFE,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2665,    0xEF,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2666,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2667,    0x88,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2668,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2669,    0x0A,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2661,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2661,    0x03,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2B6A,    0x30,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2B4A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2742,    0x74,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x274C,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x27C5,    0x00,   0x80,    1,       1 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2744,    0x84,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x27C1,    0x02,   0x03,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x27C0,    0x06,   0x07,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x27C1,    0x0C,   0x0C,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2748,    0x02,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2558,    0xCC,   0xFF,    9,       9 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2554,    0x9B,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2555,    0x91,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x28D0,    0xA5,   0xFF,   68,      68 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2842,    0x82,   0xFF,   68,      68 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2844,    0x00,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2845,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2844,    0x00,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2845,    0x03,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C43,    0x01,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C47,    0x02,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C47,    0x02,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C4E,    0x40,   0x40,    6,       6 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2862,    0x03,   0x03,    5,       6 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CE7,    0x3B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2664,    0xFF,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2665,    0x77,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2666,    0x00,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2667,    0x44,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2844,    0x00,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2845,    0x02,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2664,    0xFF,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2665,    0x93,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2666,    0x00,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2667,    0x36,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2844,    0x00,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2845,    0x01,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2640,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2650,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2658,    0x4B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x29DA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CDA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2BDA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x25DA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x26DA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x28DA,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2574,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x26C4,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2CAD,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2B50,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2572,    0x60,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x26C2,    0x60,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C42,    0x02,   0xFF,    0,       0 },\
+	 /*Mode - SMB_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x267A,    0x00,   0x40,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x267A,    0x00,   0x40,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2616,    0xFF,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2616,    0xFF,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2614,    0xFF,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2614,    0xFF,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x0546,    0x80,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x0546,    0x80,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x0647,    0x80,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x0647,    0x80,   0xFF,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2616,    0xFF,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2616,    0xFF,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2614,    0xFF,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2614,    0xFF,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x0546,    0x80,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x0546,    0x80,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x0647,    0x80,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x0647,    0x80,   0xFF,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x30C2,    0x3E,   0xFF,   68,      68 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x30C9,    0x07,   0xFF,   68,      68 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x305A,    0x00,   0x03,   68,      68 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x3016,    0xFF,   0xFF,   68,      68 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x3014,    0xFF,   0xFF,   68,      68 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x0546,    0x80,   0xFF,   68,      68 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x0647,    0x80,   0xFF,   68,      68 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2636,    0x02,   0x02,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2683,    0x00,   0xE0,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2636,    0x00,   0x02,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2683,    0x00,   0xE0,   20,      20 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2636,    0x02,   0x02,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x2683,    0x00,   0xE0,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2636,    0x00,   0x02,    6,       6 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x2683,    0x00,   0xE0,    6,       6 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C5D,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x2C60,    0x08,   0x08,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8840,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x8842,    0x04,   0xFF,    0,       0 },\
+	 /*Mode - BMD_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3C46,    0x80,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3C46,    0x80,   0xFF,    4,       4 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x3E43,    0x0D,   0xFF,   21,      21 },\
+	 /*Mode - AMOLED_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0998,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF845,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF846,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF8EF,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF84B,    0x9C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF945,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF949,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF96D,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF974,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA45,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA47,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA51,    0x12,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA53,    0xBA,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA54,    0x3B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA55,    0x0D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA56,    0x0D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA57,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA5A,    0xA6,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA5C,    0x34,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA62,    0x7C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA67,    0x88,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA68,    0xA2,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA90,    0x32,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFAF7,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xFA83,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF8B2,    0x2A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF96B,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF8C2,    0x0F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF969,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0xF96A,    0x0F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A89,    0x86,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A8A,    0x83,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A87,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A88,    0x81,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A8B,    0x0C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A6A,    0xA7,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A78,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A79,    0x6C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A6B,    0x18,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A6C,    0x6C,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A6D,    0xB8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A72,    0x32,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A73,    0x43,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A74,    0x53,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A75,    0x74,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A90,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A91,    0x22,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A92,    0x23,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A93,    0x2E,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A94,    0x2F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A95,    0x36,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A96,    0x37,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A97,    0x42,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A98,    0x43,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A99,    0x4A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A9A,    0x4B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A9B,    0x76,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A9C,    0x77,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A9C,    0x7F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A7C,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A7D,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A7E,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A7F,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A80,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9A81,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9AB8,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9AB9,    0x7D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9ABA,    0x21,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9ABB,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9945,    0x30,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9946,    0x40,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9947,    0x60,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9948,    0x70,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9949,    0x80,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x994A,    0x90,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x994B,    0xA0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x994C,    0xB0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x994D,    0xC0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x994E,    0xD0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x994F,    0xE0,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9950,    0xE8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9951,    0xE8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9952,    0xE8,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9953,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9954,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9955,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9956,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9957,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9958,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9959,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x995A,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x995B,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x995C,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x995D,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x995E,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x995F,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9960,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9961,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9962,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9963,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9964,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9965,    0x03,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9966,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9967,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9968,    0x04,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9969,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x996A,    0x08,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x996B,    0x05,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x996C,    0x09,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x996D,    0x09,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x996E,    0x06,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x996F,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9970,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9971,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9972,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9973,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9974,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9975,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9976,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9977,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9978,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x9979,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x997A,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x997B,    0x0B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x997C,    0x0B,   0xFF,    0,       0 },\
+	 /*Mode - AMOLED_SDAM_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       0,     31,   69,      69 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       0,     31,   70,      70 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       1,     41,   71,      71 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       2,     36,   72,      72 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       3,     26,   73,      73 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       4,     16,   74,      74 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       5,     31,   75,      75 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       6,     41,   76,      76 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       7,     76,   77,      77 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       8,     51,   78,      78 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,       9,     31,   79,      79 },\
+	 {    0,   0,    PM_SBL_SDAM,     0,    0x8045,      10,     41,   80,      80 },\
+	 /*Mode - QBG_CONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8645,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8646,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8647,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8648,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8649,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x864A,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x864B,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x864C,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x864D,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x864E,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x864F,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8650,    0x1D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8651,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8652,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8653,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8654,    0x09,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8655,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8657,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8658,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8659,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x865A,    0xFF,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8845,    0x14,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8846,    0x4B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8847,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8848,    0x4B,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x8849,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4E1A,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4E11,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4E14,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4E15,    0x1F,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F50,    0x07,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F51,    0x11,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F52,    0x22,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F53,    0x7D,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F64,    0x70,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F60,    0x90,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F5C,    0x70,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F65,    0x84,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F61,    0x86,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F5D,    0x45,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F66,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F62,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F5E,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F6A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F74,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F7A,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F50,    0x04,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F50,    0x03,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F51,    0x09,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F51,    0x07,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F52,    0x11,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F52,    0x0E,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F53,    0x3E,   0xFF,   48,      48 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F53,    0x32,   0xFF,   49,      49 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F47,    0x03,   0xFF,    2,       2 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x4F47,    0x01,   0xFF,    4,       4 },\
+	 /*Mode - MISC_FONFIG */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x2950,    0x10,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x07E5,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9341,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9342,    0x02,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x8F40,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x9240,    0x00,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x8841,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x8941,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x8840,    0x01,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x8940,    0x01,   0xFF,    0,       0 },\
+	 /*Mode - ENABLE_MISC_PBS2_INT */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1D16,    0x40,   0xFF,   83,      85 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1D1A,    0x02,   0xFF,   83,      85 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1D12,    0x40,   0xFF,   89,      89 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1D13,    0x40,   0xFF,   90,      90 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1D14,    0x40,   0xFF,   83,      85 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x1D15,    0x40,   0xFF,   83,      85 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xFF54,    0x29,   0xFF,   86,      88 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0xFF55,    0x01,   0xFF,   86,      88 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xBC44,    0x00,   0xFF,   66,      66 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0xBC40,    0x00,   0xFF,   66,      66 },\
+	 /*Mode - BATT_TEMP_LOGGING_SDAM_TRIGGER_INIT */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6F16,    0x80,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6F11,    0x80,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6F12,    0x80,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6F1A,    0x03,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6F1B,    0x00,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6F14,    0x80,   0xFF,   91,      91 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x6F15,    0x80,   0xFF,   91,      91 },\
+	 /*Mode - INT_MODULE_CHECK */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x1842,    0x40,   0xFF,    0,       0 },\
+	 /*Mode - generateSblBranchAndVersion */\
+	 /* btype  bid      reg_op        sid   register    data    Mask  cond_st  cond_end */\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     0,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     1,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     2,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     3,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     4,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     7,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     8,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,     9,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    12,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   0,   PM_SBL_WRITE,    13,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   1,   PM_SBL_WRITE,     9,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   1,   PM_SBL_WRITE,    11,    0x0151,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x0150,    0x0A,   0xFF,    0,       0 },\
+	 {    0,   1,   PM_SBL_WRITE,    13,    0x0151,    0x0A,   0xFF,    0,       0 },\
+ 	 /* This line of data is created by PSI Compiler per request from Embedded SW Driver.It is not part of original code.*/\
+ 	 { 0 , 0, PM_SBL_OPERATION_INVALID, 0, 0x0000, 0x00, 0xFF,  0, 0 }\
+ }
+

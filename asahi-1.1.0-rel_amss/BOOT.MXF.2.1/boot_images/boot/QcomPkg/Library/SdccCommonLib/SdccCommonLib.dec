@@ -1,0 +1,45 @@
+#/** @file SdccCommonLib.dec
+# 
+#
+# Copyright 2019-2023 by Qualcomm Technologies, Inc.  All Rights Reserved. 
+# 
+#
+#**/
+#
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when          who       what, where, why
+# --------      ---      ----------------------------------------------------------
+# 02/01/2023   avishalk   Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = SdccCommonLib
+  PACKAGE_GUID                   = 70b5c25a-a286-4aad-9cd1-720767cad796
+  PACKAGE_VERSION                = 0.1
+
+################################################################################
+#
+# Include Section - list of Include Paths that are provided by this package.
+#                   Comments are used for Keywords and Module Types.
+#
+# Supported Module Types:
+#  BASE SEC PEI_CORE PEIM DXE_CORE DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SMM_DRIVER DXE_SAL_DRIVER UEFI_DRIVER UEFI_APPLICATION
+#
+################################################################################
+[Includes]
+  
+  
+  SdccHalLib
+  
+
+
+  
+
+
+
+

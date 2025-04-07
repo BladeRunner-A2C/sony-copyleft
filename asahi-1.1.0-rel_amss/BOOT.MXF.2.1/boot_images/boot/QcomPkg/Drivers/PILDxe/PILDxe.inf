@@ -1,0 +1,85 @@
+#/*===============================================================================
+#  Copyright (c) 2017-2019,2020, 2022-2023 Qualcomm Technologies, Inc.  All Rights Reserved.
+#
+#  FILE:         PILDxe.inf
+#  DESCRIPTION:
+#
+#  REVISION HISTORY
+#  when       who         what, where, why
+#  --------   ---         --------------------------------------------------------
+#  02/24/23   rk          Added TrialBootInfoLib to get trial boot state.
+#  01/10/23   rk          Added MdeModulePkg package for lzma decompression support.
+#  08/17/22   var         Added error logging support for PIL authentication
+#  08/08/22   cm          Ported changes to support to load from backup partition
+#  06/14/17   yw          initial version
+#
+#================================================================================*/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PILDxe
+  FILE_GUID                      = 1d317734-4083-47c6-83ea-e3a42f2a6bff
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = PILDxeEntryPoint
+
+
+[Sources.common]
+  PILDxe.c
+  pil_tz.c
+  pil_loader.c
+  pil_ctx.c
+  pil_config.c
+  pil_event.c
+  ImageLoadInfo.c
+
+[Packages]
+  QcomPkg/QcomPkg.dec
+  MdePkg/MdePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  ArmPkg/ArmPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  DALModEnvLib
+  DALFwkLib
+  BaseLib
+  UefiDriverEntryPoint
+  UefiLib
+  UefiBootServicesTableLib
+  BaseMemoryLib
+  DebugLib
+  MemoryAllocationLib
+  CacheMaintenanceLib
+  UncachedMemoryAllocationLib
+  TimetickLib
+  QcomLib
+  ParserLib
+  EfiFileLib
+  GuidedFvLib
+  ExtractGuidedSectionLib
+  LzmaDecompressLib
+  ZlibDecompressLib
+  UefiDecompressLib
+  LockLib
+  MountFvLib
+  BootRecoverySmem
+  SmemLib
+  TzDiagLib
+  TargetResetLib
+  TrialBootInfoLib
+
+[Guids]
+  gEfiSdRemovableGuid
+
+[Protocols]
+  gEfiPilProtocolGuid
+  gQcomScmProtocolGuid
+  gPILProxyCDSPGuid
+  gPILProxyNPUSSGuid
+  gPILProxySPSSGuid
+
+[Depex]
+  gEfiDalSysProtocolGuid
+

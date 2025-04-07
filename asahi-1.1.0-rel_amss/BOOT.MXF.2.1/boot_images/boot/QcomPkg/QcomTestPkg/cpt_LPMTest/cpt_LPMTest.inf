@@ -1,0 +1,90 @@
+#/** @file cpt_MpTest.inf
+#
+#  cpt_MpTest Application inf file.
+#
+#  Copyright (c) 2017 - 2018,2020 Qualcomm Technologies, Inc. All rights reserved.
+#
+#**/
+
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when         who     what, where, why
+# ----------   ---     ----------------------------------------------------------
+# 10/15/2020   pm      Initial Revision
+#==============================================================================
+
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = cpt_LPMtest
+  FILE_GUID                      = 6E154027-82F6-44F8-9E42-DAB5C5E39A90
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = CPT_LPMTestMain
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = ARM AARCH64
+#
+
+[BuildOptions.AARCH64]
+  GCC:*_*_*_CC_FLAGS = -fvectorize
+  GCC:*_*_*_CC_FLAGS = -fvectorize
+
+[Sources]
+  cpt_LPMTest.c
+  swsys_env/swsys_env.c
+  swsys_env/swsys_env_common.c
+  swsys_env/swsys_env_common_thread.c
+  swsys_env/uefi/swsys_env_uefi.c
+  swsys_env/uefi/swsys_env_uefi_flash_null.c
+  swsys_env/uefi/swsys_env_uefi_dispctrl.c
+  swsys_env/uefi/swsys_env_uefi_tsens.c
+  swsys_env/uefi/swsys_env_uefi_sysinfo.c
+  swsys_env/uefi/swsys_env_uefi_core_bsp.c
+  swsys_env/uefi/swsys_env_uefi_clk_switch.c
+  swsys_linkedlist/swsys_linkedlist.c
+  swsys_logger/swsys_logger.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  # UefiLib
+  # BaseLib
+  # UefiBootServicesTableLib
+  QcomLib
+  # QcomUtilsLib
+  # BaseMemoryLib
+  # MemoryAllocationLib
+  # KernelLib
+  LockLib
+  UncachedMemoryAllocationLib
+
+
+[Protocols]
+  gEfiClockProtocolGuid
+  gEfiTsensProtocolGuid
+  gQcomScmProtocolGuid
+  gQcomDisplayPwrCtrlProtocolGuid
+  gEfiPsleepProtocolGuid
+  gEfiChipInfoProtocolGuid
+  gEfiPlatformInfoProtocolGuid
+  gEfiCmdDbProtocolGuid
+  gEfiRpmhProtocolGuid
+  gEfiDDRGetInfoProtocolGuid
+  gEfiHwioProtocolGuid
+  gEfiQcomEnvProtocolGuid
+  gEfiNpaProtocolGuid
+
+[Pcd.common]
+  gQcomTokenSpaceGuid.PcdQTimerEnabled
+

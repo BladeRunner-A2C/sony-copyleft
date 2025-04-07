@@ -1,0 +1,50 @@
+;============================================================================
+;  Name:
+;    configure_target.cmm
+;
+;  Description:
+;     Set Target specific variables, address's and offsets
+;
+; Copyright (c) 2020-2021,2022 Qualcomm Technologies Incorporated.
+; All Rights Reserved.
+; Qualcomm Technologies Confidential and Proprietary
+;
+;----------------------------------------------------------------------------
+;============================================================================
+;
+;                        EDIT HISTORY FOR MODULE
+;
+;
+;
+;when         who     what, where, why
+;----------   ---     ----------------------------------------------------------
+;10-28-2022  kanandac Added GIC register's base address 
+;05-10-2022   bxr     Added global var arch
+;01-25-2021   cm      Added gSharedImemAddress
+;09-11-2020   ka      Initial Version
+;============================================================================;
+;
+;============================================================================
+;  CMM script variables
+;============================================================================
+
+global &gUefiRamEntryAddr
+global &gRamFvAddr
+global &gInfoBlkPtrOffset
+global &gSharedImemAddress
+global &gArch
+
+;---------------------------------------------------
+; Entry point
+;---------------------------------------------------
+
+&gUefiRamEntryAddr=0xA7000000
+&gRamFvAddr=0xA7AD9000
+&gInfoBlkPtrOffset=0x00601000
+&gSharedImemAddress=0x14680000
+&gArch=64
+&Distr_base=0x17100000
+&RDistr_base=0x17180000
+&RDistr_Stride=0x40000
+&QtimerBase=0x17422000
+&MaxCpu=0x8

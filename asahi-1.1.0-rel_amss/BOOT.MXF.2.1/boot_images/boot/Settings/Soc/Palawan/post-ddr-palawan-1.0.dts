@@ -1,0 +1,11 @@
+/dts-v1/;
+
+/ {
+	compatible = "qcom,palawan-post-ddr", "qcom,palawan";
+	model = "qcom,palawan";
+};
+
+#include "soc_pre-ddr.dtsi"             /* Common SoC Node Definitions */
+#include "soc.dtsi"                     /* Post-DDR SoC Node Definitions */
+#include "../../Platform/Palawan_Default/platform-1.0.dtsi"
+

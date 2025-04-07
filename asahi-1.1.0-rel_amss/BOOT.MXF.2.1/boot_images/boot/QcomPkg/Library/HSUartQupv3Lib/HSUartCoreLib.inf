@@ -1,0 +1,40 @@
+# @file  HSUartCoreLib.inf
+#
+#
+#  Copyright (c) 2023 Qualcomm Technologies, Inc.  All Rights Reserved.
+#
+#
+#
+#=============================================================================
+#                              EDIT HISTORY
+#  This section contains comments describing changes made to the module.
+#  Notice that changes are listed in reverse chronological order.
+#
+#
+#
+# when       who      what, where, why
+# --------   ---      --------------------------------------------------------
+# 05/10/23   MG      Added only NULL lib
+# 01/05/23   RK       Initial revision
+#
+#=============================================================================
+
+[Defines]
+  INF_VERSION    = 0x00010005
+  BASE_NAME      = HSUartCoreLib
+  MODULE_TYPE    = BASE
+  VERSION_STRING = 1.0
+  LIBRARY_CLASS  = HSUartCoreLib
+
+[Sources]
+  HSUartXBL_NULL.c
+
+[LibraryClasses]
+  HSUARTFWImageLib
+  ClockApiLib
+
+[Packages]
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  QcomSdkPkg/QcomSdkPkg.dec
+

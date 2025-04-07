@@ -1,0 +1,164 @@
+# Copyright (c) 2023 Qualcomm Technologies, Inc.
+# 3rd party file marking retained below for attribution purposes:
+# SPDX-License-Identifier: (BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/.../qcom,systemcache.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Qualcomm Technologies UEFI Systemcache DeviceTree Schema
+
+maintainers:
+  - <dt_pocs@qti.qualcomm.com>
+
+description: |
+  Driver to initialize System Cache SCT table configurations
+
+# A dictionary of DT properties for this binding schema
+properties:
+  compatible:
+    const: qcom,systemcache
+
+  llcc_broadcast_trp_offset:
+    description: LLCC Broadcast TRP offset
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  scid_attr0_reserved_ways_bmsk:
+    description: SCID ATTR0 bit mask for LLCC Reserved ways
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  scid_attr0_reserved_ways_shft:
+    description: SCID ATTR0 bit shift for LLCC Reserved ways
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  scid_attr2_bonus_ways_bmsk:
+    description: CID ATTR0/2 bit mask for LLCC Bonus ways
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  scid_attr2_bonus_ways_shft:
+    description: SCID ATTR0/2 bit shift for LLCC Bonus ways
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  num_llcc_channels:
+    description: No.of LLCC channels available
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+  llcc_channel_offsets:
+    description: Offsets of all availble LLCC channels
+    $ref: /schemas/types.yaml#/definitions/uint32-array
+
+  num_sct_tables:
+    description: No.of SCT tables
+    $ref: /schemas/types.yaml#/definitions/uint32
+
+patternProperties:
+  "^sct_table_[0-9]+$":
+    type: object
+
+    patternProperties:
+      "^sct_table_entry_[0-9]+$":
+        type: object
+
+        properties:
+          usecase_id:
+            description: LLCC client ID
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          scid:
+            description: LLCC client SCID
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          max_capacity:
+            description: Max capacity of LLCC client
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          priority:
+            description: Priority of LLCC client
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          bonus_ways:
+            description: LLCC client Bonus Ways
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          reserved_ways:
+            description: LLCC client Rserved ways
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          cache_mode:
+            description: LLCC client Cache Mode
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          fixedsize:
+            description: Fixed size or not
+
+          dis_capacity_alloc:
+            description: Disable Capacity based allocation
+
+          write_scid_en:
+            description: Write Sub-Cache Enable
+
+          write_scid_cacheable_en:
+            description: Write Sub-Cache Cacheable Enable
+
+          algo_cfg:
+            description: Bit representation of algo_cfg1 to algo_cfg8
+            $ref: /schemas/types.yaml#/definitions/uint32
+
+          activate_at_boot:
+            description: Activate SCID at boot if this flag set
+
+        required:
+          - usecase_id
+          - scid
+          - max_capacity
+          - priority
+          - bonus_ways
+          - reserved_ways
+          - cache_mode
+          - fixedsize
+
+required:
+  - compatible
+  - llcc_broadcast_trp_offset
+  - scid_attr0_reserved_ways_bmsk
+  - scid_attr0_reserved_ways_shft
+  - llcc_channel_offsets
+  - num_sct_tables
+
+additionalProperties: false
+
+examples:
+- |
+
+  systemcache {
+    compatible = "qcom,systemcache";
+
+    llcc_broadcast_trp_offset = <0x01A00000>;
+    scid_attr0_reserved_ways_bmsk = <0xFFFFFF>;
+    scid_attr0_reserved_ways_shft = <0>;
+    scid_attr2_bonus_ways_bmsk = <0xFFFFFF>;
+    scid_attr2_bonus_ways_shft = <0>;
+
+    llcc_channel_offsets = <0x01000000 0x01400000 0x01200000 0x01600000>;
+
+    num_sct_tables = <1>;
+
+    sct_table_1 {
+      num_sct_table_entries = <9>;
+      sct_table_entry_0 {
+        usecase_id              = <10>;
+        scid                    = <0>;
+        max_capacity            = <0>; /* Max Capacity in KB*/
+        priority                = <0>;
+        bonus_ways              = <0x0>;
+        reserved_ways           = <0x0>;
+        cache_mode              = <0x1>;
+        fixedsize               = <1>;
+        dis_capacity_alloc      = <0>;
+        write_scid_en           = <0>;
+        write_scid_cacheable_en = <0>;
+        algo_cfg                = <0>;
+        activate_at_boot        = <0>;
+      };
+    };
+  }; 

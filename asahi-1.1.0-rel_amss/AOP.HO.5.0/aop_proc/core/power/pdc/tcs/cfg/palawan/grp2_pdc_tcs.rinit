@@ -1,0 +1,274 @@
+#===========================================================================
+#                               gpr0_pdc_gtcs.rinit
+#
+#  DESCRIPTION:
+#    This file contains init values for GRP1 PDC TCS
+#
+#    Settings are obtained from TCS contents sheet maintained by Architecture
+#    team alongwith collaboration from SW and HW teams. 
+#
+#
+#  Copyright (c) 2021 QUALCOMM Technologies, Inc. (QTI). All Rights Reserved.
+#  QUALCOMM Proprietary.  Export of this technology or software is regulated
+#  by the U.S. Government. Diversion contrary to U.S. law prohibited.
+#===========================================================================
+
+#--------------------------------------------------------------------------
+# Common vars
+#--------------------------------------------------------------------------
+vars:
+    vrm_vol_offset = 0x0
+    vrm_en_offset = 0x4
+    vrm_mode_offset = 0x8
+    ret_mode = 3
+    lpm_mode = 4
+    auto_mode = 6
+    npm_mode = 7
+	bypass_mode = 2
+    disable = 0
+    enable = 1
+
+module: { name = RPMH_PDC_GRP2_GRP2_PDC_GTCS_MEM, group = PDC_TCS, import = [arc_export] }
+regs:
+# WCN Common - Sleep 1
+    
+	
+	TCSt_CMDn_ADDR[0, 0] = 0: { cmd_db_addr("vrm.wlan", vrm_vol_offset)}
+    TCSt_CMDn_DATA[0, 0] = disable
+    TCSt_CMDn_MSGID[0, 0] = {0, 1} # {fnf, write}
+	
+	TCSt_CMDn_ADDR[0, 1] = 0: { cmd_db_addr("rfclka1", vrm_en_offset)}
+    TCSt_CMDn_DATA[0, 1] = disable
+    TCSt_CMDn_MSGID[0, 1] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[0, 2] = 0 : { cmd_db_addr("smpb2", vrm_vol_offset)}
+    TCSt_CMDn_DATA[0, 2] = 1256 #1.256v
+    TCSt_CMDn_MSGID[0, 2] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[0, 3] = 0 : { cmd_db_addr("smpb3", vrm_vol_offset)}
+    TCSt_CMDn_DATA[0, 3] = 616 #0.616v
+    TCSt_CMDn_MSGID[0, 3] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[0, 4] = 0 : { cmd_db_addr("smpb1", vrm_vol_offset)}
+    TCSt_CMDn_DATA[0, 4] = 1824 #1.824v
+    TCSt_CMDn_MSGID[0, 4] = {0, 1} # {fnf, write}
+
+    # Wait for completion mask
+    WAIT_FOR_CMPL[0] = 0x0             # Don't serialize
+
+
+# WCN Common - Sleep 2
+    TCSt_CMDn_ADDR[1, 0] = 0 : { cmd_db_addr("ldob7", vrm_mode_offset)}
+    TCSt_CMDn_DATA[1, 0] = npm_mode
+    TCSt_CMDn_MSGID[1, 0] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[1, 1] = 0 : { cmd_db_addr("ldoe4", vrm_mode_offset)}
+    TCSt_CMDn_DATA[1, 1] = lpm_mode
+    TCSt_CMDn_MSGID[1, 1] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[1, 2] = 0 : { cmd_db_addr("ldob18", vrm_mode_offset)}
+    TCSt_CMDn_DATA[1, 2] = lpm_mode
+    TCSt_CMDn_MSGID[1, 2] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[1, 3] = 0 : { cmd_db_addr("ldob5", vrm_mode_offset)}
+    TCSt_CMDn_DATA[1, 3] = ret_mode
+    TCSt_CMDn_MSGID[1, 3] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[1, 4] = 0 : { cmd_db_addr("smpb2", vrm_mode_offset)} 
+    TCSt_CMDn_DATA[1, 4] = ret_mode
+    TCSt_CMDn_MSGID[1, 4] = {0, 1} # {fnf, write}
+
+    # Wait for completion mask
+    WAIT_FOR_CMPL[1] = 0x0            # Don't serialize
+
+# WCN Common - Sleep 3
+    TCSt_CMDn_ADDR[2, 0] = 0 : { cmd_db_addr("smpe3", vrm_en_offset)}
+    TCSt_CMDn_DATA[2, 0] = disable
+    TCSt_CMDn_MSGID[2, 0] = {0, 1} # {fnf, write}
+
+    TCSt_CMDn_ADDR[2, 1] = 0 : { cmd_db_addr("smpb3", vrm_mode_offset)}
+    TCSt_CMDn_DATA[2, 1] = ret_mode
+    TCSt_CMDn_MSGID[2, 1] = {0, 1} # {fnf, write}
+	
+	TCSt_CMDn_ADDR[2, 2] = 0 : { cmd_db_addr("smpb1", vrm_mode_offset)}
+    TCSt_CMDn_DATA[2, 2] = ret_mode
+    TCSt_CMDn_MSGID[2, 2] = {0, 1} # {fnf, write}
+	
+	TCSt_CMDn_ADDR[2, 3] = 0 : { cmd_db_addr("bobb1", vrm_mode_offset)}
+    TCSt_CMDn_DATA[2, 3] = bypass_mode
+    TCSt_CMDn_MSGID[2, 3] = {0, 1} # {fnf, write}
+	
+	TCSt_CMDn_ADDR[2, 4] = 0 : { cmd_db_addr("smpe3", vrm_mode_offset)}
+    TCSt_CMDn_DATA[2, 4] = auto_mode
+    TCSt_CMDn_MSGID[2, 4] = {0, 1} # {fnf, write}
+
+    # Wait for completion mask
+    WAIT_FOR_CMPL[2] = 0x1             # serialize
+
+# WCN WLAN - Sleep 1
+   TCSt_CMDn_ADDR[3, 0] = 0 : { cmd_db_addr("smpe3", vrm_vol_offset)}
+   TCSt_CMDn_DATA[3, 0] = 420 #0.42v
+   TCSt_CMDn_MSGID[3, 0] = {0, 1} # {fnf, write}
+
+   TCSt_CMDn_ADDR[3, 1] = 0 : { cmd_db_addr("smpb3", vrm_vol_offset)}
+   TCSt_CMDn_DATA[3, 1] = 616 #0.616v
+   TCSt_CMDn_MSGID[3, 1] = {0, 1} # {fnf, write}
+
+   # Wait for completion mask
+   WAIT_FOR_CMPL[3] = 0x0             # Don't serialize
+
+# WCN WLAN - Sleep 2
+   TCSt_CMDn_ADDR[4, 0] = 0 : { cmd_db_addr("smpe3", vrm_mode_offset)}
+   TCSt_CMDn_DATA[4, 0] = ret_mode
+   TCSt_CMDn_MSGID[4, 0] = {0, 1} # {fnf, write}
+
+   TCSt_CMDn_ADDR[4, 1] = 0 : { cmd_db_addr("smpb3", vrm_mode_offset)}
+   TCSt_CMDn_DATA[4, 1] = ret_mode
+   TCSt_CMDn_MSGID[4, 1] = {0, 1} # {fnf, write}
+
+   # Wait for completion mask
+   WAIT_FOR_CMPL[4] = 0x0             # Dont serialize
+##############################################################################	
+#   
+# WCN WLAN - Wake 1
+   TCSt_CMDn_ADDR[5, 0] = 0: { cmd_db_addr("smpe3", vrm_mode_offset)}
+   TCSt_CMDn_DATA[5, 0] = npm_mode
+   TCSt_CMDn_MSGID[5, 0] = {1, 1} # {rr, write}
+
+   TCSt_CMDn_ADDR[5, 1] = 0 : { cmd_db_addr("smpb3", vrm_mode_offset)}
+   TCSt_CMDn_DATA[5, 1] = npm_mode
+   TCSt_CMDn_MSGID[5, 1] = {1, 1} # {rr, write}
+
+   # Wait for completion mask
+   WAIT_FOR_CMPL[5] = 0x0            # serialize
+
+# WCN WLAN - Wake 2
+   TCSt_CMDn_ADDR[6, 0] = 0: { cmd_db_addr("smpe3", vrm_vol_offset)}
+   TCSt_CMDn_DATA[6, 0] = 940 #0.940v
+   TCSt_CMDn_MSGID[6, 0] = {1, 1} # {rr, write}
+
+   TCSt_CMDn_ADDR[6, 1] = 0: { cmd_db_addr("smpb3", vrm_vol_offset)}
+   TCSt_CMDn_DATA[6, 1] = 976 #0.976v
+   TCSt_CMDn_MSGID[6, 1] = {1, 1} # {rr, write}
+
+   # Wait for completion mask
+   WAIT_FOR_CMPL[6] = 0x0             # Dont serialize
+
+# WCN Common - Wake 1
+    
+	TCSt_CMDn_ADDR[7, 0] = 0 : { cmd_db_addr("vrm.wlan", vrm_vol_offset)}
+    TCSt_CMDn_DATA[7, 0] = enable
+    TCSt_CMDn_MSGID[7, 0] = {1, 1} # {rr, write}
+	
+	
+	TCSt_CMDn_ADDR[7, 1] = 0 : { cmd_db_addr("rfclka1", vrm_en_offset)}
+    TCSt_CMDn_DATA[7, 1] = enable
+    TCSt_CMDn_MSGID[7, 1] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[7, 2] = 0 : { cmd_db_addr("smpb1", vrm_mode_offset)}
+    TCSt_CMDn_DATA[7, 2] = npm_mode
+    TCSt_CMDn_MSGID[7, 2] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[7, 3] = 0 : { cmd_db_addr("smpb3", vrm_mode_offset)}
+    TCSt_CMDn_DATA[7, 3] = npm_mode
+    TCSt_CMDn_MSGID[7, 3] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[7, 4] = 0 : { cmd_db_addr("smpb2", vrm_mode_offset)}
+    TCSt_CMDn_DATA[7, 4] = npm_mode
+    TCSt_CMDn_MSGID[7, 4] = {1, 1} # {rr, write}
+
+    # Wait for completion mask
+    WAIT_FOR_CMPL[7] = 0x0             # Don't serialize
+
+# WCN Common - Wake 2
+    TCSt_CMDn_ADDR[8, 0] = 0 : { cmd_db_addr("smpb3", vrm_vol_offset)}
+    TCSt_CMDn_DATA[8, 0] = 1012 #1.012v
+    TCSt_CMDn_MSGID[8, 0] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[8, 1] = 0 : { cmd_db_addr("smpb1", vrm_vol_offset)}
+    TCSt_CMDn_DATA[8, 1] = 1900 #1.900v
+    TCSt_CMDn_MSGID[8, 1] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[8, 2] = 0 : { cmd_db_addr("smpb2", vrm_vol_offset)}
+    TCSt_CMDn_DATA[8, 2] = 1352 #1.352v
+    TCSt_CMDn_MSGID[8, 2] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[8, 3] = 0 : { cmd_db_addr("bobb1", vrm_mode_offset)}
+    TCSt_CMDn_DATA[8, 3] = auto_mode
+    TCSt_CMDn_MSGID[8, 3] = {1, 1} # {rr, write}
+	
+	TCSt_CMDn_ADDR[8, 4] = 0 : { cmd_db_addr("smpe3", vrm_mode_offset)}
+    TCSt_CMDn_DATA[8, 4] = npm_mode
+    TCSt_CMDn_MSGID[8, 4] = {1, 1} # {rr, write}
+
+    # Wait for completion mask
+WAIT_FOR_CMPL[8] = 0x1            #Don't serialize
+
+
+# WCN Common - Wake 3
+    TCSt_CMDn_ADDR[9, 0] = 0 : { cmd_db_addr("ldob7", vrm_mode_offset)}
+    TCSt_CMDn_DATA[9, 0] = npm_mode
+    TCSt_CMDn_MSGID[9, 0] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[9, 1] = 0 : { cmd_db_addr("ldoe4", vrm_mode_offset)}
+    TCSt_CMDn_DATA[9, 1] = npm_mode
+    TCSt_CMDn_MSGID[9, 1] = {1, 1} # {rr, write}
+	
+	TCSt_CMDn_ADDR[9, 2] = 0 : { cmd_db_addr("ldob5", vrm_mode_offset)}
+    TCSt_CMDn_DATA[9, 2] = npm_mode
+    TCSt_CMDn_MSGID[9, 2] = {1, 1} # {rr, write}
+
+    TCSt_CMDn_ADDR[9, 3] = 0 : { cmd_db_addr("smpe3", vrm_en_offset)}
+    TCSt_CMDn_DATA[9, 3] = enable
+    TCSt_CMDn_MSGID[9, 3] = {1, 1} # {rr, write}
+	
+	TCSt_CMDn_ADDR[9, 4] = 0 : { cmd_db_addr("ldob18", vrm_mode_offset)}
+    TCSt_CMDn_DATA[9, 4] = npm_mode
+    TCSt_CMDn_MSGID[9, 4] = {1, 1} # {rr, write}
+
+    # Wait for completion mask
+WAIT_FOR_CMPL[9] = 0x0             # Dont serialize
+
+##############################################################################	
+#   
+# WLAN RF.
+module: { name = RPMH_PDC_WLAN_RF_WLAN_RF_PDC, group = WLAN_PDC_EN}
+regs:
+    # From PDC HPG:
+    # To detect, sleep and wake signal on SW_CTRL, pdc must config two irqs
+    # for rising and falling edge
+    # Rising edge (posedege starts the up seq)
+    # Falling edge (negedge) starts down
+    ##
+    #irq config
+    IRQ_i_CFG_DRVd[0,0] = 0xE #Innterrupt enable and Rising edge
+    IRQ_i_CFG_DRVd[0,1] = 0xD #inetrrupt enable and Falling edge
+    CMD_ENABLE_BANK = [0x1F, 0x17, 0x1F, 0x0, 0x0, 0x0, 0x0, 0x1F, 0x1F, 0x1B]
+    SW_BR_EVENT = 1
+    TIMER_MATCH_VALUE_LO = 0xFFFFFFFF
+    TIMER_MATCH_VALUE_HI = 0x00FFFFFF
+    PROFILING_UNITpf_EN = 1
+
+    ENABLE_PDC = 0x101
+
+##############################################################################	
+#   
+# WLAN BB.
+module: { name = RPMH_PDC_WLAN_BB_WLAN_BB_PDC, group = WLAN_PDC_EN, last = true}
+regs:
+    # From PDC HPG:
+    # To detect, sleep and wake signal on SW_CTRL, pdc must config two irqs
+    # for rising and falling edge
+    # Rising edge (posedege starts the up seq)
+    # Falling edge (negedge) starts down
+    ##
+    #irq config
+    IRQ_i_CFG_DRVd[0,0] = 0xE #Interrupt enable and Rising edge
+    IRQ_i_CFG_DRVd[0,1] = 0xD #Interrupt enable and Falling edge
+    CMD_ENABLE_BANK = [0x0, 0x0, 0x0, 0x3, 0x3, 0x3, 0x3, 0x0, 0x0, 0x0]
+    SW_BR_EVENT = 2
+    TIMER_MATCH_VALUE_LO = 0xFFFFFFFF
+    TIMER_MATCH_VALUE_HI = 0x00FFFFFF
+    PROFILING_UNITpf_EN = 1
+
+    ENABLE_PDC = 0x100   # WLAN_BB PDC will get enable at run time with QMP MSG

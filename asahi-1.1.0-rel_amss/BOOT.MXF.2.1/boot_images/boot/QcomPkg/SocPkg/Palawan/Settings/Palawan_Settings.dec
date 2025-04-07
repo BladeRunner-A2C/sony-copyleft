@@ -1,0 +1,56 @@
+#/** @file Palawan_Settings.dec
+# 
+#
+# Copyright 2019-2023 by Qualcomm Technologies, Inc.  All Rights Reserved. 
+# 
+#
+#**/
+#
+#==============================================================================
+#                              EDIT HISTORY
+#
+#
+# when          who       what, where, why
+# --------      ---      ----------------------------------------------------------
+# 02/23/23      sy       Initial Revision
+#
+#==============================================================================
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = Palawan_Settings
+  PACKAGE_GUID                   = 5de10eb1-653f-4402-8afd-a822e01f6c06
+  PACKAGE_VERSION                = 0.1
+
+################################################################################
+#
+# Include Section - list of Include Paths that are provided by this package.
+#                   Comments are used for Keywords and Module Types.
+#
+# Supported Module Types:
+#  BASE SEC PEI_CORE PEIM DXE_CORE DXE_DRIVER DXE_RUNTIME_DRIVER DXE_SMM_DRIVER DXE_SAL_DRIVER UEFI_DRIVER UEFI_APPLICATION
+#
+################################################################################
+[Includes]
+  
+  Charger
+  CPR
+  DALConfig
+  DSF
+  GPI
+  HWIO
+  I2C
+  ICB
+  Railway
+  SMMU
+  SPI
+  TLMM
+  UART
+  
+
+
+  
+
+
+
+

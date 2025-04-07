@@ -1,0 +1,712 @@
+
+
+=======================================
+Pre-LTO Map records
+
+=======================================
+Archive member included because of file (symbol)
+/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(__libc_start_main.o)
+		/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o (__libc_start_main)
+/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(exit.o)
+		/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(__libc_start_main.o) (exit)
+/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(_Exit.o)
+		/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(exit.o) (_Exit)
+
+Linker Script and memory map
+START GROUP
+LOAD /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o [Bitcode]
+LOAD /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o [Bitcode]
+LOAD /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/src/devcfg_main.o [Bitcode]
+LOAD /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o [Bitcode]
+LOAD /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o[RVC]
+LOAD /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(__libc_start_main.o)[RVC]
+LOAD /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(exit.o)[RVC]
+LOAD /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(_Exit.o)[RVC]
+END GROUP
+
+
+=======================================
+Post-LTO Map records
+=======================================
+# Linker from Snapdragon LLVM RISCV Compiler Version 11.0.4
+# Linker based on LLVM version: 11.0
+# Notable linker command/script options:
+# CPU Architecture Version: 
+# Target triple environment for the link: gnu
+# Maximum GP size: 8
+# Link type: Static
+# LTO Flag: Enabled
+# LTO Options: codegen
+# ABI Page Size: 0x1000
+# CommandLine : /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin/riscv-link -m elf32lriscv -flto-options=codegen=-relocation-model=static -flto-options=codegen=-mattr=+m -flto-options=codegen=-mattr=+c -flto-options=codegen=-mattr=+relax -flto-options=codegen=-mattr=-save-restore -flto-options=codegen=-mattr=+clic-mode -flto-options=codegen=-target-abi=ilp32 -flto-options=codegen=-function-sections -flto-options=codegen=-data-sections -flto-options=codegen=-lto-prep -flto-options=codegen=-disable-lto-loop-vectorization -flto-options=codegen=-lto-new -flto -L/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib -L/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../lib/clang/11.0.4/lib/baremetal -Map /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.map -T /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl --gc-sections --symdef-file /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.sym --start-group /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/src/devcfg_main.o /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o -lc -lclang_rt.builtins-riscv32 --end-group --wrap malloc --wrap free --wrap realloc --wrap calloc -o /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.elf 
+# LinkStats Begin
+# ObjectFiles : 4
+# LinkerScripts : 1
+# ArchiveFiles : 4
+# GroupTraversals : 6
+# BitcodeFiles : 4
+# SectionsGarbageCollected : 10
+# NumLinkerScriptRules : 13
+# NumOutputSections : 14
+# NumOrphans : 10
+# NoRuleMatches : 22
+# LinkStats End
+
+Linker Script and memory map
+LOAD /tmp/llvm-lto-6233c4.o[RVC]
+SKIPPED /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl (GNULinkerScript)
+START GROUP
+SKIPPED /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o (ELF)
+SKIPPED (Rescan) /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a (ELF)
+SKIPPED (Rescan) /pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../lib/clang/11.0.4/lib/baremetal/libclang_rt.builtins-riscv32.a (ELF)
+END GROUP
+
+Linker scripts used (including INCLUDE command)
+/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl
+Linker Plugin Information
+Linker Plugin Run Information
+
+# Output Section and Layout 
+
+AOPSS_DEVCFG_DATA_TOP	0x81c80000	0xc # Offset: 0x1000, LMA: 0x81c80000, Alignment: 0x4
+*(aop_devcfg_top_sec ) #Rule 1, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [2:0]
+aop_devcfg_top_sec	0x81c80000	0xc	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c80000		aop_devcfg_top
+*(AOPSS_DEVCFG_DATA_TOP ) #Rule 2, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+
+AOPSS_DEVCFG_DATA_REST	0x81c8000c	0x20e4 # Offset: 0x100c, LMA: 0x81c8000c, Alignment: 0x4
+*(.data .data* ) #Rule 3, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [15:0]
+.data.num_of_ldo	0x81c8000c	0x38	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c8000c		num_of_ldo
+.data.num_of_smps	0x81c80044	0x28	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c80044		num_of_smps
+.data.num_of_bob	0x81c8006c	0x34	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c8006c		num_of_bob
+.data.num_of_pstm_seq	0x81c800a0	0x38	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c800a0		num_of_pstm_seq
+.data.devices	0x81c800d8	0x30	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c800d8		devices	#(Bitcode origin:/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o)
+.data.pmic_prop_arr	0x81c80108	0xb0	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c80108		pmic_prop_arr
+.data.pdc_prop_arr	0x81c801b8	0x10	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c801b8		pdc_prop_arr
+*(.sdata .sdata* ) #Rule 4, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [4:0]
+.sdata	0x81c801c8	0x4	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c801c8		num_of_target_rsrc
+.sdata	0x81c801cc	0x10	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/aop_settings_autogen.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c801cc		ddr_prop_arr
+	0x81c801d4		prochot_prop_arr
+*(.bss .bss* ) #Rule 5, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [1:0]
+*(.sbss .sbss* ) #Rule 6, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [0:0]
+KEEP (*\devcfg_main.o(.data* )) #Rule 7, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [0:0]
+*(pm_ddr_reclaim_pool ) #Rule 8, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [4:0]
+pm_ddr_reclaim_pool	0x81c801dc	0xe7c	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c801dc		ldo_rail_b
+	0x81c80440		ldo_rail_c
+	0x81c804ac		ldo_rail_d
+	0x81c80518		ldo_rail_e
+	0x81c80584		ldo_rail_g
+	0x81c805f0		ldo_rail_i
+	0x81c8065c		ldo_rail_k
+	0x81c80758		ldo_rail_m
+	0x81c80854		ldo_rail_n
+	0x81c80950		smps_rail_c
+	0x81c80a28		smps_rail_d
+	0x81c80b00		smps_rail_e
+	0x81c80bd8		smps_rail_g
+	0x81c80cb0		smps_rail_i
+	0x81c80dd0		bob_rail_b
+	0x81c80e18		clk_info_a
+	0x81c80f18		target_rsrc_info
+	0x81c81038		pstm_a
+pm_ddr_reclaim_pool	0x81c81058	0xbb8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c81058		bob_dep_b
+	0x81c81088		bob1_b_child_dep
+	0x81c810b8		bob2_b_child_dep
+	0x81c810cc		ldo_b
+	0x81c8115c		ldo_m
+	0x81c8119c		ldo_n
+	0x81c811dc		clk_dep_a
+	0x81c812bc		ldo_dep_b
+	0x81c813dc		smps_c
+	0x81c81414		bob_b
+	0x81c8142c		ldo_dep_c
+	0x81c8146c		ldo_dep_d
+	0x81c814ac		ldo_dep_e
+	0x81c814ec		ldo_dep_g
+	0x81c8152c		ldo_dep_i
+	0x81c8156c		ldo_dep_k
+	0x81c815ec		ldo_dep_m
+	0x81c8166c		ldo_dep_n
+	0x81c816ec		smps_dep_c
+	0x81c8175c		smps1_c_child_dep
+	0x81c81780		smps2_c_child_dep
+	0x81c81788		smps3_c_child_dep
+	0x81c817b0		smps4_c_child_dep
+	0x81c817b8		smps6_c_child_dep
+	0x81c817d8		ldo_k
+	0x81c81818		ldo_d
+	0x81c81838		ldo_e
+	0x81c81858		ldo_g
+	0x81c81878		ldo_i
+	0x81c81898		ldo_c
+	0x81c818b8		smps_dep_d
+	0x81c81928		smps_dep_e
+	0x81c81998		smps_dep_g
+	0x81c81a08		smps_dep_i
+	0x81c81a98		smps_d
+	0x81c81ad0		smps_e
+	0x81c81b08		smps_g
+	0x81c81b40		smps_i
+	0x81c81b88		clk_a
+*(pm_dram_reclaim_pool ) #Rule 9, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [4:0]
+pm_dram_reclaim_pool	0x81c81c10	0x2e0	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c81c10		ldo_rail
+	0x81c81c48		smps_rail
+	0x81c81c80		clk_info
+	0x81c81cb8		bob_rail
+	0x81c81cf0		pstm_info
+	0x81c81d28		rpmh_drv_id
+	0x81c81d2c		pm_periph_bitmap
+	0x81c81eec		min_settling_time_thr
+pm_dram_reclaim_pool	0x81c81ef0	0x200	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_WRITE,4,/tmp/llvm-lto-6233c4.o
+	0x81c81ef0		smps_dep
+	0x81c81f30		ldo_dep
+	0x81c81f70		bob_dep
+	0x81c81fb0		clk_dep
+	0x81c81ff0		smps_rsrc
+	0x81c82030		ldo_rsrc
+	0x81c82070		bob_rsrc
+	0x81c820b0		clk_rsrc
+*(AOPSS_DEVCFG_DATA_REST ) #Rule 10, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+.(0x81c83000) = ALIGN(.(0x81c820f0), 0x1000); # . = ALIGN(., 0x1000);
+
+AOPSS_DEVCFG_CODE_ALL	0x81c83000	0x43e # Offset: 0x4000, LMA: 0x81c83000, Alignment: 0x4
+*(InRoot$$Sections .text .text* ) #Rule 11, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [18:0]
+.text.main	0x81c83000	0x14	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/src/devcfg_main.o	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2,/tmp/llvm-lto-6233c4.o
+	0x81c83000		main	#(Bitcode origin:/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/src/devcfg_main.o)
+.text	0x81c83014	0x1a	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,4
+	0x81c83014		.Lpcrel_hi0
+	0x81c83014		_start
+	0x81c8301c		.Lpcrel_hi1
+.text._start_c	0x81c8302e	0x26	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c8302e		_start_c
+.text.dummy	0x81c83054	0x2	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(__libc_start_main.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c83054		dummy
+	0x81c83054		_init
+.text.libc_start_init	0x81c83056	0x32	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(__libc_start_main.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c83056		libc_start_init
+	0x81c83056		__libc_start_init
+	0x81c83074		.LBB2_1
+	0x81c8307e		.LBB2_2
+.text.__libc_start_main	0x81c83088	0xa	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(__libc_start_main.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c83088		__libc_start_main
+.text.libc_start_main_stage2	0x81c83092	0x28	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(__libc_start_main.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c83092		libc_start_main_stage2
+.text._Exit	0x81c830ba	0x2	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(_Exit.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c830ba		.LBB0_1
+	0x81c830ba		_Exit
+.text.dummy	0x81c830bc	0x2	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(exit.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c830bc		dummy
+	0x81c830bc		__funcs_on_exit
+	0x81c830bc		__stdio_exit
+	0x81c830bc		_fini
+.text.libc_exit_fini	0x81c830be	0x38	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(exit.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c830be		libc_exit_fini
+	0x81c830be		__libc_exit_fini
+	0x81c830da		.LBB1_1
+	0x81c830ea		.LBB1_2
+.text.exit	0x81c830f6	0x12	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/libc.a(exit.o)	#SHT_PROGBITS,SHF_ALLOC|SHF_EXECINSTR,2
+	0x81c830f6		exit
+*(.rodata .rodata* ) #Rule 12, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [4:0]
+.rodata.str1.1	0x81c83108	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83108		.L.str
+.rodata.str1.1	0x81c83110	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83110		.L.str.1
+.rodata.str1.1	0x81c83118	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83118		.L.str.2
+.rodata.str1.1	0x81c83120	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83120		.L.str.3
+.rodata.str1.1	0x81c83129	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83129		.L.str.4
+.rodata.str1.1	0x81c83132	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83132		.L.str.5
+.rodata.str1.1	0x81c8313b	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8313b		.L.str.6
+.rodata.str1.1	0x81c83144	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83144		.L.str.7
+.rodata.str1.1	0x81c8314d	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8314d		.L.str.8
+.rodata.str1.1	0x81c83156	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_target.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83156		.L.str.9
+.rodata.str1.1	0x81c8315e	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8315e		.L.str.93
+.rodata.str1.1	0x81c83164	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83164		.L.str.94
+.rodata.str1.1	0x81c8316a	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8316a		.L.str.95
+.rodata.str1.1	0x81c83170	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83170		.L.str.96
+.rodata.str1.1	0x81c83176	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83176		.L.str.97
+.rodata.str1.1	0x81c8317c	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8317c		.L.str.98
+.rodata.str1.1	0x81c83182	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83182		.L.str.99
+.rodata.str1.1	0x81c83188	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83188		.L.str.86
+.rodata.str1.1	0x81c8318e	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8318e		.L.str.87
+.rodata.str1.1	0x81c83194	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83194		.L.str.88
+.rodata.str1.1	0x81c8319a	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8319a		.L.str.89
+.rodata.str1.1	0x81c831a0	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831a0		.L.str.90
+.rodata.str1.1	0x81c831a6	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831a6		.L.str.91
+.rodata.str1.1	0x81c831ac	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831ac		.L.str.92
+.rodata.str1.1	0x81c831b2	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831b2		.L.str.44
+.rodata.str1.1	0x81c831b8	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831b8		.L.str.45
+.rodata.str1.1	0x81c831be	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831be		.L.str.46
+.rodata.str1.1	0x81c831c4	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831c4		.L.str.47
+.rodata.str1.1	0x81c831ca	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831ca		.L.str.48
+.rodata.str1.1	0x81c831d0	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831d0		.L.str.49
+.rodata.str1.1	0x81c831d6	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831d6		.L.str.50
+.rodata.str1.1	0x81c831dc	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831dc		.L.str.51
+.rodata.str1.1	0x81c831e2	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831e2		.L.str.52
+.rodata.str1.1	0x81c831e8	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831e8		.L.str.53
+.rodata.str1.1	0x81c831ef	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831ef		.L.str.54
+.rodata.str1.1	0x81c831f6	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831f6		.L.str.55
+.rodata.str1.1	0x81c831fd	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c831fd		.L.str.56
+.rodata.str1.1	0x81c83204	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83204		.L.str.57
+.rodata.str1.1	0x81c8320b	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8320b		.L.str.58
+.rodata.str1.1	0x81c83212	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83212		.L.str.59
+.rodata.str1.1	0x81c83219	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83219		.L.str.60
+.rodata.str1.1	0x81c83220	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83220		.L.str.61
+.rodata.str1.1	0x81c83227	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83227		.L.str.6.1
+.rodata.str1.1	0x81c8322d	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8322d		.L.str.7.2
+.rodata.str1.1	0x81c83233	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83233		.L.str.10
+.rodata.str1.1	0x81c83239	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83239		.L.str.1.11
+.rodata.str1.1	0x81c8323f	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8323f		.L.str.2.12
+.rodata.str1.1	0x81c83245	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83245		.L.str.3.13
+.rodata.str1.1	0x81c8324b	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8324b		.L.str.4.14
+.rodata.str1.1	0x81c83251	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83251		.L.str.5.15
+.rodata.str1.1	0x81c83257	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83257		.L.str.79
+.rodata.str1.1	0x81c8325d	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8325d		.L.str.80
+.rodata.str1.1	0x81c83263	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83263		.L.str.81
+.rodata.str1.1	0x81c83269	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83269		.L.str.82
+.rodata.str1.1	0x81c8326f	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8326f		.L.str.83
+.rodata.str1.1	0x81c83275	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83275		.L.str.84
+.rodata.str1.1	0x81c8327b	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8327b		.L.str.85
+.rodata.str1.1	0x81c83281	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83281		.L.str.75
+.rodata.str1.1	0x81c83287	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83287		.L.str.76
+.rodata.str1.1	0x81c8328d	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8328d		.L.str.77
+.rodata.str1.1	0x81c83293	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83293		.L.str.78
+.rodata.str1.1	0x81c8329c	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8329c		.L.str.72
+.rodata.str1.1	0x81c832a2	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832a2		.L.str.73
+.rodata.str1.1	0x81c832a8	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832a8		.L.str.74
+.rodata.str1.1	0x81c832ae	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832ae		.L.str.69
+.rodata.str1.1	0x81c832b4	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832b4		.L.str.70
+.rodata.str1.1	0x81c832ba	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832ba		.L.str.71
+.rodata.str1.1	0x81c832c0	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832c0		.L.str.65
+.rodata.str1.1	0x81c832c6	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832c6		.L.str.66
+.rodata.str1.1	0x81c832cc	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832cc		.L.str.67
+.rodata.str1.1	0x81c832d4	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832d4		.L.str.68
+.rodata.str1.1	0x81c832da	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832da		.L.str.62
+.rodata.str1.1	0x81c832e0	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832e0		.L.str.63
+.rodata.str1.1	0x81c832e6	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832e6		.L.str.64
+.rodata.str1.1	0x81c832ec	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832ec		.L.str.32
+.rodata.str1.1	0x81c832f2	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832f2		.L.str.33
+.rodata.str1.1	0x81c832fb	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c832fb		.L.str.34
+.rodata.str1.1	0x81c83301	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83301		.L.str.35
+.rodata.str1.1	0x81c83307	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83307		.L.str.36
+.rodata.str1.1	0x81c8330e	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8330e		.L.str.37
+.rodata.str1.1	0x81c83314	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83314		.L.str.38
+.rodata.str1.1	0x81c8331a	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8331a		.L.str.39
+.rodata.str1.1	0x81c83320	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83320		.L.str.40
+.rodata.str1.1	0x81c83329	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83329		.L.str.41
+.rodata.str1.1	0x81c8332f	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8332f		.L.str.42
+.rodata.str1.1	0x81c83335	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83335		.L.str.43
+.rodata.str1.1	0x81c8333c	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8333c		.L.str.23
+.rodata.str1.1	0x81c83342	0x9	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83342		.L.str.24
+.rodata.str1.1	0x81c8334b	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8334b		.L.str.25
+.rodata.str1.1	0x81c83351	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83351		.L.str.26
+.rodata.str1.1	0x81c83357	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83357		.L.str.27
+.rodata.str1.1	0x81c8335d	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8335d		.L.str.28
+.rodata.str1.1	0x81c83365	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83365		.L.str.29
+.rodata.str1.1	0x81c8336b	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8336b		.L.str.30
+.rodata.str1.1	0x81c83373	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83373		.L.str.31
+.rodata.str1.1	0x81c83379	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83379		.L.str.17
+.rodata.str1.1	0x81c8337f	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8337f		.L.str.18
+.rodata.str1.1	0x81c83385	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83385		.L.str.19
+.rodata.str1.1	0x81c8338b	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8338b		.L.str.20
+.rodata.str1.1	0x81c83391	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83391		.L.str.21
+.rodata.str1.1	0x81c83397	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83397		.L.str.22
+.rodata.str1.1	0x81c8339d	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8339d		.L.str.8.16
+.rodata.str1.1	0x81c833a3	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833a3		.L.str.9.17
+.rodata.str1.1	0x81c833a9	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833a9		.L.str.10.18
+.rodata.str1.1	0x81c833af	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833af		.L.str.11
+.rodata.str1.1	0x81c833b7	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833b7		.L.str.12
+.rodata.str1.1	0x81c833bd	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833bd		.L.str.13
+.rodata.str1.1	0x81c833c5	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833c5		.L.str.14
+.rodata.str1.1	0x81c833cb	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833cb		.L.str.15
+.rodata.str1.1	0x81c833d3	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833d3		.L.str.16
+.rodata.str1.1	0x81c833d9	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833d9		.L.str.100
+.rodata.str1.1	0x81c833df	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833df		.L.str.101
+.rodata.str1.1	0x81c833e7	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833e7		.L.str.102
+.rodata.str1.1	0x81c833ed	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833ed		.L.str.103
+.rodata.str1.1	0x81c833f5	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833f5		.L.str.104
+.rodata.str1.1	0x81c833fb	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c833fb		.L.str.105
+.rodata.str1.1	0x81c83403	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83403		.L.str.106
+.rodata.str1.1	0x81c83409	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83409		.L.str.107
+.rodata.str1.1	0x81c83411	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83411		.L.str.108
+.rodata.str1.1	0x81c83417	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83417		.L.str.109
+.rodata.str1.1	0x81c8341d	0x8	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8341d		.L.str.110
+.rodata.str1.1	0x81c83425	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83425		.L.str.111
+.rodata.str1.1	0x81c8342b	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c8342b		.L.str.112
+.rodata.str1.1	0x81c83431	0x6	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83431		.L.str.113
+.rodata.str1.1	0x81c83437	0x7	/local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/settings/pmic/config/lanai/pm_config_dep.o	#SHT_PROGBITS,SHF_ALLOC|SHF_MERGE|SHF_STRINGS,1,/tmp/llvm-lto-6233c4.o
+	0x81c83437		.L.str.114
+*(AOPSS_DEVCFG_CODE_ALL ) #Rule 13, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+__aop_devcfg_size_left(0x1cbc2) = 0x81ca0000 - .(0x81c8343e); # __aop_devcfg_size_left = 0x81ca0000 - .;
+
+AOPSS_DEVCFG_CODE_ZI	0x81c8343e	0x1cbc2 # Offset: 0x443e, LMA: 0x81c8343e, Alignment: 0x1
+PADDING	0x81c8343e	0x1cbc2	0x0
+	.(0x81ca0000) = .(0x81c8343e) + __aop_devcfg_size_left(0x1cbc2); # . = . + __aop_devcfg_size_left;
+*(AOPSS_DEVCFG_CODE_ZI ) #Rule 14, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+ASSERT(.(0x81ca0000) <= 0x81ca0000, "Overflow past AOP_DEVCFG_END"); # ASSERT(. <= 0x81ca0000, "Overflow past AOP_DEVCFG_END");
+
+.comment	0x443e	0x5f # Offset: 0x443e, Alignment: 0x1
+*(.comment ) #Rule 19, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+.comment	0x443e	0x38	Linker Version	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.comment	0x4476	0x1	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.comment	0x4477	0x26	/pkg/qct/software/llvm/release/riscv/11.0.4/ubuntu/bin/../bin//../riscv32-unknown-elf/libc/lib/crt1.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+
+.note.GNU-stack	0x449d	0x0 # Offset: 0x449d, Alignment: 0x1
+*(.note.GNU-stack ) #Rule 20, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+
+.debug_abbrev	0x449d	0x156 # Offset: 0x449d, Alignment: 0x1
+*(.debug_abbrev ) #Rule 21, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+.debug_abbrev	0x449d	0x156	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,,1
+
+.debug_info	0x45f3	0xf97 # Offset: 0x45f3, Alignment: 0x1
+*(.debug_info ) #Rule 22, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+.debug_info	0x45f3	0xf97	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,,1
+
+.debug_str	0x558a	0xb73 # Offset: 0x558a, Alignment: 0x1
+*(.debug_str ) #Rule 23, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+.debug_str	0x558a	0x26	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x55b0	0x89	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5639	0x5c	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5695	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56a0	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56ae	0xd	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56bb	0xd	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56c8	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56d1	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56d9	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56e2	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56ed	0xf	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x56fc	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5705	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x570c	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5717	0x10	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5727	0x18	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x573f	0x10	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x574f	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5761	0x17	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5778	0x19	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5791	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x57a3	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x57b1	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x57bd	0xf	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x57cc	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x57da	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x57e6	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x57f2	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5800	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5808	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x580e	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x581c	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5828	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5833	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x583c	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5843	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x584c	0x1b	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5867	0x14	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x587b	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5886	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5891	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x589c	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58a7	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58b2	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58bd	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58c8	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58d3	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58df	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58eb	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x58f7	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5903	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x590f	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x591a	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5925	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5930	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x593e	0xd	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x594b	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5955	0x15	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x596a	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x597b	0x5	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5980	0x5	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5985	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x598f	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x599a	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x59ad	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x59c0	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x59d2	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x59e4	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x59f5	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a07	0x19	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a20	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a33	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a45	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a58	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a6b	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a7c	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5a8f	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5aa2	0x16	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ab8	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5acb	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ad4	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5adb	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ae3	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5aec	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5afa	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b06	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b12	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b20	0x16	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b36	0x1d	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b53	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b5a	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b63	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b6a	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b72	0xd	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b7f	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5b8a	0x1b	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ba5	0x13	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5bb8	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5bc3	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5bcf	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5bda	0x10	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5bea	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5bf3	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5bfd	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5c06	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5c0f	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5c19	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5c25	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5c36	0x16	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5c4c	0x86	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5cd2	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5cdc	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ce3	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5cee	0x10	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5cfe	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d07	0xf	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d16	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d24	0x20	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d44	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d4e	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d58	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d62	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d6c	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d76	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d80	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d8a	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d94	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5d9e	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5da8	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5db3	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5dbe	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5dc9	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5dd4	0xb	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ddf	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5de8	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5df0	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5df8	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e00	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e07	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e11	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e1a	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e23	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e2c	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e3d	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e4e	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e55	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e5b	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e6d	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e7f	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5e91	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ea3	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5eb5	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ebc	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ec3	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5eca	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ed1	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ed7	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5edd	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ee3	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ee9	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5eef	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5ef5	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5efb	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5f01	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5f07	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5f0d	0x75	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5f82	0xf	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x5f91	0x80	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x6011	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x601f	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x6027	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x6030	0x10	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x6040	0xd	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x604d	0xd	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x605a	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x606b	0x8	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x6073	0xa	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x607d	0x15	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x6092	0x6	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x6098	0xe	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60a6	0xf	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60b5	0x9	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60be	0xc	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60ca	0x7	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60d1	0x11	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60e2	0x12	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60f4	0x5	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+.debug_str	0x60f9	0x4	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,SHF_MERGE|SHF_STRINGS,1
+
+.debug_frame	0x6100	0x20 # Offset: 0x6100, Alignment: 0x4
+*(.debug_frame ) #Rule 24, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+.debug_frame	0x6100	0x20	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,,4
+
+.debug_line	0x6120	0x420 # Offset: 0x6120, Alignment: 0x1
+*(.debug_line ) #Rule 25, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+.debug_line	0x6120	0x420	/tmp/llvm-lto-6233c4.o	#SHT_PROGBITS,,1
+	0x0		.Lline_table_start0
+	0x197		.Lline_table_start1
+	0x273		.Lline_table_start2
+	0x35c		.Lline_table_start3
+
+/DISCARD/	0x81ca20ff	0x0 # Offset: 0x6540, LMA: 0x0, Alignment: 0x1
+*(.ARM.extab* ) #Rule 15, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [0:0]
+*(.ARM.exid* ) #Rule 16, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [0:0]
+*(.got ) #Rule 17, /local/mnt/workspace/CRMBuilds/e68a4a61-a213-45bf-0ec1-08dc4a24af2c/b/HY11_1/aop_proc/core/bsp/aop/build/AOP_AAAAANAZO_devcfg.scl [1:0]
+*(/DISCARD/ ) #Rule 18, Internal-LinkerScript (Implicit rule inserted by Linker) [0:0]
+
+.shstrtab	0x6540	0xba # Offset: 0x6540, Alignment: 0x1
+
+.symtab	0x65fc	0x1440 # Offset: 0x65fc, Alignment: 0x4
+
+.strtab	0x7a3c	0x652 # Offset: 0x7a3c, Alignment: 0x1
